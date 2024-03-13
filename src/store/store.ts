@@ -26,7 +26,8 @@ const rootPersistConfig = {
 const myMiddlewares = [logger];
 
 export const rootReducer = persistReducer(
-    rootPersistConfig,
+    rootPersistConfig
+    ,
     combineReducers({
 
     })

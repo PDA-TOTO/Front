@@ -1,17 +1,14 @@
 import './App.css'
 import { Provider } from 'react-redux';
-import { generateColors } from '@mantine/colors-generator';
 import { persistor, store } from './store/store';
 import { BrowserRouter,Route, RouteObject, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { mainRouter } from './routers/main-router';
-import { createTheme, MantineProvider } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
+// import { generateColors } from '@mantine/colors-generator';
 
-const theme = createTheme({
-  colors:{
-    'dark': generateColors('#1E1F22')
-  }
-})
+import '@mantine/core/styles.css';
+import {theme} from './styles/Theme';
 
 function renderRoutes(routesObj: RouteObject[]) {
 
