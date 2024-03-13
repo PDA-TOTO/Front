@@ -3,6 +3,7 @@ import './nanumSquareRound.css';
 
 export const theme = createTheme({
 
+
   white: "#F6FBFF",
   black: "1E1F22", 
 
@@ -23,7 +24,6 @@ export const theme = createTheme({
   headings:{
     fontFamily: 'nanumSquareRound',
   },
-
   defaultRadius: "10px",
   cursorType: "pointer",
 })

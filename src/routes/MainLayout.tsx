@@ -5,10 +5,12 @@ import { Flex } from '@mantine/core'
 
 export default function MainLayout() {
   return (
-    <Flex>
-        <Navbar />
-        <Outlet />
-    </Flex>
+    <>
+      <Navbar />
+      <Flex justify='right'>
+          <Outlet />
+      </Flex>
+    </>
   )
 }
 

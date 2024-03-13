@@ -1,4 +1,3 @@
-@font-face {
-    font-family: 'nanumSquareRound';
-    src: url("./assets/fonts/NanumSquareRoundR.ttf") format("ttf");
+:root{
+    --nav-w: 200px;
 }
