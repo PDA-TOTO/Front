@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/common/Navbar'
+import Navbar from '../components/common/Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import { Flex } from '@mantine/core'
 

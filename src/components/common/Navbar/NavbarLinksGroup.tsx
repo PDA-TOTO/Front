@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Group, Collapse, UnstyledButton, rem } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
-import classes from '../../styles/Navbar.module.css';
+import classes from '../../../styles/Navbar.module.css';
 
 interface LinksGroupProps {
   label: string;

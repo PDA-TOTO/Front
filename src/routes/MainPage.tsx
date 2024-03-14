@@ -1,6 +1,6 @@
 import { Flex, Text } from '@mantine/core'
 import classes from '../styles/MainPage.module.css';
-import React from 'react'
+
 
 export default function MainPage() {
   return (

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import classes from '../../styles/Navbar.module.css';
+import classes from '../../../styles/Navbar.module.css';
 import { LinksGroup } from './NavbarLinksGroup';
-// import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../lib/hooks/reduxHooks';
+import { useNavigate } from 'react-router-dom';
 
 const data = [
-  { link: '', label: '메인', },
+  { link: '/', label: '메인', },
   { label: '투자', links:[
         { link: '', label: '주식', },
         { link: '', label: '채권',},
@@ -17,7 +18,9 @@ const data = [
 
 export default function Navbar() {
   const [active, setActive] = useState('Billing');
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const token = useAppSelector(state => state.user.user.token)
 
   const links = data.map((item) => {
     if('links' in item)
@@ -30,7 +33,7 @@ export default function Navbar() {
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
-        // navigate(item.link)
+        navigate(item.link)
         setActive(item.label);
       }}
     >
@@ -46,16 +49,25 @@ export default function Navbar() {
         </div>
         {links}
       </div>
-
+      { token === "" ?
       <div className={classes.footer}>
-        <a href="#" className={classes.footerLink} onClick={(event) => event.preventDefault()}>
-          <span>마이페이지</span>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/login')}}>
+          <span>로그인</span>
         </a>
-
-        <a href="#" className={classes.footerLink} onClick={(event) => event.preventDefault()}>
-          <span>로그아웃</span>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/signup')}}>
+          <span>회원가입</span>
         </a>
       </div>
+        :
+        <div className={classes.footer}>
+          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive('')}}>
+            <span>마이페이지</span>
+          </a>
+          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive('')}}>
+            <span>로그아웃</span>
+          </a>
+        </div>
+      }
     </nav>
   );
 }
