@@ -1,0 +1,17 @@
+.page{
+    width: calc( 100vw - var(--nav-w));
+    height: 100vh;
+    min-width: max-content;
+}
+
+.form{
+    box-shadow: 2px 4px 30px 2px var(--mantine-color-gray-2);
+    background-color: var(--mantine-color-block-5);
+    padding: 40px;
+    border-radius: 12px;
+}
+
+.formTitle{
+    text-align: center;
+}
+

@@ -12,6 +12,8 @@
   "dependencies": {
     "@mantine/colors-generator": "^7.6.1",
     "@mantine/core": "^7.6.1",
+    "@mantine/form": "^7.6.2",
+    "@mantine/hooks": "^7.6.2",
     "@reduxjs/toolkit": "^2.2.1",
     "@tabler/icons-react": "^3.0.1",
     "axios": "^1.6.7",

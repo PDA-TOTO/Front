@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const BASE_URL = "http://test.com/api";
+export const BASE_URL = process.env.BASE_URL;
 
-export const exampleInstance = axios.create({
-    baseURL: BASE_URL + '/example',
+export const userInstance = axios.create({
+    baseURL: BASE_URL + '/users',
 });
 
