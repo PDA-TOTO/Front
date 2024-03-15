@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import classes from '../../../styles/Navbar.module.css';
 import { LinksGroup } from './NavbarLinksGroup';
-import { useAppSelector } from '../../../lib/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
 import { useNavigate } from 'react-router-dom';
+import { userLogout } from '../../../store/reducers/user';
 
 const data = [
     { link: '/', label: '메인' },
@@ -19,10 +20,10 @@ const data = [
 ];
 
 export default function Navbar() {
-    const [active, setActive] = useState('Billing');
-    const navigate = useNavigate();
-
-    const token = useAppSelector((state) => state.user.user.token);
+  const [active, setActive] = useState('Billing');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isUser = useAppSelector(state => state.user.isUser)
 
     const links = data.map((item) => {
         if ('links' in item) return <LinksGroup {...item} active={active} setActive={setActive} key={item.label} />;
@@ -45,63 +46,41 @@ export default function Navbar() {
         }
     });
 
-    return (
-        <nav className={classes.navbar}>
-            <div className={classes.navbarMain}>
-                <div className={classes.header} onClick={() => {}}>
-                    TOTO
-                </div>
-                {links}
-            </div>
-            {token === '' ? (
-                <div className={classes.footer}>
-                    <a
-                        href="#"
-                        className={classes.footerLink}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setActive('');
-                            navigate('/login');
-                        }}
-                    >
-                        <span>로그인</span>
-                    </a>
-                    <a
-                        href="#"
-                        className={classes.footerLink}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setActive('');
-                            navigate('/signup');
-                        }}
-                    >
-                        <span>회원가입</span>
-                    </a>
-                </div>
-            ) : (
-                <div className={classes.footer}>
-                    <a
-                        href="#"
-                        className={classes.footerLink}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setActive('');
-                        }}
-                    >
-                        <span>마이페이지</span>
-                    </a>
-                    <a
-                        href="#"
-                        className={classes.footerLink}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            setActive('');
-                        }}
-                    >
-                        <span>로그아웃</span>
-                    </a>
-                </div>
-            )}
-        </nav>
-    );
+  function onClickLogout(event:React.MouseEvent<HTMLAnchorElement, MouseEvent>){
+    event.preventDefault(); 
+    setActive(''); 
+    dispatch(userLogout()).then(()=>{
+      navigate('/');
+    })
+  }
+
+  return (
+    <nav className={classes.navbar}>
+      <div className={classes.navbarMain}>
+        <div className={classes.header} onClick={()=>{}}>
+            TOTO
+        </div>
+        {links}
+      </div>
+      { !isUser ?
+      <div className={classes.footer}>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/login')}}>
+          <span>로그인</span>
+        </a>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/signup')}}>
+          <span>회원가입</span>
+        </a>
+      </div>
+        :
+        <div className={classes.footer}>
+          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive('')}}>
+            <span>마이페이지</span>
+          </a>
+          <a href="#" className={classes.footerLink} onClick={(event) => {onClickLogout(event)}}>
+            <span>로그아웃</span>
+          </a>
+        </div>
+      }
+    </nav>
+  );
 }
