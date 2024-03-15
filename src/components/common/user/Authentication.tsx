@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../../lib/apis/user';
 import { AxiosError } from 'axios';
 import { userLogin } from '../../../store/reducers/user';
-import { useAppDispatch } from '../../../lib/hooks/reduxHooks';
+import { useAppDispatch} from '../../../lib/hooks/reduxHooks';
 
 type props={
     type: string
@@ -25,7 +25,7 @@ type props={
 
 export function AuthenticationForm({type}:props) {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
 
     const form = useForm({
         initialValues: {
@@ -42,19 +42,22 @@ export function AuthenticationForm({type}:props) {
 
 
     function sendToServer(email:string,password:string){
-      if(form.values.password === form.values.confirmPassword){
+      if(type === "로그인" || form.values.password === form.values.confirmPassword){
+
         if(type === "회원가입"){
+
           signUp(email,password).then(()=>{
+
             navigate('/login')
+
           }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
             alert(err.response?.data.message)
           });
+
         }else{
           dispatch(userLogin({email,password})).then(()=>{
-            navigate('/')
-          }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
-            alert(err.response?.data.message)
-          });
+            navigate('/');
+          })
         }
       }else{
         alert("비밀번호가 일치하지 않습니다.")
