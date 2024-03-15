@@ -1,0 +1,64 @@
+
+
+.page{
+    width: calc( 100vw - var(--nav-w));
+    min-width:fit-content;
+    min-height: 100vh;
+}
+
+.firstPageColor{
+    width: calc( 100vw - var(--nav-w));
+    height: 100vh;
+    position: absolute;
+    background: linear-gradient(#ffffff00 50%, #BAD4E4);
+}
+
+.firstText{
+    padding: 10px;
+    width: 450px;
+    height: 100px;
+
+}
+
+.secondText{
+    text-align: right;
+    width: 450px;
+}
+
+.redText{
+    color: var(--mantine-color-red-5);
+    position: relative;
+}
+
+
+.blueText{
+    color: var(--mantine-color-blue-5);
+    position: relative;
+}
+
+.point{
+    width: 10px;
+    height: 10px;
+    background-color: var(--mantine-color-primary-5);
+    position: absolute;
+    top: -15px;
+    left: 18px;
+    border-radius: 10px;
+}
+
+.to{
+    position: relative;
+    font-size: 60px;
+    font-family: 'Itim';
+    letter-spacing: -0.2em;
+}
+
+.point2{
+    width: 10px;
+    height: 10px;
+    background-color: var(--mantine-color-primary-5);
+    position: absolute;
+    top: -1px;
+    left: 20px;
+    border-radius: 10px;
+}
