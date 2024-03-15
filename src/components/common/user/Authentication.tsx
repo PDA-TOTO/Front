@@ -42,19 +42,25 @@ export function AuthenticationForm({type}:props) {
 
 
     function sendToServer(email:string,password:string){
-      if(type === "회원가입"){
-        signUp(email,password).then(()=>{
-          navigate('/login')
-        }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
-          alert(err.response?.data.message)
-        });
+      if(form.values.password === form.values.confirmPassword){
+        if(type === "회원가입"){
+          signUp(email,password).then(()=>{
+            navigate('/login')
+          }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
+            alert(err.response?.data.message)
+          });
+        }else{
+          dispatch(userLogin({email,password})).then(()=>{
+            navigate('/')
+          }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
+            alert(err.response?.data.message)
+          });
+        }
       }else{
-        dispatch(userLogin({email,password})).then(()=>{
-          navigate('/')
-        }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
-          alert(err.response?.data.message)
-        });
+        alert("비밀번호가 일치하지 않습니다.")
       }
+
+
     }
   return (
     <>
