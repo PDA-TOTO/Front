@@ -33,7 +33,7 @@ export function LinksGroup({ label, links, active, setActive }: LinksGroupProps)
     <>
       <UnstyledButton onClick={() => setOpened((o) => !o)}>
         <Group justify="center" gap={0} pos={'relative'}>
-            <span className={classes.link}>{label}</span>
+            <span className={classes.link} style={{width:"150px"}}>{label}</span>
           {hasLinks && (
             <IconChevronRight
               className={classes.chevron}
