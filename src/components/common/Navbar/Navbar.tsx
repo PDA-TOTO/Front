@@ -6,16 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/reducers/user';
 
 const data = [
-  { link: '/', label: '메인', },
-  { label: '투자', links:[
-        { link: '', label: '주식', },
-        { link: '', label: '채권',},
-        { link: '', label: 'EFT',  },
-    ]},
-  { link: '', label: '퀴즈',  },
-  { link: '', label: '포트폴리오',  },
+    { link: '/', label: '메인' },
+    {
+        label: '투자',
+        links: [
+            { link: '', label: '주식' },
+            { link: '', label: '채권' },
+            { link: '', label: 'EFT' },
+        ],
+    },
+    { link: '', label: '퀴즈' },
+    { link: '', label: '포트폴리오' },
 ];
-
 
 export default function Navbar() {
   const [active, setActive] = useState('Billing');
@@ -23,25 +25,26 @@ export default function Navbar() {
   const dispatch = useAppDispatch();
   const isUser = useAppSelector(state => state.user.isUser)
 
-  const links = data.map((item) => {
-    if('links' in item)
-     return <LinksGroup {...item} active={active} setActive={setActive} key={item.label}/>;
-    else{
-     return <a
-      className={classes.link}
-      data-active={item.label === active || undefined}
-      href={item.link}
-      key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        navigate(item.link)
-        setActive(item.label);
-      }}
-    >
-    <span>{item.label}</span>
-    </a>
-    }});
-
+    const links = data.map((item) => {
+        if ('links' in item) return <LinksGroup {...item} active={active} setActive={setActive} key={item.label} />;
+        else {
+            return (
+                <a
+                    className={classes.link}
+                    data-active={item.label === active || undefined}
+                    href={item.link}
+                    key={item.label}
+                    onClick={(event) => {
+                        event.preventDefault();
+                        navigate(item.link);
+                        setActive(item.label);
+                    }}
+                >
+                    <span>{item.label}</span>
+                </a>
+            );
+        }
+    });
 
   function onClickLogout(event:React.MouseEvent<HTMLAnchorElement, MouseEvent>){
     event.preventDefault(); 
