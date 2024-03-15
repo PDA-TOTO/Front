@@ -7,12 +7,6 @@ import storage from "redux-persist/lib/storage";
 import {
     persistStore,
     persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
 } from "redux-persist";
 
 import logger from "redux-logger";
@@ -22,7 +16,7 @@ import logger from "redux-logger";
 const rootPersistConfig = {
     key: "root",
     storage: storage,
-    whitelist: [],
+    whitelist: ["user"],
 };
   
 const myMiddlewares = [logger];
@@ -39,9 +33,7 @@ export const rootReducer = persistReducer(
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
       const middlewares = getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
+        serializableCheck: false,
       }).concat(myMiddlewares);
       return middlewares;
     },

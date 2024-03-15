@@ -12,6 +12,9 @@ import {
 import classes from '../../../styles/user/Authentication.module.css'
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../../lib/apis/user';
+import { AxiosError } from 'axios';
+import { userLogin } from '../../../store/reducers/user';
+import { useAppDispatch } from '../../../lib/hooks/reduxHooks';
 
 type props={
     type: string
@@ -22,6 +25,8 @@ type props={
 
 export function AuthenticationForm({type}:props) {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     const form = useForm({
         initialValues: {
         email: '',
@@ -38,11 +43,17 @@ export function AuthenticationForm({type}:props) {
 
     function sendToServer(email:string,password:string){
       if(type === "회원가입"){
-        signUp(email,password);
+        signUp(email,password).then(()=>{
+          navigate('/login')
+        }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
+          alert(err.response?.data.message)
+        });
       }else{
-        console.log(email);
-        console.log(password);
-        console.log("로그인");
+        dispatch(userLogin({email,password})).then(()=>{
+          navigate('/')
+        }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
+          alert(err.response?.data.message)
+        });
       }
     }
   return (
