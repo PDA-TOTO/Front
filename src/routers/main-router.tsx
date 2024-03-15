@@ -3,12 +3,12 @@ import MainPage from '../routes/MainPage';
 import MainLayout from '../routes/MainLayout';
 import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
+import StockDetailPage from '../routes/stockDetail/StockDetailPage';
 
-
-export const mainRouter = ([
+export const mainRouter = [
     {
         path: '',
-        element: <MainLayout/>,
+        element: <MainLayout />,
         children: [
             {
                 path: '',
@@ -23,11 +23,21 @@ export const mainRouter = ([
             {
                 path: '/signup',
                 element: <SignupPage />,
-                index: true
-            }
-        ]
-    }
-])
+                index: true,
+            },
+            {
+                path: '/stocks',
+                children: [
+                    {
+                        path: ':id',
+                        element: <StockDetailPage />,
+                        index: true,
+                    },
+                ],
+            },
+        ],
+    },
+];
 
 const router = createBrowserRouter(mainRouter);
 
