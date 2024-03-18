@@ -4,6 +4,8 @@ import MainLayout from '../routes/MainLayout';
 import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
 import StockDetailPage from '../routes/stockDetail/StockDetailPage';
+import QuizTestPage from '../routes/quiz/QuizTestPage';
+import QuizMainPage from '../routes/quiz/QuizMainPage';
 
 export const mainRouter = [
     {
@@ -35,7 +37,17 @@ export const mainRouter = [
                     },
                 ],
             },
+            {
+                path: '/quiz',
+                element: <QuizMainPage />,
+                index: true,
+            },
         ],
+    },
+    {
+        path: '/quiztest',
+        element: <QuizTestPage />,
+        index: true,
     },
 ];
 

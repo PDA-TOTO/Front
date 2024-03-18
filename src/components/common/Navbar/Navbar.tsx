@@ -15,7 +15,7 @@ const data = [
             { link: '', label: 'EFT' },
         ],
     },
-    { link: '', label: '퀴즈' },
+    { link: '/quiz', label: '퀴즈' },
     { link: '', label: '포트폴리오' },
 ];
 
@@ -36,7 +36,12 @@ export default function Navbar() {
                     key={item.label}
                     onClick={(event) => {
                         event.preventDefault();
-                        navigate(item.link);
+
+                        if(item.label === "퀴즈"){
+                          navigate(item.link, {state: {solve: false} });
+                        }
+                        else{ navigate(item.link);}
+
                         setActive(item.label);
                     }}
                 >

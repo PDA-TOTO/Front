@@ -8,14 +8,14 @@ const initialState = {
   isUser: false,
 };
 
-type TestAction = {
+type Result= {
   success: boolean,
   message: string
 }
 
 export const userLogin = createAsyncThunk(
   "user/userLogin",
-  async (data:{email: string, password: string}):Promise<TestAction> => {
+  async (data:{email: string, password: string}):Promise<Result> => {
       const response = await logIn(data.email,data.password);
       return response.data;
   }
