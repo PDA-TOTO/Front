@@ -48,7 +48,9 @@ export function AuthenticationForm({type}:props) {
 
           signUp(email,password).then(()=>{
 
-            navigate('/login')
+            dispatch(userLogin({email,password})).then(()=>{
+              navigate('/',{state:{signup:true}});
+            });
 
           }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
             alert(err.response?.data.message)

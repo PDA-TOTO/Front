@@ -62,3 +62,12 @@
     left: 20px;
     border-radius: 10px;
 }
+
+.modal{
+    border-radius: 10px;
+}
+
+.overlay{
+    justify-content: center;
+    align-items: center;
+}
