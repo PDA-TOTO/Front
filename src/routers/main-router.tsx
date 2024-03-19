@@ -7,6 +7,7 @@ import StockDetailPage from "../routes/stockDetail/StockDetailPage";
 import QuizTestPage from "../routes/quiz/QuizTestPage";
 import QuizMainPage from "../routes/quiz/QuizMainPage";
 import StockPage from "../routes/stock/StockPage";
+import CommunityPage from "../routes/stockDetail/CommunityPage";
 
 export const mainRouter = [
   {
@@ -39,6 +40,11 @@ export const mainRouter = [
           {
             path: ":id",
             element: <StockDetailPage />,
+            index: true,
+          },
+          {
+            path: ":id/community",
+            element: <CommunityPage />,
             index: true,
           },
         ],
