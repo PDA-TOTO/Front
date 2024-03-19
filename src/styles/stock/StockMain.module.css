@@ -1,7 +1,7 @@
 .card_v1 {
   background-color: var(--mantine-color-primary-5);
   width: 18vw;
-  height: 160px;
+  height: 150px;
   border-radius: 12px;
   color: var(--mantine-color-white-5);
 }
@@ -9,23 +9,23 @@
 .card_v2 {
   background-color: var(--mantine-color-secondary-5);
   width: 18vw;
-  height: 160px;
+  height: 150px;
   border-radius: 12px;
   color: var(--mantine-color-primary-5);
 }
 
 .card_title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   margin-left: 15px;
   margin-top: 16px;
 }
 
 .card_text {
-  padding-top: 16px;
+  padding-top: 20px;
   width: 18vw;
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 800;
 }
 
@@ -78,4 +78,9 @@ input {
   background-color: var(--mantine-color-white-5);
   color: var(--mantine-color-gray-5);
   padding-left: 20px;
+}
+
+.bottom_stock_box {
+  margin-top: 20px;
+  /* background-color: black; */
 }
