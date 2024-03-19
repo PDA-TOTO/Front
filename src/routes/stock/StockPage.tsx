@@ -76,7 +76,7 @@ export default function stockPage({}: Props) {
             );
           })}
         </Flex>
-        <input placeholder="검색할 주식 입력" />
+        <input className={classes.input_stock} placeholder="검색할 주식 입력" />
       </Flex>
       <div className={classes.bottom_stock_box}>
         <BottomStock id={activateId} />

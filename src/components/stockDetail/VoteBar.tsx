@@ -11,7 +11,7 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
   const rightPercent = rightAmount / (leftAmount + rightAmount);
 
   function truncateToTwoDecimalPlaces(number: number) {
-    return Math.floor(number * 10000) / 100;
+    return Math.floor(number * 1000) / 10;
   }
 
   return (
