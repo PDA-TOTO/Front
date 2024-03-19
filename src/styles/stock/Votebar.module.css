@@ -1,0 +1,24 @@
+.vote_left {
+  background-color: var(--mantine-color-red-5);
+  height: 60px;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.vote_right {
+  height: 60px;
+  border-radius: 0px 10px 10px 0px;
+  background-color: var(--mantine-color-blue-5);
+}
+
+.vote_box {
+  /* background-color: #fff; */
+  text-align: center;
+}
+
+.vote_text {
+  font-size: 20px;
+}
+
+.vote_vs {
+  position: absolute;
+}
