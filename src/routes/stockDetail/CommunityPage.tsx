@@ -45,7 +45,7 @@ export default function CommunityPage({}: Props) {
           <div className={classes.main_date}>2024.03.08 ~ 2024.03.15</div>
         </Flex>
         <div className={classes.main_padding} />
-        <VoteBar leftAmount={100} rightAmount={300} />
+        <VoteBar leftAmount={30} rightAmount={10} />
       </Flex>
     </div>
   );
