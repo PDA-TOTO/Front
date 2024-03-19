@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Text, Card } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
 
