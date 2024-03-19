@@ -4,6 +4,7 @@ import { logIn, logOut } from "../../lib/apis/user";
 const initialState = {
   user: {
     email: "",
+
   },
   isUser: false,
 };

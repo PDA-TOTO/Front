@@ -11,7 +11,6 @@ export default function MainPage() {
   useEffect(()=>{
     if(location.state){
       setModal(location.state.signup)
-      console.log(location.state)
     }
   },[])
 

@@ -42,7 +42,7 @@ export default function QuizTestPage() {
             }
         }
 
-        navigate('/quiz',{state:{solve:true, correct: correct, total: choiceList.length}});
+        navigate('/quiz',{state:{solve:true, correct: correct, total: choiceList.length, choiceList: choiceList}});
     }
 
     const options = [quizs[number-1].answer1,quizs[number-1].answer2,quizs[number-1].answer3,quizs[number-1].answer4].map((value,idx)=>{
