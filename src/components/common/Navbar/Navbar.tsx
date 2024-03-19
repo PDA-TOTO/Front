@@ -16,7 +16,7 @@ const data = [
         ],
     },
     { link: '', label: '퀴즈' },
-    { link: '', label: '포트폴리오' },
+    { link: '/portfolio', label: '포트폴리오' },
 ];
 
 export default function Navbar() {
