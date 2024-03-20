@@ -38,60 +38,38 @@ export const mainRouter = [
         index: true,
       },
       {
+        path: "/quiz",
+        element: <QuizMainPage />,
+        index: true,
+      },
+      {
         path: "/stocks",
         element: <StockPage />,
         index: true,
       },
       {
+        path: '/portfolio',
+        children:[
+            {
+                path :"",
+                element: <PortfolioPage/>,
+                index: true
+            },
+            {
+                path :"edit",
+                element : <PortfolioEdit/>,
+                index: true
+            },
+            {
+                path :"create",
+                element : <PortfolioEdit/>,
+                // index: true,
+            },
+        ],
+      },
+      {
         path: "/stocks",
         children: [
-            {
-                path: '',
-                element: <MainPage />,
-                index: true,
-            },
-            {
-                path: '/login',
-                element: <LoginPage />,
-                index: true,
-            },
-            {
-                path: '/signup',
-                element: <SignupPage />,
-                index: true,
-            },
-            {
-                path: '/portfolio',
-                
-                // index: true,
-                children:[
-                    {
-                        path :"",
-                        element: <PortfolioPage/>,
-                        index: true
-                    },
-                    {
-                        path :"edit",
-                        element : <PortfolioEdit/>,
-                        index: true
-                    },
-                    {
-                        path :"create",
-                        element : <PortfolioEdit/>,
-                        // index: true,
-                    },
-                ],
-            },
-            {
-                path: '/stocks',
-                children: [
-                    {
-                        path: ':id',
-                        element: <StockDetailPage />,
-                        index: true,
-                    },
-                ],
-            },
           {
             path: ":id",
             element: <StockDetailPage />,
@@ -103,12 +81,7 @@ export const mainRouter = [
             index: true,
           },
         ],
-      },
-      {
-        path: "/quiz",
-        element: <QuizMainPage />,
-        index: true,
-      },
+      }
     ],
   },
   {
