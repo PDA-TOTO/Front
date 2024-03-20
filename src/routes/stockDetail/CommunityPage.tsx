@@ -45,7 +45,7 @@ export default function CommunityPage({}: Props) {
   console.log(params.id);
 
   return (
-    <div>
+    <Flex direction={"column"} justify="center" align="center">
       <Flex
         direction={"column"}
         justify="center"
@@ -139,6 +139,6 @@ export default function CommunityPage({}: Props) {
           );
         })}
       </Flex>
-    </div>
+    </Flex>
   );
 }
