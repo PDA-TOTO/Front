@@ -11,7 +11,8 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
   const rightPercent = rightAmount / (leftAmount + rightAmount);
 
   function truncateToTwoDecimalPlaces(number: number) {
-    return Math.floor(number * 1000) / 10;
+    const value = Math.floor(number * 1000) / 10;
+    return Number.isInteger(value) ? value.toString() + ".0" : value;
   }
 
   return (
@@ -25,10 +26,16 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
         <Flex
           className={classes.vote_left}
           align="center"
-          style={{ width: `${leftPercent * 40}vw`, paddingLeft: "10px" }}
+          style={{ width: `${leftPercent * 40}%`, paddingLeft: "10px" }}
         >
-          <Image src={ThumbsUp} w={40} h={40} style={{ marginRight: "5px" }} />
-          <Flex direction={"column"} className={classes.vote_box}>
+          <Image
+            src={ThumbsUp}
+            w={40}
+            h={40}
+            style={{ marginRight: "5px" }}
+            className={classes.image_box}
+          />
+          <Flex direction={"column"} className={classes.vote_left_box}>
             <div className={classes.vote_text}>찬성</div>
             {truncateToTwoDecimalPlaces(leftPercent)}%
           </Flex>
@@ -36,15 +43,21 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
         <div className={classes.vote_vs}>vs</div>
         <Flex
           className={classes.vote_right}
-          style={{ width: `${rightPercent * 40}vw`, paddingRight: "10px" }}
+          style={{ width: `${rightPercent * 40}%`, paddingRight: "10px" }}
           align="center"
           justify="flex-end"
         >
-          <Flex direction={"column"} className={classes.vote_box}>
+          <Flex direction={"column"} className={classes.vote_right_box}>
             <div className={classes.vote_text}>반대</div>
             {truncateToTwoDecimalPlaces(rightPercent)}%
           </Flex>
-          <Image src={ThumbsDown} w={40} h={40} style={{ marginLeft: "5px" }} />
+          <Image
+            src={ThumbsDown}
+            w={40}
+            h={40}
+            style={{ marginLeft: "5px" }}
+            className={classes.image_box}
+          />
         </Flex>
       </Flex>
     </Flex>

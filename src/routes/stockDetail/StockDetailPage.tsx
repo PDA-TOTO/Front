@@ -1,16 +1,55 @@
-import { Grid } from '@mantine/core';
+import { Affix, Grid, Group, Stack, Switch, Text } from '@mantine/core';
 import StickyTrading from '../../components/stockDetail/StickyTrading';
+import { useParams } from 'react-router-dom';
+import StockTitle from '../../components/stockDetail/StockTitle';
+import { useState } from 'react';
+import { useElementSize, useToggle } from '@mantine/hooks';
+import StockNav from '../../components/stockDetail/StockNav';
+import StockChart from '../../components/stockDetail/StockChart';
+
+type StockInfo = {
+    name: string;
+    price: number;
+    percent: number;
+};
 
 const StockDetailPage: React.FC = () => {
+    const { id } = useParams();
+    const [isProMode, proModeToggle] = useToggle([false, true] as const);
+    const [stockInfo, setStockInfo] = useState<StockInfo>({
+        name: '삼성전자',
+        price: 134900,
+        percent: 12.9,
+    });
+
+    const { ref, width } = useElementSize();
+
     return (
-        <Grid grow justify="space-between" px={{ base: 72 }} pt={34}>
-            <Grid.Col span={8} bg="primary" style={{ height: '130vh' }}>
-                1
-            </Grid.Col>
-            <Grid.Col span={4}>
-                <StickyTrading />
-            </Grid.Col>
-        </Grid>
+        <>
+            <Stack px={72} pt={34}>
+                <Group align="start" justify="space-between">
+                    <StockTitle name={stockInfo.name} price={stockInfo.price} percent={stockInfo.percent} />
+                    <Switch
+                        color="primary.5"
+                        labelPosition="left"
+                        label="Pro Mode"
+                        checked={isProMode}
+                        onChange={() => proModeToggle()}
+                    />
+                </Group>
+                <Grid grow justify="space-between" px={0} columns={32}>
+                    <Grid.Col span={22} style={{ height: '130vh' }}>
+                        <Stack>
+                            <StockChart />
+                            <StockNav />
+                        </Stack>
+                    </Grid.Col>
+                    <Grid.Col span={10} ref={ref}>
+                        <StickyTrading width={width} />
+                    </Grid.Col>
+                </Grid>
+            </Stack>
+        </>
     );
 };
 

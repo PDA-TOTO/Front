@@ -4,11 +4,12 @@
   top: 0;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   height: 50px;
+  z-index: 10;
 }
 
-.main {
+/* .main {
   height: 6000px;
-}
+} */
 
 .header_title {
   color: var(--mantine-color-primary-5);
@@ -52,4 +53,44 @@
 
 .main_padding {
   padding-top: 20px;
+}
+
+.main_hr {
+  margin-top: 40px;
+  width: 80vw;
+  border-color: var(--mantine-color-gray-5);
+  border-width: 0.01px;
+}
+
+.main_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  /* line-height: 50px; */
+  text-align: center;
+  width: 80vw;
+}
+
+.main_debate {
+  color: var(--mantine-color-primary-5);
+  font-size: 30px;
+  font-weight: 700;
+}
+.main_btn_write {
+  color: var(--mantine-color-primary-5);
+  width: 160px;
+  font-size: 16px;
+}
+
+.main_filter {
+  width: 160px;
+  width: 160px;
+}
+
+.main_select {
+  width: 120px;
+  font-size: 16px;
+}
+.cmt_padding {
+  padding-top: 50px;
 }

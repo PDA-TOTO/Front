@@ -5,7 +5,9 @@ import BottomStock from "../../components/stockMain/BottomStock";
 
 // type Props = {};
 
+
 export default function StockPage() {
+
   const [activateId, setActivateId] = useState(0);
 
   const data = [
