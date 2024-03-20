@@ -60,7 +60,7 @@ export default function BottomStock({ id }: Props) {
               <Grid.Col
                 span={6}
                 key={idx}
-                style={{ minHeight: rem(80) }}
+                style={{ minHeight: rem(80), cursor: "pointer" }}
                 onClick={() => navigate(`/stocks/${value.stock_code}`)}
               >
                 <div className={classes.grid_card}>
