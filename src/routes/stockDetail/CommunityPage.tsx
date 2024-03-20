@@ -17,6 +17,7 @@ export default function CommunityPage({}: Props) {
       userName: "email",
       text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
       likeAmount: 3,
+      isLiked: true,
       time: 25,
       vote: true,
     },
@@ -25,6 +26,7 @@ export default function CommunityPage({}: Props) {
       userName: "email",
       text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
       likeAmount: 3,
+      isLiked: true,
       time: 25,
       vote: false,
     },
@@ -33,6 +35,7 @@ export default function CommunityPage({}: Props) {
       userName: "email",
       text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
       likeAmount: 3,
+      isLiked: false,
       time: 25,
       vote: true,
     },
@@ -110,6 +113,7 @@ export default function CommunityPage({}: Props) {
                 userName={value.userName}
                 text={value.text}
                 likeAmount={value.likeAmount}
+                isLiked={value.isLiked}
                 time={value.time}
                 vote={value.vote}
               />

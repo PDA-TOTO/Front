@@ -4,12 +4,14 @@ import classes from "../../styles/stock/Comment.module.css";
 import ThumbsDownColor from "../../assets/img/stock/community/ThumbsDownColor.svg";
 import ThumbsUpColor from "../../assets/img/stock/community/ThumbsUpColor.svg";
 import Like from "../../assets/img/stock/community/Like.svg";
+import LikeEmpty from "../../assets/img/stock/community/LikeEmpty.svg";
 
 type Props = {
   id: number;
   userName: string;
   text: string;
   likeAmount: number;
+  isLiked: boolean;
   time: number;
   vote: boolean;
 };
@@ -19,6 +21,7 @@ export default function Comment({
   userName,
   text,
   likeAmount,
+  isLiked,
   time,
   vote,
 }: Props) {
@@ -48,7 +51,11 @@ export default function Comment({
         {text}
         <Flex direction={"row"} align="center">
           <div className={classes.cmt_like_div}>
-            <Image src={Like} className={classes.cmt_like} />
+            {isLiked ? (
+              <Image src={Like} className={classes.cmt_like} />
+            ) : (
+              <Image src={LikeEmpty} className={classes.cmt_like} />
+            )}
           </div>
           <div className={classes.like_amount}>{likeAmount}</div>
         </Flex>
