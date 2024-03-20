@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import classes from "../../styles/stock/Community.module.css";
-import { Flex, Image, Select } from "@mantine/core";
+import { Flex, Image, Select, Alert } from "@mantine/core";
 import headCount from "../../assets/img/stock/community/headCount.svg";
 import date from "../../assets/img/stock/community/date.svg";
 import VoteBar from "../../components/stockDetail/VoteBar";
 import Comment from "../../components/stockDetail/Comment";
+import ThumbsUp2 from "../../assets/img/stock/community/ThumbsUp2.svg";
+import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 type Props = {};
 
 export default function CommunityPage({}: Props) {
@@ -80,6 +82,21 @@ export default function CommunityPage({}: Props) {
         <div style={{ width: "90vw" }}>
           <VoteBar leftAmount={30} rightAmount={10} />
         </div>
+        <Flex style={{ paddingTop: "20px" }}>
+          <Flex className={classes.vote_v1} justify="center" align="center">
+            오른다
+            <div className={classes.vote_v_img}>
+              <Image src={ThumbsUp2} />
+            </div>
+          </Flex>
+          <div className={classes.vote_v_pd} />
+          <Flex className={classes.vote_v2} justify="center" align="center">
+            내린다
+            <div className={classes.vote_v_img}>
+              <Image src={ThumbsDown2} />
+            </div>
+          </Flex>
+        </Flex>
         <hr className={classes.main_hr} />
         <Flex
           justify="space-between"
@@ -117,7 +134,7 @@ export default function CommunityPage({}: Props) {
                 time={value.time}
                 vote={value.vote}
               />
-              <hr style={{ width: "55vw" }} />
+              {/* <hr style={{ width: "55vw" }} /> */}
             </Flex>
           );
         })}
