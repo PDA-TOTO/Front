@@ -6,17 +6,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/reducers/user';
 
 const data = [
-  { link: "/", label: "메인" },
-  {
-    label: "투자",
-    links: [
-      { link: "/stocks", label: "주식" },
-      { link: "", label: "채권" },
-      { link: "", label: "EFT" },
-    ],
-  },
-  { link: "/quiz", label: "퀴즈" },
-  { link: "", label: "포트폴리오" },
+    { link: '/', label: '메인' },
+    {
+        label: '투자',
+        links: [
+            { link: '', label: '주식' },
+            { link: '', label: '채권' },
+            { link: '', label: 'EFT' },
+        ],
+    },
+    { link: '', label: '퀴즈' },
+    { link: '/portfolio', label: '포트폴리오' },
 ];
 
 export default function Navbar() {
