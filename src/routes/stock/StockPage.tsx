@@ -3,10 +3,13 @@ import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
 
-type Props = {};
+// type Props = {};
 
-export default function StockPage({}: Props) {
+
+export default function StockPage() {
+
   const [activateId, setActivateId] = useState(0);
+
   const data = [
     {
       title: "코스피",

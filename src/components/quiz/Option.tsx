@@ -54,7 +54,7 @@ export default function Option({no, isSolved, setIsSolved, choiceList, setChoice
     return(
         <Flex gap={"24px"} justify={"center"} key={no}>
             <Flex w="28px" h="28px" justify="center" align="center" className={classes.number} onClick={()=>{setNumber(no+1)}}>
-                <Text size='18px' ta="center"> {no+1}</Text>
+                <Text size='18px' ta="center" fw="600" lh="28px"> {no+1}</Text>
             </Flex>
             {list}
         </Flex>

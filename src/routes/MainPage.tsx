@@ -1,12 +1,13 @@
 import { Button, Flex, Overlay, Text } from '@mantine/core'
 import classes from '../styles/MainPage.module.css';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function MainPage() {
   const [modal, setModal] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if(location.state){
@@ -36,8 +37,8 @@ export default function MainPage() {
                     <Text size='18px'>₩ 10,000,000</Text>
                   </Flex>
               </Flex>
-              <Button w="300px" color="primary.5" onClick={()=>{setModal(false)}}>
-                확인
+              <Button w="300px" color="primary.5" onClick={()=>{setModal(false); navigate('/quiztest')}}>
+                LEVEL 평가하러 가기
               </Button>
             </Flex>
 
@@ -47,10 +48,10 @@ export default function MainPage() {
 
       <Flex className={classes.page} direction='column' justify='center' align='center'>
         <Text color='primary.5' size='52px' className={classes.firstText}>
-          <span className={classes.redText}><div className={classes.point}></div>투</span>데이 <span className={classes.blueText}><div className={classes.point}></div>투</span>자는
+          {/* <span className={classes.redText}><div className={classes.point}></div>투</span>데이 <span className={classes.blueText}><div className={classes.point}></div>투</span>자는 */}
         </Text>
         <Text size='52px' className={classes.secondText}>
-          <span className={classes.to}><div className={classes.point2}></div>TO</span><span className={classes.to}><div className={classes.point2}></div>TO</span> 에서
+          {/* <span className={classes.to}><div className={classes.point2}></div>TO</span><span className={classes.to}><div className={classes.point2}></div>TO</span> 에서 */}
         </Text>
         <div className={classes.firstPageColor}></div>
       </Flex>

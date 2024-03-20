@@ -71,7 +71,7 @@ export function AuthenticationForm({type}:props) {
     <>
       <form className={classes.form} onSubmit={form.onSubmit(() => sendToServer(form.values.email,form.values.password))}>
         <Stack>
-            <Text className={classes.formTitle} size='22px' p="lg">
+            <Text className={classes.formTitle} size='22px' p="lg" fw="600">
                 {type}
             </Text>
 
@@ -83,7 +83,7 @@ export function AuthenticationForm({type}:props) {
             onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
             error={form.errors.email && '형식에 맞지 않는 이메일입니다.'}
             radius="12px"
-            styles={{input:{height:'60px', width: '360px', fontSize: '16px'}}}
+            styles={{input:{height:'60px', width: '360px', fontSize: '16px'}, label:{fontWeight: 600}}}
           />
 
 
@@ -96,7 +96,7 @@ export function AuthenticationForm({type}:props) {
             onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
             error={(form.errors.password==='length') && '비밀번호는 6자리 이상 입력하십시오.' || (form.errors.password==='combination') && '비밀번호는 숫자와 문자를 조합하여 사용해야합니다.' }
             radius="12px"
-            styles={{input:{height:'60px', width: '360px', fontSize: '16px'}}}
+            styles={{input:{height:'60px', width: '360px', fontSize: '16px'}, label:{fontWeight: 600}}}
           />
 
             {type === '회원가입' && <PasswordInput
@@ -107,7 +107,7 @@ export function AuthenticationForm({type}:props) {
                 onChange={(event) => form.setFieldValue('confirmPassword', event.currentTarget.value)}
                 error={(form.values.confirmPassword!=='')&&(form.values.password !== form.values.confirmPassword) && '비밀번호가 일치하지 않습니다.'}
                 radius="12px"
-                styles={{input:{height:'60px', width: '360px', fontSize: '16px'}}}
+                styles={{input:{height:'60px', width: '360px', fontSize: '16px'}, label:{fontWeight: 600}}}
             />}
         </Stack>
 
@@ -115,7 +115,7 @@ export function AuthenticationForm({type}:props) {
             <Button type="submit" radius="12px" color='primary.5' h='60px' style={{fontSize:'16px'}}>
                 {upperFirst(type)}
             </Button>
-            <Anchor component="button" type="button" c="dimmed" onClick={() => {type === "회원가입" ? navigate('/login') : navigate('/signup')}} size="xs" p='md' style={{fontSize:'16px'}}>
+            <Anchor fw="600" component="button" type="button" c="dimmed" onClick={() => {type === "회원가입" ? navigate('/login') : navigate('/signup')}} size="xs" p='md' style={{fontSize:'16px'}}>
             {type === '회원가입'
                 ? '로그인'
                 : '회원가입'}

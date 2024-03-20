@@ -8,6 +8,7 @@ import QuizTestPage from "../routes/quiz/QuizTestPage";
 import QuizMainPage from "../routes/quiz/QuizMainPage";
 import StockPage from "../routes/stock/StockPage";
 import CommunityPage from "../routes/stockDetail/CommunityPage";
+import MyPage from "../routes/user/MyPage";
 
 export const mainRouter = [
   {
@@ -27,6 +28,11 @@ export const mainRouter = [
       {
         path: "/signup",
         element: <SignupPage />,
+        index: true,
+      },
+      {
+        path: "/my",
+        element: <MyPage />,
         index: true,
       },
       {

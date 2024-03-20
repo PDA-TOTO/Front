@@ -107,12 +107,12 @@ export default function QuizMainPage() {
         </Flex>
       </Flex>
       :
-      <Flex direction="column" justify="center" align="center" h="100vh">
-        <Text size="22px">
+      <Flex direction="column" justify="center" align="center" h="100vh" gap="50px">
+        <Text size="28px" fw="600">
           퀴즈를 풀어서 경험치를 올려보세요.
         </Text>
-        <Image src={test} w="300px"/>
-        <Button m="10px" w="300px" color="primary.5" onClick={()=>{navigate('/quiztest')}}>
+        <Image src={test} w="400px"/>
+        <Button m="10px" w="400px" color="primary.5" h="50px" onClick={()=>{navigate('/quiztest')}}>
             퀴즈 풀기
         </Button>
       </Flex>

@@ -10,7 +10,7 @@
 }
 
 .number{
-    border: solid 1px var(--mantine-color-gray-5);
+    border: solid 2px var(--mantine-color-gray-5);
     border-radius: 4px;
     cursor: pointer;
 }
