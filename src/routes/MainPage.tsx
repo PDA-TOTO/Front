@@ -25,16 +25,18 @@ export default function MainPage() {
           <Overlay fixed className={classes.overlay} display="flex">
           
             <Flex className={classes.modal} w="450px" h="300px" direction="column" bg="block.5" align="center" justify="center" gap="20px">
-              <Text size='22px' >회원가입이 완료되었습니다.</Text>
-              <Text size='14px'>계좌가 개설되었습니다.</Text>
-              <Flex  direction="column">
+              <Text size='22px' fw="600" >회원가입이 완료되었습니다.</Text>
+              <Text size='14px' fw="600">계좌가 개설되었습니다.</Text>
+              <Flex  direction="column" gap="5px">
                   <Flex gap="10px">
-                    <Text size='18px'>계좌</Text>
-                    <Text size='18px'>110-222-3311333</Text>
+                    <Text size='18px' fw="600">계좌</Text>
+                    <Text size='18px' fw="600">|</Text>
+                    <Text size='18px' fw="600">110-222-3311333</Text>
                   </Flex> 
                   <Flex gap="10px">
-                    <Text size='18px'>자산</Text>
-                    <Text size='18px'>₩ 10,000,000</Text>
+                    <Text size='18px' fw="600">자산</Text>
+                    <Text size='18px' fw="600">|</Text>
+                    <Text size='18px' fw="600">₩ 10,000,000</Text>
                   </Flex>
               </Flex>
               <Button w="300px" color="primary.5" onClick={()=>{setModal(false); navigate('/quiztest')}}>
