@@ -10,12 +10,12 @@ const data = [
     {
         label: '투자',
         links: [
-            { link: '', label: '주식' },
+            { link: '/stocks', label: '주식' },
             { link: '', label: '채권' },
             { link: '', label: 'EFT' },
         ],
     },
-    { link: '', label: '퀴즈' },
+    { link: '/quiz', label: '퀴즈' },
     { link: '/portfolio', label: '포트폴리오' },
 ];
 
