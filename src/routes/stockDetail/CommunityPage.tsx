@@ -99,7 +99,12 @@ export default function CommunityPage({}: Props) {
         <div className={classes.cmt_padding} />
         {commetDummy.map((value, index) => {
           return (
-            <div key={value.id}>
+            <Flex
+              key={value.id}
+              direction={"column"}
+              justify="center"
+              align="center"
+            >
               <Comment
                 id={value.id}
                 userName={value.userName}
@@ -108,8 +113,8 @@ export default function CommunityPage({}: Props) {
                 time={value.time}
                 vote={value.vote}
               />
-              <hr />
-            </div>
+              <hr style={{ width: "55vw" }} />
+            </Flex>
           );
         })}
       </Flex>
