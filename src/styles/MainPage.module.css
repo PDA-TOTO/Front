@@ -3,7 +3,7 @@
 .page{
     width: calc( 100vw - var(--nav-w));
     min-width:fit-content;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .firstPageColor{
@@ -61,4 +61,13 @@
     top: -1px;
     left: 20px;
     border-radius: 10px;
+}
+
+.modal{
+    border-radius: 10px;
+}
+
+.overlay{
+    justify-content: center;
+    align-items: center;
 }

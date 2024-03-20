@@ -1,0 +1,86 @@
+.card_v1 {
+  background-color: var(--mantine-color-primary-5);
+  width: 18vw;
+  height: 150px;
+  border-radius: 12px;
+  color: var(--mantine-color-white-5);
+}
+
+.card_v2 {
+  background-color: var(--mantine-color-secondary-5);
+  width: 18vw;
+  height: 150px;
+  border-radius: 12px;
+  color: var(--mantine-color-primary-5);
+}
+
+.card_title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 15px;
+  margin-top: 16px;
+}
+
+.card_text {
+  padding-top: 20px;
+  width: 18vw;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.page {
+  padding-left: 76px;
+  padding-right: 76px;
+}
+
+.gap_top {
+  padding-top: 70px;
+}
+
+.gap_mid {
+  padding-top: 50px;
+}
+
+.btn_activate_mid {
+  background-color: var(--mantine-color-primary-5);
+  border-color: var(--mantine-color-primary-5);
+  cursor: pointer;
+  color: var(--mantine-color-white-5);
+  width: 100px;
+  height: 40px;
+  border-radius: 39px;
+  font-size: 17px;
+  font-weight: 800;
+  margin-right: 8px;
+}
+.btn_mid {
+  cursor: pointer;
+  background-color: var(--mantine-color-white-5);
+  border-color: var(--mantine-color-primary-5);
+  width: 100px;
+  height: 40px;
+  border-radius: 39px;
+  font-size: 17px;
+  font-weight: 800;
+  margin-right: 8px;
+}
+
+.input_stock {
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  /* box-shadow: 3px 3px var(--mantine-color-gray-1),
+    -4px 3px 3px var(--mantine-color-gray-1); */
+  border: none;
+  width: 40vw;
+  border-radius: 50px;
+  background-color: var(--mantine-color-white-5);
+  color: var(--mantine-color-gray-5);
+  padding-left: 20px;
+}
+
+.bottom_stock_box {
+  margin-top: 20px;
+  /* background-color: black; */
+}

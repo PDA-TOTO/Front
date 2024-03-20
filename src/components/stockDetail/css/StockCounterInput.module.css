@@ -1,0 +1,51 @@
+/* input 기본 스타일 초기화 */
+.stockCounterInput {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bolder;
+    width: 40%;
+}
+
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+.stockCounterInput::-ms-clear {
+    display: none;
+}
+
+/* input type number 에서 화살표 제거 */
+.stockCounterInput[type='number']::-webkit-inner-spin-button,
+.stockCounterInput[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* input 기본 스타일 초기화 */
+.stockPriceInput {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background: transparent;
+    text-align: right;
+    font-size: 1.6rem;
+    font-weight: bolder;
+    max-width: 200px;
+}
+
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+.stockPriceInput::-ms-clear {
+    display: none;
+}
+
+/* input type number 에서 화살표 제거 */
+.stockPriceInput[type='number']::-webkit-inner-spin-button,
+.stockPricerInput[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
