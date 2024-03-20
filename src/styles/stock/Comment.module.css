@@ -5,9 +5,12 @@
 }
 
 .cmt_box {
-  width: 40vw;
+  width: 50vw;
   padding-top: 10px;
   padding-bottom: 10px;
+  background-color: var(--mantine-color-block-5);
+  border-radius: 16px;
+  margin-bottom: 15px;
 }
 
 .cmt_userName {

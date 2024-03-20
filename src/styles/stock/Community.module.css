@@ -94,3 +94,40 @@
 .cmt_padding {
   padding-top: 50px;
 }
+
+.vote_v1 {
+  height: 40px;
+  width: 100px;
+  border-radius: 16px;
+  background-color: var(--mantine-color-red-5);
+  /* margin-right: 15px; */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+.vote_v2 {
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
+  border-radius: 16px;
+  background-color: var(--mantine-color-blue-5);
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+.vote_v2:hover {
+  background-color: var(
+    --mantine-color-blue-6
+  ); /* Changing background color on hover */
+}
+.vote_v1:hover {
+  background-color: var(
+    --mantine-color-red-6
+  ); /* Changing background color on hover */
+}
+.vote_v_img {
+  margin-left: 10px;
+  width: 20px;
+}
+.vote_v_pd {
+  margin-right: 10px;
+}
