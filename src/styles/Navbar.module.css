@@ -8,6 +8,7 @@
     background-color: var(--mantine-color-primary-5);
     position: fixed;
     z-index: 1;
+    font-weight: 600;
 }
 
 .navbarMain {
@@ -59,7 +60,7 @@
     align-items: center;
     justify-content: right;
     text-decoration: none;
-    font-size: var(--mantine-font-size-xs);
+    font-size: var(--mantine-font-size-sm);
     color: var(--mantine-color-white-5);
     padding: var(--mantine-spacing-xs) var(--mantine-spacing-xl);
     border-radius: var(--mantine-radius-xs);

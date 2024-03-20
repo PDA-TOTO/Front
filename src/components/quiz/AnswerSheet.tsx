@@ -24,7 +24,7 @@ export default function AnswerSheet({ isSolved, setIsSolved, choiceList, setChoi
   return (
     <Flex className={classes.page} justify="space-between" align="center" direction={"column"} bg={"secondary.5"}>
         <Flex direction={"column"}>
-            <Text ta='center' className={classes.title} size='22px' p='xl' w='200px' h='90px' c='primary.5'>
+            <Text ta='center' className={classes.title} size='22px' fw="600" p='xl' w='200px' h='90px' c='primary.5'>
                 답안지
             </Text>
             <Stack p="20px 0px" >

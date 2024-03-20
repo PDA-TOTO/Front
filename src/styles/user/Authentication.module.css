@@ -9,6 +9,7 @@
     background-color: var(--mantine-color-block-5);
     padding: 40px;
     border-radius: 12px;
+    font-weight: 600;
 }
 
 .formTitle{

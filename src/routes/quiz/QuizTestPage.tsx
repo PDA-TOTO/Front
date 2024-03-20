@@ -77,7 +77,7 @@ export default function QuizTestPage() {
                 <Text size="36px" fw="600">
                     {number}
                 </Text>
-                <Text size="22px" m="20px 0px" lh="30px" mih="100px">
+                <Text size="22px" m="20px 0px" lh="30px" mih="100px" fw="600">
                     {quizs[number-1].question}
                 </Text>
                 <Grid>

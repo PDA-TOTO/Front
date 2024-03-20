@@ -123,6 +123,7 @@ export default function Navbar() {
             onClick={(event) => {
               event.preventDefault();
               setActive("");
+              navigate("/my")
             }}
           >
             <span>마이페이지</span>
