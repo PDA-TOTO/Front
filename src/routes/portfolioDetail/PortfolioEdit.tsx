@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid,Input,Switch,Table } from '@mantine/core';
+import { Button, Flex, Grid,Input,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
@@ -20,7 +20,7 @@ function table(stocks,inputType){
             <Table.Tbody key={elem}>
             <Table.Tr>
                 <Table.Td>{elem}</Table.Td>
-                <Table.Td ><Input></Input>{inputType === false ? '%' : '원'}</Table.Td>
+                <Table.Td style={{display:"flex", alignItems:"center", alignContent:"center"}}><Input style={{width:"100px"}}></Input>{inputType === false ? '%' : '원'}</Table.Td>
             </Table.Tr>
             </Table.Tbody>
         </>
@@ -30,13 +30,14 @@ function table(stocks,inputType){
         <Table.Thead>
           <Table.Tr>
             <Table.Th style={{width:"100px"}}>종목명</Table.Th>
-            <Table.Th style={{width:"10px"}}>비중입력</Table.Th>
+            <Table.Th style={{width:"100px"}}>비중입력</Table.Th>
           </Table.Tr>
         </Table.Thead>
         {rows}
         <div style={{display:"flex"}}>
             <div>금액으로 입력</div>
             <Switch onChange={(e)=>{console.log(inputType); setInputType(!inputType)}} style={{marginLeft:"10px"}}/>
+            <Button onClick={(e)=>{navigate(-1)}}>제출하기</Button>
         </div>
       </Table>
       
