@@ -5,7 +5,7 @@ import { AppShell } from '@mantine/core';
 export default function MainLayout() {
     return (
         <>
-            <AppShell header={{ height: 1 }} navbar={{ width: '200px', breakpoint: 'sm' }}>
+            <AppShell navbar={{ width: '200px', breakpoint: 'sm' }}>
                 <AppShell.Navbar component={Navbar} />
                 <AppShell.Main>
                     <Outlet />

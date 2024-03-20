@@ -1,9 +1,9 @@
-import { useState } from "react";
-import classes from "../../../styles/Navbar.module.css";
-import { LinksGroup } from "./NavbarLinksGroup";
-import { useAppDispatch, useAppSelector } from "../../../lib/hooks/reduxHooks";
-import { useNavigate } from "react-router-dom";
-import { userLogout } from "../../../store/reducers/user";
+import { useEffect, useState } from 'react';
+import classes from '../../../styles/Navbar.module.css';
+import { LinksGroup } from './NavbarLinksGroup';
+import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { userLogout } from '../../../store/reducers/user';
 
 const data = [
   { link: "/", label: "메인" },
@@ -22,6 +22,7 @@ const data = [
 export default function Navbar() {
   const [active, setActive] = useState("Billing");
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const isUser = useAppSelector((state) => state.user.isUser);
 
@@ -69,6 +70,12 @@ export default function Navbar() {
       navigate("/");
     });
   }
+
+  useEffect(()=>{
+    if(location.pathname === "/quiz"){
+      setActive('퀴즈');
+    }
+  },[])
 
   return (
     <nav className={classes.navbar}>

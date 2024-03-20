@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Flex, Text, Card } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
 
 type Props = {};
 
-export default function stockPage({}: Props) {
+export default function StockPage({}: Props) {
   const [activateId, setActivateId] = useState(0);
   const data = [
     {
@@ -76,7 +76,7 @@ export default function stockPage({}: Props) {
             );
           })}
         </Flex>
-        <input placeholder="검색할 주식 입력" />
+        <input className={classes.input_stock} placeholder="검색할 주식 입력" />
       </Flex>
       <div className={classes.bottom_stock_box}>
         <BottomStock id={activateId} />
