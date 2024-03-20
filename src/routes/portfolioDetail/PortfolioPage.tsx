@@ -4,7 +4,7 @@ import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
-
+import { useNavigate } from 'react-router-dom';
 const data01 = [
     { x: 1, y: 2 },
     { x: 2, y: 5 },
@@ -45,26 +45,6 @@ function portSelectClicked(){
     console.log(1)
 }
 
-// function stackedBarChart(){
-// class App extends React.Component {
-//     render() {
-//         return (
-//             <ChartComponent primaryXAxis={{ valueType: 'Category' }} legendSettings={{ visible: true }} tooltip={{ enable: true }}>
-//                 <Inject services={[StackingBarSeries, Category, Legend, Tooltip]} />
-//                 <SeriesCollectionDirective>
-//                     <SeriesDirective dataSource={[{ x: 'Jan', y: 35, y1: 15, y2: 25 }, { x: 'Feb', y: 28, y1: 20, y2: 30 }, { x: 'Mar', y: 34, y1: 25, y2: 35 }, { x: 'Apr', y: 32, y1: 28, y2: 38 }]} xName='x' yName='y' type='StackingBar' name='Series 1'>
-//                     </SeriesDirective>
-//                     <SeriesDirective dataSource={[{ x: 'Jan', y: 25, y1: 10, y2: 20 }, { x: 'Feb', y: 18, y1: 15, y2: 25 }, { x: 'Mar', y: 24, y1: 20, y2: 30 }, { x: 'Apr', y: 22, y1: 18, y2: 28 }]} xName='x' yName='y1' type='StackingBar' name='Series 2'>
-//                     </SeriesDirective>
-//                     <SeriesDirective dataSource={[{ x: 'Jan', y: 15, y1: 5, y2: 15 }, { x: 'Feb', y: 8, y1: 10, y2: 20 }, { x: 'Mar', y: 14, y1: 15, y2: 25 }, { x: 'Apr', y: 12, y1: 8, y2: 18 }]} xName='x' yName='y2' type='StackingBar' name='Series 3'>
-//                     </SeriesDirective>
-//                 </SeriesCollectionDirective>
-//             </ChartComponent>
-//         );
-//     }
-// }
-// }
-
 function Demo() {
 
     const elements =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
@@ -89,6 +69,7 @@ function Demo() {
         </Table.Thead>
 
         <Table.Tbody>{rows}</Table.Tbody>
+        
       </Table>
     );
 }
@@ -119,9 +100,13 @@ const data = [
   
 
 const PortfolioPage: React.FC = () => {
+    const navigate = useNavigate()
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
+                <h2>
+                    포트폴리오 지표 분석
+                </h2>
                 <div style={{ width: '100%', height: 300 }}>
                     <ScatterChartComponent />
                 </div>
@@ -136,12 +121,18 @@ const PortfolioPage: React.FC = () => {
                     <button style={{marginLeft:"10px"}} onClick={(e)=>portSelectClicked()}>
                         보기
                     </button>
+                    <button style={{marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("create")}}>
+                        포트폴리오 만들기
+                    </button>
                 </div>
 
                 <div style={{display: "flex", alignItems: "center"}}>
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
                     <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
                     <Switch style={{marginLeft:"10px"}}/>
+                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("edit")}}>
+                        편집
+                    </button>
                 </div>
                 {/* <Bar options={options} data={data}></Bar> */}
                 <BarChart h={300}

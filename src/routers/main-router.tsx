@@ -5,7 +5,7 @@ import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
 import StockDetailPage from '../routes/stockDetail/StockDetailPage';
 import PortfolioPage from '../routes/portfolioDetail/PortfolioPage';
-
+import PortfolioEdit from '../routes/portfolioDetail/PortfolioEdit';
 export const mainRouter = [
     {
         path: '',
@@ -28,8 +28,25 @@ export const mainRouter = [
             },
             {
                 path: '/portfolio',
-                element: <PortfolioPage/>,
-                index: true,
+                
+                // index: true,
+                children:[
+                    {
+                        path :"",
+                        element: <PortfolioPage/>,
+                        index: true
+                    },
+                    {
+                        path :"edit",
+                        element : <PortfolioEdit/>,
+                        index: true
+                    },
+                    {
+                        path :"create",
+                        element : <PortfolioEdit/>,
+                        // index: true,
+                    },
+                ],
             },
             {
                 path: '/stocks',
