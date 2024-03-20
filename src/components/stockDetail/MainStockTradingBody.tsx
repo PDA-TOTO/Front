@@ -1,13 +1,19 @@
 import { Button, Grid, Group, Stack, rem } from '@mantine/core';
 import CircleInfo from './CircleInfo';
 import { useElementSize } from '@mantine/hooks';
+import { MouseEventHandler } from 'react';
 
-type CurrentStockTradingProps = {
+type MainStockTradingBodyProps = {
     gap: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    onBuyClick: (e: MouseEvent) => void;
+    onBuyClick: MouseEventHandler;
+    onSellClick: MouseEventHandler;
 };
 
-const CurrentStockTrading: React.FC<CurrentStockTradingProps> = ({ gap, onBuyClick }: CurrentStockTradingProps) => {
+const MainStockTradingBody: React.FC<MainStockTradingBodyProps> = ({
+    gap,
+    onBuyClick,
+    onSellClick,
+}: MainStockTradingBodyProps) => {
     const { ref, width } = useElementSize();
     return (
         <Stack gap={gap}>
@@ -18,12 +24,12 @@ const CurrentStockTrading: React.FC<CurrentStockTradingProps> = ({ gap, onBuyCli
             </Group>
             <Grid ref={ref}>
                 <Grid.Col span={6}>
-                    <Button color="pink.5" autoContrast fullWidth h={rem(54)}>
+                    <Button color="pink.5" autoContrast fullWidth h={rem(54)} onClick={onBuyClick}>
                         사기
                     </Button>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <Button color="secondary.5" autoContrast fullWidth h={rem(54)}>
+                    <Button color="secondary.5" autoContrast fullWidth h={rem(54)} onClick={onSellClick}>
                         팔기
                     </Button>
                 </Grid.Col>
@@ -32,4 +38,4 @@ const CurrentStockTrading: React.FC<CurrentStockTradingProps> = ({ gap, onBuyCli
     );
 };
 
-export default CurrentStockTrading;
+export default MainStockTradingBody;

@@ -1,5 +1,6 @@
 import { AreaChart, getFilteredChartTooltipPayload } from '@mantine/charts';
 import { Paper, Stack, Text } from '@mantine/core';
+import { useEffect, useState } from 'react';
 
 const mockStockData = [
     {
@@ -95,18 +96,38 @@ function ChartTooltip({ label, payload }: ChartTooltipProps) {
 }
 
 const StockChart: React.FC = () => {
+    const [stockData, setStockData] = useState(mockStockData);
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            stockData[stockData.length - 1].price += 10000;
+
+            let tmp = stockData.slice();
+            setStockData(tmp);
+            console.log(stockData[stockData.length - 1].price);
+        }, 1000);
+
+        if (stockData[stockData.length - 1].price > 300000) {
+            clearInterval(id);
+        }
+
+        return () => clearInterval(id);
+    }, [stockData]);
+
     // 차트 이외의 버튼 들이 존재할 수 있음
     return (
         <Stack>
             <AreaChart
                 h={320}
                 curveType="linear"
-                data={mockStockData}
+                data={stockData}
                 tooltipAnimationDuration={700}
                 dataKey="date"
                 unit="₩"
                 yAxisProps={{ width: 80 }}
-                xAxisProps={{}}
+                xAxisProps={{
+                    padding: { right: 30 },
+                }}
                 tooltipProps={{
                     content: ({ label, payload }) => <ChartTooltip label={label} payload={payload} />,
                     cursor: true,

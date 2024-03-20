@@ -5,7 +5,8 @@ import { BrowserRouter, Route, RouteObject, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { mainRouter } from './routers/main-router';
 import { MantineProvider } from '@mantine/core';
-
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 import '@mantine/core/styles.css';
 import { theme } from './styles/Theme';
 
@@ -26,6 +27,7 @@ function renderRoutes(routesObj: RouteObject[]) {
 function App() {
     return (
         <MantineProvider theme={theme}>
+            <Notifications />
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <BrowserRouter>

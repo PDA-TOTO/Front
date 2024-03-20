@@ -1,0 +1,16 @@
+@keyframes option-animation {
+    from {
+        opacity: 0;
+        transform: translateX(rem(-30px));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.animateOption {
+    opacity: 0;
+    animation: option-animation 400ms ease;
+    animation-fill-mode: forwards;
+}
