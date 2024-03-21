@@ -1,7 +1,6 @@
-import { Button, Flex , Text, Image, Overlay, ScrollArea, Badge} from "@mantine/core"
+import { Button, Flex , Text, Image, Overlay, ScrollArea, Badge, Progress} from "@mantine/core"
 import { useNavigate, useLocation } from "react-router-dom"
 import test from "../../assets/img/quiz/quiz.png";
-import silver from "../../assets/img/quiz/silver.png";
 import { useEffect, useState } from "react";
 import questionMark from "../../assets/img/quiz/questionMark.png";
 import classes from "../../styles/quiz/QuizMain.module.css"
@@ -12,6 +11,7 @@ export default function QuizMainPage() {
     const [solve, setSolve] = useState(false);
     const [modal, setModal] = useState(false);
     const quizs = useAppSelector(state => state.quiz);
+    const [progress,setProgress] = useState(30);
 
     const location = useLocation();
     
@@ -20,7 +20,7 @@ export default function QuizMainPage() {
       <Flex direction="column" justify="center" align="center" pt="40px" >
         <Flex direction="column" w="400px" gap="15px" mb="20px">
           <Flex align="center" gap="10px">
-            <Text size="18px" fw="600">{index+1}.</Text>
+            <Text size="18px" fw="600" >{index+1}.</Text>
             {value.answer === location.state.choiceList[index]+1 ?
               <Badge color="blue.3" c="primary.5" size="lg" fw="600">정답</Badge>
               :
@@ -73,7 +73,19 @@ export default function QuizMainPage() {
       if(location.state){
         setSolve(location.state.solve);
       }
-    },[])
+
+      const interval = setInterval(() => {
+        
+        if (progress >= 80) {
+          clearInterval(interval);
+          return;
+        }
+  
+        setProgress(prevProgress => prevProgress + 1);
+      }, 50);
+    
+        return () => clearInterval(interval);
+    }, [progress]);
 
   return (
     <>
@@ -95,21 +107,50 @@ export default function QuizMainPage() {
             </Flex>
           </Overlay>
         }
-        <Flex direction="column" justify="center" align="center" h="100vh">
-          <Flex className={classes.cardFrame}>
-              <Flex direction="column" className={classes.card} justify="center" align="center" gap="30px">
-                <Text size="28px" fw="600">
-                  Silver
-                </Text>
-                <Image src={silver} w="200px"/>
-              </Flex>
+        
+        <Flex direction="column" justify="center" align="center">
+          <Flex direction="column" w="100%">
+            <Flex w="100%" justify="space-between">
+              <Text size="24px" fw="600" c="blue.5">Silver</Text>
+              <Text size="24px" fw="600" c="red.5">Gold</Text>
             </Flex>
+            <Progress value={progress} w="100%" mb="20px" size="13px" bg="primary.5" color="blue.5" />
+          </Flex>
+          <Flex pos="relative">
+            <Flex className={classes.cardFrame}>
+              <div className={classes.card}>
+                <Flex className={classes.cardContent} direction={"column"} justify={"center"} align={"center"} bg="linear-gradient(gray,var(--mantine-color-white-5),gray)">
+                  <Text size="60px" fw="400" className={classes.level} >
+                    Silver
+                  </Text>
+                </Flex>
+              </div>
+            </Flex>
+            <Flex pos="absolute" right="400px" bottom="-100px"> 
+              <div className={classes.card}>
+                <Flex className={classes.cardContent} direction={"column"} justify={"center"} align={"center"} bg="linear-gradient(var(--mantine-color-blue-7),var(--mantine-color-white-5),var(--mantine-color-blue-7))" opacity="30%">
+                  <Text size="60px" fw="400" className={classes.level} >
+                    Bronze
+                  </Text>
+                </Flex>
+              </div>
+            </Flex>
+            <Flex pos="absolute" left="400px" bottom="-100px">
+              <div className={classes.card}>
+                <Flex className={classes.cardContent} direction={"column"} justify={"center"} align={"center"} bg="linear-gradient(var(--mantine-color-red-7),var(--mantine-color-white-5),var(--mantine-color-red-7))" opacity="30%">
+                  <Text size="60px" fw="400" className={classes.level} >
+                    Gold
+                  </Text>
+                </Flex>
+              </div>
+            </Flex>
+          </Flex>
         </Flex>
-        <Flex align="center" justify="center" p="30px">
-          <Text lh="50px" size="22px" fw="600">
+        <Flex align="center" justify="center" p="30px" gap="10px" pos="relative">
+          <Text lh="50px" size="28px" fw="600">
             {location.state.correct} / {location.state.total}
           </Text>
-          <Image className={classes.questionMark} h="50px" w="50px" src={questionMark} onClick={()=>{setModal(true)}} />
+          <Image className={classes.questionMark} h="50px" w="50px" pos="absolute" right="-25px" src={questionMark} onClick={()=>{setModal(true)}} />
         </Flex>
       </Flex>
       :
