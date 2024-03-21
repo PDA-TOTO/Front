@@ -47,7 +47,7 @@ const StockDetailPage: React.FC = () => {
                     onChange={() => proModeToggle()}
                 />
             </Group>
-            <Grid grow justify="space-between" px={0} columns={32}>
+            <Grid justify="space-between" px={0} columns={32}>
                 <Grid.Col span={22} style={{ height: '130vh' }}>
                     <Stack>
                         <StockChart />
