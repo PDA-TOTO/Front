@@ -16,7 +16,11 @@ export default function NewsBox({
 }: newsData) {
   const navigate = useNavigate();
   return (
-    <Flex direction={"row"} className={classes.news_box}>
+    <Flex
+      direction={"row"}
+      className={classes.news_box}
+      onClick={() => window.open(`${newsLink}`)}
+    >
       <Flex direction={"column"} justify="space-between">
         <div className={classes.news_title}>{title}</div>
         <div className={classes.news_content}>{content}</div>
