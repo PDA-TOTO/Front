@@ -1,5 +1,6 @@
 import { Tabs, Text } from "@mantine/core";
 import StockCommunity from "./community/StockCommunity";
+import StockNews from "./news/StockNews";
 import { useParams } from "react-router-dom";
 
 const StockNav: React.FC = () => {
@@ -43,7 +44,7 @@ const StockNav: React.FC = () => {
         {id && <StockCommunity id={id} />}
       </Tabs.Panel>
       <Tabs.Panel value="info">fadfafd</Tabs.Panel>
-      <Tabs.Panel value="news">fadfafd</Tabs.Panel>
+      <Tabs.Panel value="news">{id && <StockNews id={id} />}</Tabs.Panel>
       <Tabs.Panel value="research">fadfafd</Tabs.Panel>
     </Tabs>
   );
