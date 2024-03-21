@@ -10,9 +10,9 @@ import { useStockDetailDispatch } from '../../lib/hooks/stockReduxHooks';
 import { setPrice } from '../../store/reducers/stockControlReducers';
 
 type StockInfo = {
-    name: string;
-    price: number;
-    percent: number;
+  name: string;
+  price: number;
+  percent: number;
 };
 
 const StockDetailPage: React.FC = () => {
@@ -25,7 +25,9 @@ const StockDetailPage: React.FC = () => {
     });
     const stockDispatch = useStockDetailDispatch();
 
-    const { ref, width } = useElementSize();
+
+  const { ref, width } = useElementSize();
+
 
     useEffect(() => {
         stockDispatch(setPrice(135500));
