@@ -13,6 +13,25 @@ type Props = {};
 export default function CommunityPage({}: Props) {
   const params = useParams();
   const [value, setValue] = useState<string | null>("");
+  const [leftCnt, setLeftCnt] = useState<number>(100);
+  const [rightCnt, setRightCnt] = useState<number>(120);
+  const [userVote, setUserVote] = useState<string>("none"); // left, right, none
+
+  const handleChange = (string: string) => {
+    if (string === "left") {
+      setLeftCnt((prev) => prev + 1);
+      if (userVote === "right") {
+        setRightCnt((prev) => prev - 1);
+        setUserVote("left");
+      }
+    } else if (string === "right") {
+      setRightCnt((prev) => prev + 1);
+      if (userVote === "left") {
+        setLeftCnt((prev) => prev - 1);
+        setUserVote("right");
+      }
+    }
+  };
   const commetDummy = [
     {
       id: 1,
@@ -80,7 +99,7 @@ export default function CommunityPage({}: Props) {
         </Flex>
         <div className={classes.main_padding} />
         <div style={{ width: "90vw" }}>
-          <VoteBar leftAmount={30} rightAmount={10} />
+          <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
         </div>
         <Flex style={{ paddingTop: "20px" }}>
           <Flex className={classes.vote_v1} justify="center" align="center">
