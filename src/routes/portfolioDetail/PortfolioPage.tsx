@@ -94,6 +94,7 @@ const options = {
       },
     },
   };
+
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
 ]

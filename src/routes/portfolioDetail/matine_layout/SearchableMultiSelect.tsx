@@ -96,18 +96,18 @@ export function SearchableMultiSelect({onClicked, existStocks}) {
             return await getAllStockNames();
         }
         api().then((stocks) => {
+            
             const temp = stocks.data?.map((elem)=>{
                 return elem.name
                 // console.log(elem)
             });
             setPort(temp)
-        }).then(() => {
-            // console.log("fect", groceries);
-            setPort(temp);
+        }).then(async () => {
+            setValue(existStocks)
         });
         // setPort()
         
-    }, []);
+    }, [existStocks]);
     // useEffect(()=>{
         
     // },[])

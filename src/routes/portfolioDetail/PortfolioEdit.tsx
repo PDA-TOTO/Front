@@ -12,6 +12,7 @@ import { getAllStockNames } from '../../lib/apis/stocks';
 const PortfolioEdit : React.FC = () => {
     const navigate = useNavigate()
     const [inputType,setInputType] = useState(false) //기본 0이면 %로 받겠다는 뜻
+    const [isEditType , setIsEditType] = useState(false)
     const location = useLocation()
 
     const [port, setPort] = useState([]) //[ {"name" : "이름", "code" : "123456"}, ... ]
@@ -23,6 +24,7 @@ const PortfolioEdit : React.FC = () => {
         if (location.state) {
           setSelectedStock(location.state.items)
           setselectedStockWeight(location.state.weight)
+          setIsEditType(location.state.length ===0 ? false : true)
         }
         console.log(port)
         const stocknames = port.map((elem)=>{
@@ -71,7 +73,7 @@ const PortfolioEdit : React.FC = () => {
     //테스트용 클릭
     const onClicked = (stocks)=>{
         // console.log("너 ", stocks,"눌렀찌")
-        // setSelectedStock(selectedStock.append(stocks))
+        setselectedStockWeight([])
         setSelectedStock(stocks)
         // setPort({"items": stocks})
     }
@@ -85,7 +87,7 @@ const PortfolioEdit : React.FC = () => {
                     <Button>+</Button>
                 </div>
                 <div style={{ width:"100%",display:"flex"}}>
-                    <SearchableMultiSelect 
+                    <SearchableMultiSelect
                         onClicked={onClicked} 
                         existStocks={selectedStock.length > 0 ?  selectedStock : []}>    
                     </SearchableMultiSelect>
