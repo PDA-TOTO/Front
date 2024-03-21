@@ -60,7 +60,7 @@ export default function QuizTestPage() {
                             <div className={answer.optionText}>{idx+1}</div>
                         </div>
                     }
-                    <Text size="18px" p="3px 10px">{value}</Text>
+                    <Text fw="600" size="18px" p="3px 10px" c="primary.3">{value}</Text>
                 </Flex>
             </Grid.Col>
         )
