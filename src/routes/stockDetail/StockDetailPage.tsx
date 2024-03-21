@@ -31,6 +31,10 @@ const StockDetailPage: React.FC = () => {
         stockDispatch(setPrice(135500));
     }, []);
 
+    useEffect(() => {
+        stockDispatch(setPrice(135500));
+    }, []);
+
     return (
         <Stack px={72} pt={34}>
             <Group align="start" justify="space-between">
