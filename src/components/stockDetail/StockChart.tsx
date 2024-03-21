@@ -104,7 +104,6 @@ const StockChart: React.FC = () => {
 
             let tmp = stockData.slice();
             setStockData(tmp);
-            console.log(stockData[stockData.length - 1].price);
         }, 1000);
 
         if (stockData[stockData.length - 1].price > 300000) {
