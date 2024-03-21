@@ -14,6 +14,7 @@ type Props = {
   isLiked: boolean;
   time: number;
   vote: boolean;
+  onLikeClick: () => void;
 };
 
 export default function Comment({
@@ -24,12 +25,13 @@ export default function Comment({
   isLiked,
   time,
   vote,
+  onLikeClick,
 }: Props) {
   return (
     <Flex
       direction={"row"}
       align="flex-start"
-      justify="center"
+      // justify="center"
       className={classes.cmt_box}
     >
       <Avatar
@@ -38,7 +40,7 @@ export default function Comment({
         color="secondary.5"
         className={classes.cmt_avatar}
       />
-      <Flex direction={"column"} gap={30}>
+      <Flex direction={"column"} gap={20} style={{ width: "100%" }}>
         <Flex direction={"row"} gap={10} align="center">
           <div className={classes.cmt_userName}>{userName}</div>
           <div className={classes.cmt_time}>{time}분전</div>
@@ -49,15 +51,21 @@ export default function Comment({
           )}
         </Flex>
         {text}
-        <Flex direction={"row"} align="center">
-          <div className={classes.cmt_like_div}>
-            {isLiked ? (
-              <Image src={Like} className={classes.cmt_like} />
-            ) : (
-              <Image src={LikeEmpty} className={classes.cmt_like} />
-            )}
-          </div>
-          <div className={classes.like_amount}>{likeAmount}</div>
+        <Flex style={{ width: "100%" }} justify="flex-end">
+          <Flex direction={"row"} align="center">
+            <div
+              className={classes.cmt_like_div}
+              onClick={onLikeClick}
+              style={{ cursor: "pointer" }}
+            >
+              {isLiked ? (
+                <Image src={Like} className={classes.cmt_like} />
+              ) : (
+                <Image src={LikeEmpty} className={classes.cmt_like} />
+              )}
+            </div>
+            <div className={classes.like_amount}>{likeAmount}</div>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
