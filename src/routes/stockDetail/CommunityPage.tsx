@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import classes from "../../styles/stock/Community.module.css";
 import { Flex, Image, Select, Alert } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import headCount from "../../assets/img/stock/community/headCount.svg";
 import date from "../../assets/img/stock/community/date.svg";
 import VoteBar from "../../components/stockDetail/VoteBar";
@@ -15,23 +16,46 @@ export default function CommunityPage({}: Props) {
   const [value, setValue] = useState<string | null>("");
   const [leftCnt, setLeftCnt] = useState<number>(100);
   const [rightCnt, setRightCnt] = useState<number>(120);
-  const [userVote, setUserVote] = useState<string>("none"); // left, right, none
-
-  const handleChange = (string: string) => {
-    if (string === "left") {
+  const [userVote, setUserVote] = useState<string>("none"); // none, left, right
+  const handleVoteChange = (vote: string) => {
+    if (userVote === vote) {
+      notifications.show({
+        title: "투표가 완료되었습니다!",
+        message: "투표는 한 번만 할 수 있어요 😀",
+        autoClose: 3000,
+        radius: "md",
+        color: "primary.5",
+      });
+      return;
+    }
+    if (vote === "left") {
+      notifications.show({
+        title: "투표가 완료되었습니다!",
+        message: "왜 찬성을 선택하셨나요? 이유를 공유해주세요 😀",
+        autoClose: 3000,
+        radius: "md",
+        color: "red.5",
+      });
       setLeftCnt((prev) => prev + 1);
       if (userVote === "right") {
         setRightCnt((prev) => prev - 1);
-        setUserVote("left");
       }
-    } else if (string === "right") {
+    } else if (vote === "right") {
+      notifications.show({
+        title: "투표가 완료되었습니다!",
+        message: "왜 반대를 선택하셨나요? 이유를 공유해주세요 😀",
+        autoClose: 3000,
+        radius: "md",
+        color: "blue.5",
+      });
       setRightCnt((prev) => prev + 1);
       if (userVote === "left") {
-        setLeftCnt((prev) => prev - 1);
-        setUserVote("right");
+        setRightCnt((prev) => prev - 1);
       }
     }
+    setUserVote(vote);
   };
+
   const commetDummy = [
     {
       id: 1,
@@ -102,15 +126,25 @@ export default function CommunityPage({}: Props) {
           <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
         </div>
         <Flex style={{ paddingTop: "20px" }}>
-          <Flex className={classes.vote_v1} justify="center" align="center">
-            오른다
+          <Flex
+            className={classes.vote_v1}
+            onClick={() => handleVoteChange("left")}
+            justify="center"
+            align="center"
+          >
+            찬성
             <div className={classes.vote_v_img}>
               <Image src={ThumbsUp2} />
             </div>
           </Flex>
           <div className={classes.vote_v_pd} />
-          <Flex className={classes.vote_v2} justify="center" align="center">
-            내린다
+          <Flex
+            className={classes.vote_v2}
+            justify="center"
+            align="center"
+            onClick={() => handleVoteChange("right")}
+          >
+            반대
             <div className={classes.vote_v_img}>
               <Image src={ThumbsDown2} />
             </div>
