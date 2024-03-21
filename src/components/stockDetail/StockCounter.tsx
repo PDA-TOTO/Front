@@ -4,26 +4,18 @@ import classes from './css/StockCounterInput.module.css';
 import { useEffect, useState } from 'react';
 import { useElementSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { useStockDetailDispatch, useStockDetailSelector } from '../../lib/hooks/stockReduxHooks';
+import { decrementQuantity, incrementQuantity, setPrice, setQuantity } from '../../store/reducers/stockControlReducers';
 
-type StockCounterProps = {
-    count: number;
-    handlers: {
-        increment: () => void;
-        decrement: () => void;
-        set: (value: number) => void;
-        reset: () => void;
-    };
-    price: number;
-    setPrice: (price: number) => void;
-};
-
-const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, setPrice }: StockCounterProps) => {
-    const [strPrice, setStrPrice] = useState<string>(price.toLocaleString());
+const StockCounter: React.FC = () => {
+    const stockControl = useStockDetailSelector((state) => state.stockControl);
+    const [strPrice, setStrPrice] = useState<string>('');
     const { ref, width } = useElementSize();
+    const stockDetailDispatch = useStockDetailDispatch();
 
     useEffect(() => {
-        setStrPrice(price.toLocaleString());
-    }, [price]);
+        setStrPrice(stockControl.price ? stockControl.price.toLocaleString() : '0');
+    }, [stockControl.price]);
 
     return (
         <Stack align="center" py="xl">
@@ -41,7 +33,7 @@ const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, set
                     onKeyUp={() => {
                         let p = Number(strPrice.replaceAll(',', '').trim());
                         if (isNaN(p)) {
-                            setStrPrice(price.toLocaleString());
+                            setStrPrice(stockControl.price!.toLocaleString());
                         } else {
                             setStrPrice(p.toLocaleString());
                         }
@@ -57,10 +49,10 @@ const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, set
                                 radius: 'md',
                                 color: 'red.5',
                             });
-                            setStrPrice(price.toLocaleString());
+                            setStrPrice(stockControl.price!.toLocaleString());
                             return;
                         }
-                        setPrice(p);
+                        stockDetailDispatch(setPrice(p));
                     }}
                 />
                 <Text size="xxl" fw="bolder">
@@ -72,8 +64,8 @@ const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, set
                     variant="transparent"
                     color="primary.5"
                     onClick={() => {
-                        if (count > 1) {
-                            handlers.decrement();
+                        if (stockControl.quantity > 1) {
+                            stockDetailDispatch(decrementQuantity());
                         }
                     }}
                 >
@@ -82,14 +74,14 @@ const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, set
                 <input
                     className={classes.stockCounterInput}
                     type="number"
-                    value={count}
+                    value={stockControl.quantity}
                     min={0}
                     onChange={(e) => {
-                        handlers.set(Number(e.target.value));
+                        stockDetailDispatch(setQuantity(Number(e.target.value)));
                     }}
                     onBlur={(e) => {
-                        if (count === 0) {
-                            handlers.set(1);
+                        if (stockControl.quantity === 0) {
+                            stockDetailDispatch(setQuantity(1));
                             notifications.show({
                                 title: 'Warning',
                                 message: '체결 수량은 1이상 이어야 합니다. 🥲',
@@ -102,7 +94,11 @@ const StockCounter: React.FC<StockCounterProps> = ({ count, handlers, price, set
                         }
                     }}
                 />
-                <ActionIcon variant="transparent" color="primary.5" onClick={handlers.increment}>
+                <ActionIcon
+                    variant="transparent"
+                    color="primary.5"
+                    onClick={() => stockDetailDispatch(incrementQuantity())}
+                >
                     <IconPlus />
                 </ActionIcon>
             </Group>
