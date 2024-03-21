@@ -130,7 +130,7 @@ const PortfolioPage: React.FC = () => {
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
                     <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
                     <Switch style={{marginLeft:"10px"}}/>
-                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("edit")}}>
+                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("edit",{ state : port})}}>
                         편집
                     </button>
                 </div>

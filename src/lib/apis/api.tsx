@@ -6,3 +6,6 @@ export const userInstance = axios.create({
     baseURL: BASE_URL + '/users',
 });
 
+export const stockInstance = axios.create({
+    baseURL: BASE_URL + '/stocks',
+});
