@@ -10,7 +10,7 @@ const data = [
     {
         label: '투자',
         links: [
-            { link: 'stocks', label: '주식' },
+            { link: '/stocks', label: '주식' },
             { link: '', label: '채권' },
             { link: '', label: 'EFT' },
         ],
@@ -34,9 +34,15 @@ export default function Navbar() {
                     data-active={item.label === active || undefined}
                     href={item.link}
                     key={item.label}
-                    onClick={(event) => {
-                        event.preventDefault();
-                        navigate(item.link);
+           
+                        onClick={(event) => {
+                            event.preventDefault();
+                
+                            if (item.label === "퀴즈") {
+                              navigate(item.link, { state: { solve: false } });
+                            } else {
+                              navigate(item.link);
+                            }
                         setActive(item.label);
                     }}
                 >

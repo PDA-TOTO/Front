@@ -6,11 +6,13 @@ import SignupPage from '../routes/user/SignupPage';
 import StockDetailPage from '../routes/stockDetail/StockDetailPage';
 import PortfolioPage from '../routes/portfolioDetail/PortfolioPage';
 import PortfolioEdit from '../routes/portfolioDetail/PortfolioEdit';
-import QuizTestPage from "../routes/quiz/QuizTestPage";
-import QuizMainPage from "../routes/quiz/QuizMainPage";
-import StockPage from "../routes/stock/StockPage";
-import CommunityPage from "../routes/stockDetail/CommunityPage";
-import MyPage from "../routes/user/MyPage";
+import QuizTestPage from '../routes/quiz/QuizTestPage';
+import QuizMainPage from '../routes/quiz/QuizMainPage';
+import StockPage from '../routes/stock/StockPage';
+import CommunityPage from '../routes/stockDetail/CommunityPage';
+import MyPage from '../routes/user/MyPage';
+import { Provider } from 'react-redux';
+import stockDetailStore from '../store/stockDetailStore';
 
 export const mainRouter = [
   {

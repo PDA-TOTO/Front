@@ -26,7 +26,7 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
         <Flex
           className={classes.vote_left}
           align="center"
-          style={{ width: `${leftPercent * 40}%`, paddingLeft: "10px" }}
+          style={{ width: `${leftPercent * 50}vw`, paddingLeft: "10px" }}
         >
           <Image
             src={ThumbsUp}
@@ -43,7 +43,7 @@ export default function VoteBar({ leftAmount, rightAmount }: Props) {
         <div className={classes.vote_vs}>vs</div>
         <Flex
           className={classes.vote_right}
-          style={{ width: `${rightPercent * 40}%`, paddingRight: "10px" }}
+          style={{ width: `${rightPercent * 50}vw`, paddingRight: "10px" }}
           align="center"
           justify="flex-end"
         >

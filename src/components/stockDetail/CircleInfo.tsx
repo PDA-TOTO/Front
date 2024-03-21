@@ -24,7 +24,7 @@ const CircleInfo: React.FC<CircleInfoProps> = ({ title, info, width }: CircleInf
                     {info}
                 </Text>
             </Container>
-            <Text size="sm">{title}</Text>
+            <Text size="sm" fw="bolder">{title}</Text>
         </Stack>
     );
 };
