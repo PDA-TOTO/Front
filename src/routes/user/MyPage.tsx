@@ -116,7 +116,7 @@ export default function MyPage() {
                         </Flex>
                     </Flex>
                 </Flex>
-                <hr style={{ height: '1px', width: '100%', background: 'var(--mantine-color-gray-2)', border: 0 }} />
+                <hr style={{height: "1px", width:"100%",background:"var(--mantine-color-gray-2)",  border:0}}/>
             </Flex>
         );
     });
@@ -186,76 +186,53 @@ export default function MyPage() {
                                 <Progress color="blue.5" bg="white.5" value={70} animated size={'12px'} />
                             </Flex>
                         </Flex>
-                        <Flex bg="block.5" justify="center" className={classes.info} p="40px" h="350px" gap="100px">
-                            <Flex direction="column" gap="30px" align={'center'}>
-                                <Flex direction={'column'} justify={'center'} align={'center'} w="100%">
-                                    <Image src={money} w="100px" />
-                                    <Text size="22px" fw="600">
-                                        계좌
-                                    </Text>
-                                </Flex>
-                                <Flex direction={'column'} gap="10px">
-                                    <Flex gap="10px">
-                                        <Text size="22px" fw="600" w="100px">
-                                            계좌 번호
-                                        </Text>
-                                        <Text size="22px" fw="600">
-                                            |
-                                        </Text>
-                                        <Text size="22px" fw="600">
-                                            110-686-365529
-                                        </Text>
-                                    </Flex>
-                                    <Flex gap="10px">
-                                        <Text size="22px" fw="600" w="100px">
-                                            총자산
-                                        </Text>
-                                        <Text size="22px" fw="600">
-                                            |
-                                        </Text>
-                                        <Text size="22px" fw="600">
-                                            {' '}
-                                            ₩ 10,000,000
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                            <Flex w="50%" direction={'column'}>
-                                <Flex direction={'column'} justify={'center'} align={'center'} w="100%">
-                                    <Image src={portfolio} w="100px" />
-                                    <Text size="22px" fw="600">
-                                        포트폴리오
-                                    </Text>
-                                </Flex>
-                                <ScrollArea pt="20px" h="150px">
-                                    <Grid m="10px">{lists}</Grid>
-                                </ScrollArea>
-                            </Flex>
-                        </Flex>
+                        <Progress color="blue.5" bg="white.5"  value={70} animated size={"12px"} />
                     </Flex>
-                ) : (
-                    <Flex direction="column" mih="75vh" pl="40px" pr="40px" gap="40px">
-                        <Text size="24px" fw="600">
-                            거래 내역
-                        </Text>
-                        <Flex
-                            direction={'column'}
-                            bg="block.5"
-                            align="center"
-                            className={classes.info}
-                            px="40px"
-                            py="20px"
-                            h="60vh"
-                        >
-                            {content}
+                </Flex>
+                <Flex bg="block.5" justify="center"className={classes.info} p="40px" h="350px" gap="100px">
+                    <Flex direction="column" gap="30px" align={"center"}>
+                        <Flex direction={"column"} justify={"center"} align={"center"} w="100%">
+                            <Image src={money} w="100px" />
+                            <Text size="22px" fw="600" >계좌</Text>
                         </Flex>
-                        <Flex gap="50px" w="100%" justify="center">
-                            <Button color="primary.5"> {'<'} </Button>
-                            <Button color="primary.5"> {'>'} </Button>
-                        </Flex>
+                        <Flex direction={"column"} gap="10px">
+                            <Flex gap="10px">
+                                <Text size="22px" fw="600" w="100px">계좌 번호</Text>
+                                <Text size="22px" fw="600"  >|</Text>
+                                <Text size="22px" fw="600"  >110-686-365529</Text>
+                            </Flex>
+                            <Flex gap="10px">
+                                <Text size="22px" fw="600" w="100px">총자산</Text>
+                                <Text size="22px" fw="600"  >|</Text>
+                                <Text size="22px" fw="600"  > ₩ 10,000,000</Text>
+                            </Flex>  
+                        </Flex>  
                     </Flex>
-                )}
+                    <Flex w="50%" direction={"column"}>
+                        <Flex direction={"column"} justify={"center"} align={"center"} w="100%">
+                            <Image src={portfolio} w="100px" />
+                            <Text size="22px" fw="600" >포트폴리오</Text>
+                        </Flex>
+                        <ScrollArea pt="20px" h="150px">
+                            <Grid m="10px">
+                                {lists}
+                            </Grid>
+                        </ScrollArea>
+                    </Flex>
+                </Flex>
+            </Flex>:
+            <Flex  direction="column"  mih="75vh"  pl="40px" pr="40px" gap="40px">
+                <Text size="24px" fw="600">거래 내역</Text>
+                <Flex direction={"column"} bg="block.5" align="center"className={classes.info} px="40px" py="20px" h="60vh" >
+                        {content}
+                </Flex>
+                <Flex gap="50px" w="100%" justify="center">
+                        <Button color="primary.5" > {"<"} </Button>
+                        <Button  color="primary.5" > {">"} </Button>
+                </Flex>
             </Flex>
-        </>
+        }
+        </Flex>
+    </>
     );
 }
