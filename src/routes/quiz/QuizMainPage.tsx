@@ -20,14 +20,14 @@ export default function QuizMainPage() {
       <Flex direction="column" justify="center" align="center" pt="40px" >
         <Flex direction="column" w="400px" gap="15px" mb="20px">
           <Flex align="center" gap="10px">
-            <Text size="18px">{index+1}.</Text>
+            <Text size="18px" fw="600">{index+1}.</Text>
             {value.answer === location.state.choiceList[index]+1 ?
-              <Badge color="blue.3" c="primary.5" size="lg">정답</Badge>
+              <Badge color="blue.3" c="primary.5" size="lg" fw="600">정답</Badge>
               :
-              <Badge color="red.3" c="primary.5" size="lg">오답</Badge>
+              <Badge color="red.3" c="primary.5" size="lg" fw="600">오답</Badge>
             }
           </Flex>
-          <Text size="18px" lh="20px">{value.question}</Text>
+          <Text size="18px" lh="20px" fw="600">{value.question}</Text>
         </Flex>
         <Flex direction="column" gap="10px">
             {[value.answer1,value.answer2,value.answer3,value.answer4].map((v,idx)=>{
@@ -39,7 +39,10 @@ export default function QuizMainPage() {
                           <div className={classes.answerBorder}></div>
                           <div className={classes.answerText}>{idx+1}</div>
                       </div>
-                      <Text>{v}</Text>
+                      {idx+1 === value.answer ?
+                      <Text fw="600" c="primary.5">{v}</Text>
+                      :<Text fw="600" c="gray.4">{v}</Text>
+                      }
                     </Flex>
                 )
                 }else{
@@ -50,7 +53,10 @@ export default function QuizMainPage() {
                         <div className={classes.optionBorder}></div>
                         <div className={classes.optionText}>{idx+1}</div>
                       </div>
-                      <Text>{v}</Text>
+                      {idx+1 === value.answer ?
+                      <Text fw="600" c="primary.5">{v}</Text>
+                      :<Text fw="600" c="gray.4">{v}</Text>
+                      }
                     </Flex>
                   )
                 }
@@ -85,7 +91,7 @@ export default function QuizMainPage() {
               <ScrollArea w="500px" h="400px">
                 {question}
               </ScrollArea>
-              <Button m="xl" w="400px" h="50px" color="primary.5" onClick={()=>{setModal(false)}}>확인</Button>
+              <Button m="xl" w="400px" h="50px" color="primary.5" onClick={()=>{setModal(false)}} size="20px">확인</Button>
             </Flex>
           </Overlay>
         }
@@ -112,7 +118,7 @@ export default function QuizMainPage() {
           퀴즈를 풀어서 경험치를 올려보세요.
         </Text>
         <Image src={test} w="400px"/>
-        <Button m="10px" w="400px" color="primary.5" h="50px" onClick={()=>{navigate('/quiztest')}}>
+        <Button m="10px" w="400px" color="primary.5" h="50px" size="20px" onClick={()=>{navigate('/quiztest')}}>
             퀴즈 풀기
         </Button>
       </Flex>
