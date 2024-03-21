@@ -2,6 +2,8 @@ import { Button, Stack, Text, useCombobox } from '@mantine/core';
 import { useState } from 'react';
 import PortfolioComobobox from './PortfolioCombobox';
 import StockPriceInfobox from './StockPriceInfobox';
+import { useStockDetailSelector } from '../../lib/hooks/stockReduxHooks';
+import AnimatedNumber from '../common/animate/AnimatedNumber';
 
 type StockTradingBodyProps = {
     gap: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -16,7 +18,6 @@ const portfolios = [
     '포폴 3',
     '이상하게 긴 포트폴리오 이름은 어떻게 될까요?????',
 ];
-const price = 134900;
 const balance = 2300000;
 
 const StockTradingBody: React.FC<StockTradingBodyProps> = ({ gap, tradingType }: StockTradingBodyProps) => {
@@ -24,12 +25,35 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({ gap, tradingType }:
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
     const [targetPortfolio, setTargetPortfolio] = useState(portfolios[0]);
+    const stockControl = useStockDetailSelector((state) => state.stockControl);
+
+    const getTotalPrice = (price?: number, quantity: number = 0) => {
+        if (!price) {
+            return 0;
+        }
+
+        if (quantity === 0) {
+            return price;
+        }
+
+        return price * quantity;
+    };
 
     return (
         <Stack gap={gap}>
             <Stack gap={0}>
                 <Text>총금액</Text>
-                <Text size="xxl" fw="bolder">{`${price.toLocaleString()} 원`}</Text>
+                {/* <Text size="xxl" fw="bolder">{`${getTotalPrice(
+                    stockControl.price,
+                    stockControl.quantity
+                ).toLocaleString()} 원`}</Text> */}
+                <AnimatedNumber
+                    toNumber={getTotalPrice(stockControl.price, stockControl.quantity)}
+                    fw="bolder"
+                    size="xxl"
+                    suffix="원"
+                    includeComma
+                />
                 <Text size="xs" c="gray.5">{`잔고: ${balance.toLocaleString()} 원`}</Text>
             </Stack>
             <PortfolioComobobox
