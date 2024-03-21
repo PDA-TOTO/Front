@@ -83,7 +83,7 @@ export default function MyPage() {
                         </Flex>
                     </Flex>
                 </Flex>
-                <hr style={{height: "1px", width:"100%",background:"var(--mantine-color-gray-2)",  border:0}}/>
+                <hr style={{height: "2px", width:"100%",background:"var(--mantine-color-gray-1)",  border:0}}/>
             </Flex>
         )
     })
@@ -114,7 +114,7 @@ return (
                         <Progress color="blue.5" bg="white.5"  value={70} animated size={"12px"} />
                     </Flex>
                 </Flex>
-                <Flex bg="block.5" justify="center"className={classes.info} p="40px" h="350px" gap="100px">
+                <Flex bg="block.5" justify="center" align={"center"} className={classes.info} p="40px" h="350px" gap="100px">
                     <Flex direction="column" gap="30px" align={"center"}>
                         <Flex direction={"column"} justify={"center"} align={"center"} w="100%">
                             <Image src={money} w="100px" />
@@ -138,7 +138,7 @@ return (
                             <Image src={portfolio} w="100px" />
                             <Text size="22px" fw="600" >포트폴리오</Text>
                         </Flex>
-                        <ScrollArea pt="20px" h="150px">
+                        <ScrollArea mt="30px" h="70px">
                             <Grid m="10px">
                                 {lists}
                             </Grid>

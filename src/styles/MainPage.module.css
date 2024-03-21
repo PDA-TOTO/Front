@@ -71,3 +71,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.background{
+    box-shadow: 2px 3px 10px 2px var(--mantine-color-gray-2);
+    border-radius: 12px;
+}
+
+.stockinfo_btn{
+    border-radius: 12px;
+}
+
