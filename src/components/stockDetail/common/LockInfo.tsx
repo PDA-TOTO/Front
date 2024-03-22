@@ -3,6 +3,7 @@ import classes from "../../../styles/stock/common/LockInfo.module.css";
 import { Flex, Image } from "@mantine/core";
 import lock from "../../../assets/img/stock/lock/lock.svg";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
 type Props = {
   tabName: string;
@@ -11,6 +12,8 @@ type Props = {
 
 export default function LockInfo({ tabName, imgLink }: Props) {
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log("parapm:", id);
   return (
     <Flex
       direction={"column"}
@@ -47,10 +50,16 @@ export default function LockInfo({ tabName, imgLink }: Props) {
           <div>아래의 활동을 통해서 투자 지식을 늘리고 해금할 수 있어요!</div>
         </Flex>
         <Flex direction={"row"}>
-          <button className={`${classes.lock_btn1} ${classes.lock_btn}`}>
+          <button
+            className={`${classes.lock_btn1} ${classes.lock_btn}`}
+            onClick={() => navigate(`/stocks/${id}/community`)}
+          >
             커뮤니티
           </button>
-          <button className={`${classes.lock_btn2} ${classes.lock_btn}`}>
+          <button
+            className={`${classes.lock_btn2} ${classes.lock_btn}`}
+            onClick={() => navigate("/quiz", { state: { solve: false } })}
+          >
             퀴즈
           </button>
         </Flex>
