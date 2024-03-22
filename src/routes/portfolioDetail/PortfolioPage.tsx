@@ -14,9 +14,15 @@ const data01 = [
 ];
 
 const port = {
-    "items" : ["삼성전자","SK하이닉스","셀트리온"],
-    "weight" : [0.5, 0.25, 0.25]
+    "items" : [
+        {"stockId" : "005930", "name":"삼성전자", "weight" : 0.5},
+        {"stockId" : "005930", "name":"SK하이닉스", "weight" : 0.3},
+        {"stockId" : "005930", "name":"셀트리온", "weight" : 0.2}
+    ],
 
+    // "items" : ["삼성전자","SK하이닉스","셀트리온"],
+    // "weight" : [0.5, 0.25, 0.25],
+    "portId" : "1234"
 }
 const portNames = ["포트1","포트폴리오2","프로포폴3"]
 const ScatterChartComponent: React.FC = () => {
@@ -46,9 +52,7 @@ function portSelectClicked(){
 }
 
 function Demo() {
-
     const elements =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
-    
     const rows = (
       <Table.Tr>
         {Object.keys(elements).map((key) => (
@@ -73,7 +77,6 @@ function Demo() {
       </Table>
     );
 }
-
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
@@ -148,7 +151,6 @@ const PortfolioPage: React.FC = () => {
                         { name: 'Tablets', color: 'teal.6' },
                     ]}
                 />              
-
                 <h3>
                     기간별 수익률
                     {Demo()}

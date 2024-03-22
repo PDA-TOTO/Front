@@ -9,3 +9,7 @@ export const userInstance = axios.create({
 export const stockInstance = axios.create({
     baseURL: BASE_URL + '/stocks',
 });
+
+export const portfolioInstance = axios.create({
+    baseURL : BASE_URL + '/portfolios',
+})
