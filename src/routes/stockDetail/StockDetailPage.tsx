@@ -48,7 +48,7 @@ const StockDetailPage: React.FC = () => {
                 />
             </Group>
             <Grid justify="space-between" px={0} columns={32}>
-                <Grid.Col span={22} style={{ height: '130vh' }}>
+                <Grid.Col span={22}>
                     <Stack>
                         <StockChart />
                         <StockNav />
