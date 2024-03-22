@@ -2,20 +2,15 @@ import React from "react";
 import classes from "../../../styles/stock/common/LockInfo.module.css";
 import { Flex, Image } from "@mantine/core";
 import lock from "../../../assets/img/stock/lock/lock.svg";
+import { useNavigate } from "react-router";
 
 type Props = {
   tabName: string;
-  btnName1: string;
-  btnName2: string;
   imgLink: string;
 };
 
-export default function LockInfo({
-  tabName,
-  btnName1,
-  btnName2,
-  imgLink,
-}: Props) {
+export default function LockInfo({ tabName, imgLink }: Props) {
+  const navigate = useNavigate();
   return (
     <Flex
       direction={"column"}
@@ -53,10 +48,10 @@ export default function LockInfo({
         </Flex>
         <Flex direction={"row"}>
           <button className={`${classes.lock_btn1} ${classes.lock_btn}`}>
-            {btnName1}
+            커뮤니티
           </button>
           <button className={`${classes.lock_btn2} ${classes.lock_btn}`}>
-            {btnName2}
+            퀴즈
           </button>
         </Flex>
       </Flex>
