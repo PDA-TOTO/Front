@@ -51,12 +51,7 @@ const StockNav: React.FC = () => {
       <Tabs.Panel value="info">fadfafd</Tabs.Panel>
       <Tabs.Panel value="news">{id && <StockNews id={id} />}</Tabs.Panel>
       <Tabs.Panel value="research">
-        <LockInfo
-          tabName={"리서치"}
-          btnName1="커뮤니티"
-          btnName2="퀴즈"
-          imgLink={LockInformation}
-        />
+        <LockInfo tabName={"리서치"} imgLink={LockResearch} />
       </Tabs.Panel>
     </Tabs>
   );
