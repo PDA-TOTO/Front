@@ -1,0 +1,46 @@
+.news_box {
+  padding: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* 호버 효과를 부드럽게 만들기 위한 transition 추가 */
+}
+
+.news_box:hover {
+  background-color: var(
+    --mantine-color-block-5
+  ); /* 호버되었을 때 배경색 변경 */
+}
+
+.news_title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--mantine-color-primary-5);
+}
+
+.news_content {
+  padding: 12px 12px 12px 0px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mantine-color-primary-5);
+}
+
+.news_name {
+  font-size: 12px;
+  padding-right: 5px;
+  border-right: 1px solid;
+  height: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: var(--mantine-color-gray-5);
+}
+
+.news_time {
+  color: var(--mantine-color-gray-5);
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  padding-left: 5px;
+}
+
+.news_img {
+  border-radius: 5px;
+}
