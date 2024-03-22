@@ -6,6 +6,7 @@ import CircleInfo from '../components/stockDetail/CircleInfo';
 import VoteBar from '../components/stockDetail/VoteBar';
 import ThumbsUpColor from "../assets/img/stock/community/ThumbsUpColor.svg"
 import ThumbsDownColor from "../assets/img/stock/community/ThumbsDownColor.svg";
+import lock from "../assets/img/stock/lock/lock.svg";
 
 export default function MainPage() {
   const [modal, setModal] = useState(false);
@@ -87,9 +88,11 @@ export default function MainPage() {
         </Text>
         <div className={classes.firstPageColor}></div>
       </Flex>
+
+
       <Flex mih="100vh" align={"center"} direction="column">
         <Text size= "36px" fw="600"  p="80px">주린이부터 프로까지</Text>
-        <Flex direction="column"  gap="120px">
+        <Flex direction="column"  >
           <Flex align={"center"} justify={"center"} gap="100px">
             <Stack className={classes.background} gap={10} p="20px">
                   <Text fw="bolder" size="20px">주식현황</Text>
@@ -111,36 +114,134 @@ export default function MainPage() {
                       </Grid.Col>
                   </Grid>
               </Stack>
-              <Text fw="bolder" size="20px">간단한 화면으로 어려운 주식을 쉽게</Text>
+              <Text fw="bolder" size="24px">간단한 화면으로 어려운 주식을 쉽게</Text>
           </Flex>
-          <Flex direction={"column"} justify={"center"} align={"center"}>
-              <Flex direction={"column"} py={"40px"} w="100%" justify={"center"} align={"center"}>
-                <Text size="20px" fw="bolder" lh="40px">커뮤니티를 통한 투표와 토론</Text>
-              </Flex>
-              <Flex className={classes.background} direction={"column"} justify={"center"} align={"center"} mb={"150px"} p="20px">
-                <Text fw={"bolder"} size="28px" my="50px">TOTO 다시 오를까?</Text>
-                <VoteBar leftAmount={120} rightAmount={190} />
-                <hr style={{margin: "30px" ,height:"1px" ,border:"0px", background:"var(--mantine-color-gray-2)", width: "100%"}}/>
-                <Flex direction={"column"} gap={20} w="100%" px="100px" py="10px">
-                  {commetDummy.map((value) => {
-                    return (
-                      <Flex key={value.id} gap="10px">
-                        {value.vote ? (
-                            <Image src={ThumbsUpColor} height={"40px"}/>
-                        ) : (
-                            <Image src={ThumbsDownColor} height={"40px"}/>
-                        )}
-                        <Text lh="40px" size="20px" fw={"bolder"}>{value.text}</Text>
-                      </Flex>
-                    );
-                  })}
+          <Flex className={classes.page} justify={"center"} align={"center"} direction={"column"} gap="100px">
+            <Flex
+                direction={"column"}
+                justify="center"
+                align="center"
+                h="300px"
+                w= "750px"
+                pos="relative"
+                className={classes.background}
+              >
+              <Flex
+                direction={"column"}
+                justify={"center"}
+                align={"center"}
+              >
+                <Flex
+                  direction={"row"}
+                  justify="center"
+                  align="center"
+                >
+                  <Image src={lock} />
+                  <Text fw="bolder" lh="30px" size="20px">아직 리서치 탭을 이용하실 수 없어요.</Text>
                 </Flex>
-              </Flex>
-
+                <Flex
+                  direction={"column"}
+                  align="center"
+                  p="30px"
+                >
+                  <Text fw="bolder">
+                    투투는 여러분들이 해당 서비스가 왜 필요한지 느꼈으면 좋겠어요
+                  </Text>
+                  <Text fw="bolder">아래의 활동을 통해서 투자 지식을 늘리고 해금할 수 있어요!</Text>
+                </Flex>
+          <Flex gap="32px">
+            <Text fw="bolder" bg="secondary.5" w="100px" h="50px" lh="50px" ta="center" c="primary.5" className={classes.border}>커뮤니티</Text>
+            <Text fw="bolder"  bg="primary.5" w="100px" h="50px" lh="50px" ta="center" c="white.5" className={classes.border}>퀴즈</Text>
+          </Flex>
+          <Flex pos={"absolute"} direction="column" top="0px" h="300px" w= "750px" p="20px" gap="30px" className={`${classes.blur}  ${classes.border}`} justify="center" align={"center"}>
+            <Text fw="bolder" c="gray.2">
+              주식(株式, 영어: share, stock)이란 기본적으로 주식회사의 자본을 구성하는 단위이며, 
+              사원인 주주가 주식회사에 출자한 일정한 지분 또는 이를 나타내는 증권을 말한다. 
+            </Text>
+            <Text fw="bolder" c="gray.2">
+              주식회사의 지분인 주식과 인적 회사의 지분은 모두 사원의 지위를 의미한다는 점에서는 같으나, 
+              주식은 지분이 균등한 비율적 단위로 세분화되고 1인이 복수의 지분을 갖는다는 점에서
+              유한회사의 지분과 같고, 각 사원이 1개의 지분을 갖고 다만 그 지분의 양이 각 사원의 출자액에 따라 다른 인적회사의 지분의 경우와 다르다. 
+              논리적으로 볼 때 인적회사는 사원이 선행하고 이들의 출자액이 정해지고 그에 따라 지분이 정해지는 순으로 전개되나, 
+              주식회사에서는 자본이 정해지고 특정인이 주식을 인수함으로써 사원이 되는 순서로 전개된다.
+            </Text>
+          </Flex>
+        </Flex>
+        </Flex>
+            <Text fw="bolder" size="24px" >등급에 맞는 정보로 주식을 향해 차근차근</Text>
+        </Flex>
+        <Flex direction={"column"} justify={"center"} align={"center"}>
+            <Flex direction={"column"} py={"40px"} w="100%" justify={"center"} align={"center"}>
+              <Text size="24px" fw="bolder" lh="40px">커뮤니티를 통한 투표와 토론</Text>
             </Flex>
-        </Flex>
-        </Flex>
+            <Flex className={classes.background} direction={"column"} justify={"center"} align={"center"} p="20px">
+              <Text fw={"bolder"} size="28px" my="50px">TOTO 다시 오를까?</Text>
+              <VoteBar leftAmount={300} rightAmount={100} />
+              <hr style={{margin: "30px" ,height:"1px" ,border:"0px", background:"var(--mantine-color-gray-2)", width: "100%"}}/>
+              <Flex direction={"column"} gap={20} w="100%" px="100px" py="10px">
+                {commetDummy.map((value) => {
+                  return (
+                    <Flex key={value.id} gap="10px">
+                      {value.vote ? (
+                          <Image src={ThumbsUpColor} height={"40px"}/>
+                      ) : (
+                          <Image src={ThumbsDownColor} height={"40px"}/>
+                      )}
+                      <Text lh="40px" size="20px" fw={"bolder"}>{value.text}</Text>
+                    </Flex>
+                  );
+                })}
+              </Flex>
+            </Flex>
 
+          </Flex>
+      </Flex>
+      </Flex>
+      <Flex className={classes.page} justify="center" align="center" gap="200px">
+        <Text fw="bolder" size="24px">주식 프로로 가는 퀴즈 풀이</Text>
+        <Flex className={classes.background} direction="column" bg="block.5" h="400px" w="400px" justify="center" align="center" p="40px" gap="80px">
+          <Flex direction="column" gap="12px">
+            <Text fw="bolder" size="24px" lh="24px">1</Text>
+            <Text fw="bolder" size="18px" lh="24px">상장사 주가에 발행주식 수를 곱하면 구할 수 있는 값으로, 전체 주식의 가치를 시장가격으로 평가한 금액인 이것은? </Text>
+          </Flex> 
+            <Grid w="100%">
+              <Grid.Col span={6}>
+                <Flex gap="10px">
+                  <div className={classes.option}>
+                        <div className={classes.answerBorder}></div>
+                        <div className={classes.answerText}>1</div>
+                  </div>
+                  <Text fw="bolder" lh="20px">시가총액</Text>
+                </Flex>
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Flex gap="10px">
+                  <div className={classes.option}>
+                        <div className={classes.optionBorder}></div>
+                        <div className={classes.optionText}>2</div>
+                  </div>
+                  <Text fw="bolder" lh="20px">액면가</Text>
+                </Flex>
+              </Grid.Col>                    <Grid.Col span={6}>
+                <Flex gap="10px">
+                  <div className={classes.option}>
+                        <div className={classes.optionBorder}></div>
+                        <div className={classes.optionText}>3</div>
+                  </div>
+                  <Text fw="bolder" lh="20px">PBR</Text>
+                </Flex>
+              </Grid.Col>                    <Grid.Col span={6}>
+                <Flex gap="10px">
+                  <div className={classes.option}>
+                        <div className={classes.optionBorder}></div>
+                        <div className={classes.optionText}>4</div>
+                  </div>
+                  <Text fw="bolder" lh="20px">PER</Text>
+                </Flex>
+              </Grid.Col>
+            </Grid>
+        </Flex>
+      </Flex>
       <Flex direction="column" h="400px" w="100%" bg={"primary.5"} justify={"center"} align={"center"} gap="60px">
           <Text color="white.5" fw="bolder" size="32px"><span style={{fontFamily:"Itim", letterSpacing:"-0.2em", fontWeight:"normal", fontSize:"40px"}}>TOTO</span> 와 함께 오늘의 투자를 시작하세요.</Text>
           <Flex gap="32px">

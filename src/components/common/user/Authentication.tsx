@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   Flex,
+  Alert
 } from '@mantine/core';
 import classes from '../../../styles/user/Authentication.module.css'
 import { useNavigate } from 'react-router-dom';
@@ -53,16 +54,22 @@ export function AuthenticationForm({type}:props) {
             });
 
           }).catch((err:AxiosError<{success:boolean,message:string}>)=>{
-            alert(err.response?.data.message)
+            <Alert  variant="light" color="blue" title="Alert title">
+              {err.response?.data.message}
+            </Alert>
           });
 
         }else{
           dispatch(userLogin({email,password})).then(()=>{
             navigate('/');
+          }).catch((error)=>{
+            console.log(error)
           })
         }
       }else{
-        alert("비밀번호가 일치하지 않습니다.")
+        <Alert  variant="light" color="blue" title="Alert title">
+          비밀번호가 일치하지 않습니다.
+        </Alert>
       }
 
 

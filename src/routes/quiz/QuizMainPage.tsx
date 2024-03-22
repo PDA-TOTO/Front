@@ -17,7 +17,7 @@ export default function QuizMainPage() {
     
     const question = location.state.solve && quizs.map((value,index)=>{
       return(
-      <Flex direction="column" justify="center" align="center" pt="40px" >
+      <Flex key={index} direction="column" justify="center" align="center" pt="40px" >
         <Flex direction="column" w="400px" gap="15px" mb="20px">
           <Flex align="center" gap="10px">
             <Text size="18px" fw="600" >{index+1}.</Text>
