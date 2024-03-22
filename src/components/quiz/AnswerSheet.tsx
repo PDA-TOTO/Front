@@ -16,7 +16,7 @@ export default function AnswerSheet({ isSolved, setIsSolved, choiceList, setChoi
 
     const quiz = quizs.map((value,idx) => {
         return (
-            <Option no={idx} setIsSolved={setIsSolved} isSolved={isSolved} choiceList={choiceList} setChoiceList={setChoiceList} setNumber={setNumber}/>
+            <Option key={idx} no={idx} setIsSolved={setIsSolved} isSolved={isSolved} choiceList={choiceList} setChoiceList={setChoiceList} setNumber={setNumber}/>
         )
     })
 
