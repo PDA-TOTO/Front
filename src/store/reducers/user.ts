@@ -1,17 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { logIn, logOut } from "../../lib/apis/user";
 
+
+export type VisibleUser = {
+  id: number;
+  email: string;
+  exp: number;
+  createdAt: Date;
+};
+
 const initialState = {
   user: {
+    id: 0,
     email: "",
-
-  },
+    exp: 0,
+    createdAt: new Date(),
+  } as VisibleUser,
   isUser: false,
 };
 
 type Result= {
   success: boolean,
-  message: string
+  message: string,
+  result: VisibleUser
 }
 
 export const userLogin = createAsyncThunk(
@@ -42,12 +53,16 @@ const userSlice = createSlice({
         alert(action.payload.message)
         throw Error
       }else{
+        state.user = action.payload.result
         state.isUser = true;
       }
 
     });
     builder.addCase(userLogout.fulfilled,(state)=>{
+      state.user.id =  0;
       state.user.email = "";
+      state.user.exp = 0,
+      state.user.createdAt = new Date(),
       state.isUser = false;
     });
   }
