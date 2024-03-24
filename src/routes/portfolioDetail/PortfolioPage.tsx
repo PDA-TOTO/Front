@@ -3,6 +3,7 @@ import { Grid,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 const data01 = [
@@ -52,7 +53,7 @@ function portSelectClicked(){
 }
 
 function Demo() {
-    const elements =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
+    const elements :{ [key : string] : number} =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
     const rows = (
       <Table.Tr>
         {Object.keys(elements).map((key) => (
@@ -78,25 +79,25 @@ function Demo() {
     );
 }
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: 'Chart.js Bar Chart - Stacked',
-      },
-    },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
-  };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+// const options = {
+//     plugins: {
+//       title: {
+//         display: true,
+//         text: 'Chart.js Bar Chart - Stacked',
+//       },
+//     },
+//     responsive: true,
+//     scales: {
+//       x: {
+//         stacked: true,
+//       },
+//       y: {
+//         stacked: true,
+//       },
+//     },
+//   };
 
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
@@ -122,10 +123,10 @@ const PortfolioPage: React.FC = () => {
                     <select style={{marginLeft:"10px"}}>
                         {portNames.map((elem,idx)=>{return <option value={idx}>{elem}</option>})}
                     </select>
-                    <button style={{marginLeft:"10px"}} onClick={(e)=>portSelectClicked()}>
+                    <button style={{marginLeft:"10px"}} onClick={()=>portSelectClicked()}>
                         보기
                     </button>
-                    <button style={{marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("create")}}>
+                    <button style={{marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("create")}}>
                         포트폴리오 만들기
                     </button>
                 </div>
@@ -134,7 +135,7 @@ const PortfolioPage: React.FC = () => {
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
                     <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
                     <Switch style={{marginLeft:"10px"}}/>
-                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("edit",{ state : port})}}>
+                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("edit",{ state : port})}}>
                         편집
                     </button>
                 </div>

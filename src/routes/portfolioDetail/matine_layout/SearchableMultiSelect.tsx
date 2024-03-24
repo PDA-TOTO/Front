@@ -1,10 +1,9 @@
 import { useState,useEffect } from 'react';
-import { CheckIcon, Combobox, Group, Pill, PillsInput, useCombobox } from '@mantine/core';
-import { Button, Grid,Switch,Table } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { MultiSelect } from '@mantine/core';
 import { getAllStockNames } from '../../../lib/apis/stocks';
 
-let groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
+// let groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
 
 // export function SearchableMultiSelect({onClicked, existStocks}) {
 //   const combobox = useCombobox({
@@ -86,10 +85,10 @@ let groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots',
 //   );
 // }
 
-export function SearchableMultiSelect({onClicked, existStocks}) {
+export function SearchableMultiSelect({ onClicked, existStocks }: { onClicked: (selectedItems: string[]) => void, existStocks: string[] }){
   
     const [value, setValue] = useState<string[]>([]); //
-    const [names, setNames] = useState([]); //모든 종목들 이름 가져오기
+    const [names, setNames] = useState<string[]>([]); //모든 종목들 이름 가져오기
 
     useEffect(() => {
         async function api() {
@@ -97,7 +96,7 @@ export function SearchableMultiSelect({onClicked, existStocks}) {
         }
         api().then((stocks) => {
             //종목이름들 가져와 보리기~
-            const temp = stocks.data?.map((elem)=>{ return elem.name });
+            const temp = stocks.data?.map((elem : {name : string})=>{ return elem.name });
             //가져온 이름 세팅 가보자 가보자 => MultiSelect에 data값으로 넣어준다
             setNames(temp) 
         }).then(async () => {
@@ -108,7 +107,7 @@ export function SearchableMultiSelect({onClicked, existStocks}) {
     <>
         <MultiSelect style={{width:"100%"}} data={names} value={value}  onChange={setValue} searchable/> 
         {/* 버튼 누르면 종목 이름만 넘어감 => 부모에서 처리 해줘야함(종목이름이랑 코드 매핑)*/}
-        <Button onClick={(e)=>{onClicked(value)}}>선택</Button>
+        <Button onClick={()=>{onClicked(value)}}>선택</Button>
     </>);
 
 }
