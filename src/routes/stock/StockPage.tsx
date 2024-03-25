@@ -1,33 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
+import { stockMajors } from "../../lib/apis/stock";
 
-// type Props = {};
-
+export interface stockMajor {
+  itemCode: string;
+  reutersCode: string;
+  stockName: string;
+  closePrice: string;
+  compareToPreviousClosePrice: string;
+  compareToPreviousPrice: {
+    code: string;
+    text: string;
+    name: string;
+  };
+  fluctuationsRatio: string;
+  localTradedAt: string;
+  imageCharts: {
+    mini: string;
+  };
+  marketStatus: string;
+  delayTime: number;
+  delayTimeName: string;
+  stockExchangeType: {
+    code: string;
+    zoneId: string;
+    nationType: string;
+    delayTime: number;
+    startTime: string;
+    endTime: string;
+    closePriceSendTime: string;
+    nameKor: string;
+    nameEng: string;
+    nationCode: string;
+    nationName: string;
+    name: string;
+  };
+}
 
 export default function StockPage() {
-
   const [activateId, setActivateId] = useState(0);
-
-  const data = [
-    {
-      title: "코스피",
-      text: "2,668.59",
-    },
-    {
-      title: "코스닥",
-      text: "884.92",
-    },
-    {
-      title: "금리",
-      text: "3.2%",
-    },
-    {
-      title: "환율",
-      text: "1284 원",
-    },
-  ];
+  const [stockMajorList, setStockMajorList] = useState<stockMajor[]>([]);
+  useEffect(() => {
+    stockMajors().then((response) => {
+      setStockMajorList(response.data);
+    });
+  }, []);
 
   const buttonGroup = [
     {
@@ -48,14 +67,25 @@ export default function StockPage() {
     <div className={classes.page}>
       <div className={classes.gap_top} />
       <Flex dir="row" justify="space-between" gap="sm">
-        {data.map((item, idx: number) => {
+        {stockMajorList?.map((item, idx: number) => {
           return (
             <div
               key={idx}
               className={idx % 2 === 0 ? classes.card_v1 : classes.card_v2}
             >
-              <div className={classes.card_title}>{item.title}</div>
-              <div className={classes.card_text}>{item.text}</div>
+              <div className={classes.card_title}>{item.stockName}</div>
+              <div className={classes.card_text}>
+                {item.closePrice}
+                {Number(item.fluctuationsRatio) > 0 ? (
+                  <div className={classes.card_percent_plus}>
+                    +{item.fluctuationsRatio}%
+                  </div>
+                ) : (
+                  <div className={classes.card_percent_minus}>
+                    {item.fluctuationsRatio}%
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}
