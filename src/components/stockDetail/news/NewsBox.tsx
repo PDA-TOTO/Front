@@ -15,6 +15,7 @@ export default function NewsBox({
   officeName,
   title,
   titleFull,
+  photoType,
 }: newsData) {
   const navigate = useNavigate();
   const formatDate = (inputDate: string) => {
@@ -50,7 +51,9 @@ export default function NewsBox({
         </Flex>
       </Flex>
       <div className={classes.news_size}>
-        <Image className={classes.news_img} src={imageOriginLink} />
+        {photoType === 1 && (
+          <Image className={classes.news_img} src={imageOriginLink} />
+        )}
       </div>
     </Flex>
   );

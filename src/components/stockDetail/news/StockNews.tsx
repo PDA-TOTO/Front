@@ -14,6 +14,7 @@ export interface newsData {
   officeName: string;
   title: string;
   titleFull: string;
+  photoType: number;
 }
 
 export interface newsGroup {
@@ -26,6 +27,7 @@ export default function StockNews({ id }: Props) {
   useEffect(() => {
     stockNews(id).then((response) => {
       setNewsList(response.data);
+      console.log(response.data);
     });
   }, []);
   return (
@@ -43,6 +45,7 @@ export default function StockNews({ id }: Props) {
               officeName={news.items[0].officeName}
               officeId={news.items[0].officeId}
               titleFull={news.items[0].titleFull}
+              photoType={news.items[0].photoType}
             />
           </div>
         );
