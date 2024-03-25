@@ -43,7 +43,9 @@ export default function NewsBox({
         justify="space-between"
         className={classes.news_left}
       >
-        <div className={classes.news_title}>{title}</div>
+        <div className={classes.news_title}>
+          {title.replaceAll("&quot;", '"')}
+        </div>
         <div className={classes.news_content}>{body}</div>
         <Flex direction={"row"}>
           <div className={classes.news_name}>{officeName}</div>
