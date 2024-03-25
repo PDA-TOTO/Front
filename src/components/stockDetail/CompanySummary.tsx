@@ -16,7 +16,7 @@ const CompanySummary: React.FC = () => {
         <Stack mt="xl" gap="xl" mb={60}>
             <Group>
                 {hashtags.map((h) => (
-                    <Text>{`#${h}`}</Text>
+                    <Text key={h}>{`#${h}`}</Text>
                 ))}
             </Group>
             <Stack gap={0}>
