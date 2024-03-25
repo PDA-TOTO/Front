@@ -46,7 +46,7 @@ const StockNav: React.FC = () => {
                     </Tabs.Tab>
                 ))}
             </Tabs.List>
-            <Tabs.Panel value="summary">fadfafd</Tabs.Panel>
+            <Tabs.Panel value="summary">{id && <CompanySummary />}</Tabs.Panel>
             <Tabs.Panel value="community">{id && <StockCommunity id={id} />}</Tabs.Panel>
             <Tabs.Panel value="info">{id && <StockFinance id={id} />}</Tabs.Panel>
             <Tabs.Panel value="news">{id && <StockNews id={id} />}</Tabs.Panel>
