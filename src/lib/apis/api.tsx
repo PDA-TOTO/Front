@@ -10,3 +10,7 @@ export const userInstance = axios.create({
 export const shinhanStockInstance = axios.create({
   baseURL: "/openapi",
 });
+
+export const stockInstance = axios.create({
+  baseURL: BASE_URL + "/stocks",
+});
