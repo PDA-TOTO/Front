@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
 
 // type Props = {};
 
-
 export default function StockPage() {
-
   const [activateId, setActivateId] = useState(0);
 
   const data = [
