@@ -33,6 +33,14 @@ const StockDetailPage: React.FC = () => {
         stockDispatch(setPrice(135500));
     }, []);
 
+    useEffect(() => {
+        stockDispatch(setPrice(135500));
+    }, []);
+
+    useEffect(() => {
+        stockDispatch(setPrice(135500));
+    }, []);
+
     return (
         <Stack px={72} pt={34}>
             <Group align="start" justify="space-between">
@@ -45,8 +53,8 @@ const StockDetailPage: React.FC = () => {
                     onChange={() => proModeToggle()}
                 />
             </Group>
-            <Grid grow justify="space-between" px={0} columns={32}>
-                <Grid.Col span={22} style={{ height: '130vh' }}>
+            <Grid justify="space-between" px={0} columns={32}>
+                <Grid.Col span={22}>
                     <Stack>
                         <StockChart />
                         <StockNav />
