@@ -1,8 +1,8 @@
 import { stockInstance } from "./api";
 
 export async function getAllStockNames(){
-    // const stocks = stockInstance.get("/");
-    // console.log(stocks)
+    const stocks = stockInstance.get("/");
+    console.log(stocks)
     // stocks.map((elem)=>{
 
     // })

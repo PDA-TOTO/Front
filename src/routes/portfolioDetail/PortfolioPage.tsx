@@ -20,7 +20,7 @@ const port = {
         {"stockId" : "005930", "name":"SK하이닉스", "weight" : 0.3},
         {"stockId" : "005930", "name":"셀트리온", "weight" : 0.2}
     ],
-
+    "portName" : "포트1",
     // "items" : ["삼성전자","SK하이닉스","셀트리온"],
     // "weight" : [0.5, 0.25, 0.25],
     "portId" : "1234"
