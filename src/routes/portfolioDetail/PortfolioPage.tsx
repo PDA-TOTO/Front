@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
@@ -6,6 +6,8 @@ import { BarChart } from '@mantine/charts';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import { getPortNames } from '../../lib/apis/portfolios';
+
 const data01 = [
     { x: 1, y: 2 },
     { x: 2, y: 5 },
@@ -79,26 +81,6 @@ function Demo() {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-// const options = {
-//     plugins: {
-//       title: {
-//         display: true,
-//         text: 'Chart.js Bar Chart - Stacked',
-//       },
-//     },
-//     responsive: true,
-//     scales: {
-//       x: {
-//         stacked: true,
-//       },
-//       y: {
-//         stacked: true,
-//       },
-//     },
-//   };
-
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
 ]
@@ -106,6 +88,11 @@ const data = [
 
 const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
+    const portNames = useState<string>([])
+    useEffect(()=>{
+        const names = getPortNames();
+
+    },[])
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>

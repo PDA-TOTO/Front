@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Button } from '@mantine/core';
 import { MultiSelect } from '@mantine/core';
 import { getAllStockNames } from '../../../lib/apis/stocks';
@@ -16,7 +16,7 @@ function codeAndName(values){
     });
 }
 
-export function SearchableMultiSelect({ onClicked, existStocks }: { onClicked: (selectedItems: string[]) => void, existStocks: string[] }){
+export default function SearchableMultiSelect({ onClicked, existStocks }: { onClicked: (selectedItems: string[]) => void, existStocks: string[] }){
   
     const [value, setValue] = useState<string[]>([]); //
     const [names, setNames] = useState<string[]>([]); //모든 종목들 이름 가져오기
@@ -59,5 +59,6 @@ export function SearchableMultiSelect({ onClicked, existStocks }: { onClicked: (
                     });
             }}>선택</Button>
     </>);
-
 }
+// export const Search
+// export const MemoSearchableMultiSelect = React.memo(SearchableMultiSelect);

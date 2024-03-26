@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Grid,Input,Switch,Table } from '@mantine/core';
+import { Button, Grid,Input,MultiSelect,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 import { useNavigate,useLocation } from 'react-router-dom';
-import { SearchableMultiSelect } from './matine_layout/SearchableMultiSelect';
-import { useState, useEffect } from 'react';
+import SearchableMultiSelect, { MemoSearchableMultiSelect } from './matine_layout/SearchableMultiSelect';
+import { useState, useEffect, useMemo } from 'react';
 import { createPortfolio } from '../../lib/apis/portfolios';
 import { useSelector } from 'react-redux';
 import { NumberInput } from '@mantine/core';
@@ -19,14 +19,18 @@ const PortfolioEdit : React.FC = () => {
     
     const [port, setPort] = useState([]) //[ {"name" : "이름", "code" : "123456"}, ... ]
     const [portId , setPortId ] = useState(0) //없으면 일단 0으로 만들고 서버에 넘겨주면 알아서 id부여해준다
-    const [portName , setPortName] = useState<string>("")
-    const [stockCode, setStockCode ] = useState([])
 
+    const [portName , setPortName] = useState<string>("")
+    // let portName : string = ""
+    
+    const [stockCode, setStockCode ] = useState([])
     const [selectedStock, setSelectedStock] = useState<string[]>([])
+
     const [selectedStockWeight , setselectedStockWeight] = useState<number[]>([])
     
     // console.log("user", user)
 
+    
     function table(stocks : string[], inputType : boolean ){ //stocks => selectedStock임
         const rows = stocks?.map((elem,idx) =>(
             <>
@@ -106,6 +110,11 @@ const PortfolioEdit : React.FC = () => {
         setStockCode(items)
     }
 
+    const onChange = (e)=>{
+        return e.target.value
+    }
+
+    const tempportName = useMemo(()=>{onChange},[portName])
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
@@ -117,7 +126,7 @@ const PortfolioEdit : React.FC = () => {
                 
                 {isEditType === false ? 
                 <div style={{display:"flex", marginBottom:"10px", alignItems:"center"}}>
-                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input value={portName} onChange={(e)=>setPortName(e.target.value)}></Input>
+                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input value={tempportName} onChange={onChange}></Input>
                 </div> :
                 <div style={{display:"flex", marginBottom:"10px", alignItems:"center"}}>
                     <h4 style={{margin:"10px"}}>승준이포트폴리오</h4>
@@ -126,9 +135,9 @@ const PortfolioEdit : React.FC = () => {
 
                 <div style={{ width:"100%",display:"flex"}}>
                     {/* 일단 전에 받아왔던 주식정보들 넘겨준다 existStock은 포폴에 담긴 주식들 보내주는거고 Click함수는 부모에서 처리 */}
-                    <SearchableMultiSelect 
+                    <SearchableMultiSelect
                         onClicked={onClicked} 
-                        existStocks={selectedStock.length > 0 ?  selectedStock : []}>    
+                        existStocks={selectedStock.length > 0 ?  selectedStock : []}>
                     </SearchableMultiSelect>
                 </div>
                 {table(selectedStock,inputType)}

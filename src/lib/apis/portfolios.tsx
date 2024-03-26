@@ -25,3 +25,7 @@ export async function createPortfolio({user, portId, portName ,stockCode , selec
     console.log(req)
     return await portfolioInstance.post("/create",{data : req})
 }
+
+export async function getPortNames( userId : number){
+    return await portfolioInstance.get("/portNames",{data : userId})
+}
