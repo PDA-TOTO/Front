@@ -44,3 +44,13 @@
 .news_img {
   border-radius: 5px;
 }
+
+.news_size {
+  width: 200px;
+  height: 100px;
+  width: 20%;
+}
+
+.news_left {
+  width: 80%;
+}

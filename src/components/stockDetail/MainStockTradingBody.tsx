@@ -19,8 +19,8 @@ const MainStockTradingBody: React.FC<MainStockTradingBodyProps> = ({
         <Stack gap={gap}>
             <CircleInfo title="신뢰도" info="A+" width={width / 2 - 14} />
             <Group justify="space-between">
-                <CircleInfo title="신뢰도" info="A+" width={width / 2 - 14} />
-                <CircleInfo title="신뢰도" info="A+" width={width / 2 - 14} />
+                <CircleInfo title="보유 수량" info="3" width={width / 2 - 14} />
+                <CircleInfo title="평단" info="100,000₩" width={width / 2 - 14} />
             </Group>
             <Grid ref={ref}>
                 <Grid.Col span={6}>

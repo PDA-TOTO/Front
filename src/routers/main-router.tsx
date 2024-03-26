@@ -13,6 +13,7 @@ import CommunityPage from '../routes/stockDetail/CommunityPage';
 import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
+import MainRenewPage from '../routes/MainRenewPage';
 import TendencyTestPage from '../routes/quiz/TendencyTestPage';
 
 export const mainRouter = [
@@ -22,7 +23,7 @@ export const mainRouter = [
         children: [
             {
                 path: '',
-                element: <MainPage />,
+                element: <MainRenewPage />,
                 index: true,
             },
             {

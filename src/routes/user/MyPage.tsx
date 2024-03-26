@@ -27,8 +27,8 @@ export default function MyPage() {
                     <Text size="18px" fw="600">포트폴리오 {value}</Text>
                 </Flex>
             </Grid.Col>
-        )
-    })
+        );
+    });
 
     const content = [{
         portfolioid: "포트폴리오1",
@@ -77,30 +77,54 @@ export default function MyPage() {
         return(
             <Flex key={index} direction="column" w="100%" gap="10px">
                 <Flex justify="space-between" p="10px" align="flex-end" w="100%">
-                    <Text size="24px" fw="600" lh="20px">{value.portfolioid}</Text>
-                    <Text size="24px" fw="600">{value.stockname}</Text>
-                    <Text size="16px" fw="600" c="gray.5">{value.created_at}</Text>
-                    {value.transctype === 0?
-                        <Text size="24px" fw="600" c="red.5" px="30px" ta="end" >매수</Text>
-                    :
-                        <Text size="24px" fw="600" c="blue.5" px="30px" ta="end" >매도</Text>
-                    }
+                    <Text size="24px" fw="600" lh="20px">
+                        {value.portfolioid}
+                    </Text>
+                    <Text size="24px" fw="600">
+                        {value.stockname}
+                    </Text>
+                    <Text size="16px" fw="600" c="gray.5">
+                        {value.created_at}
+                    </Text>
+                    {value.transctype === 0 ? (
+                        <Text size="24px" fw="600" c="red.5" px="30px" ta="end">
+                            매수
+                        </Text>
+                    ) : (
+                        <Text size="24px" fw="600" c="blue.5" px="30px" ta="end">
+                            매도
+                        </Text>
+                    )}
                     <Flex gap="20px" align="flex-end">
-                        <Text size="24px" fw="600" >금액가</Text>
-                        <Text size="24px" fw="600">|</Text>
+                        <Text size="24px" fw="600">
+                            금액가
+                        </Text>
+                        <Text size="24px" fw="600">
+                            |
+                        </Text>
                         <Flex gap="10px">
-                            <Text size="24px" fw="600" c="gray.5">{value.price}</Text>
-                            <Text size="24px" fw="600" c="gray.5">*</Text>
-                            <Text  size="24px" fw="600" c="gray.5">{value.count}</Text>
-                            <Text size="24px" fw="600" c="gray.5">=</Text>
-                            <Text  size="24px" fw="600">{value.price*value.count}</Text>
+                            <Text size="24px" fw="600" c="gray.5">
+                                {value.price}
+                            </Text>
+                            <Text size="24px" fw="600" c="gray.5">
+                                *
+                            </Text>
+                            <Text size="24px" fw="600" c="gray.5">
+                                {value.count}
+                            </Text>
+                            <Text size="24px" fw="600" c="gray.5">
+                                =
+                            </Text>
+                            <Text size="24px" fw="600">
+                                {value.price * value.count}
+                            </Text>
                         </Flex>
                     </Flex>
                 </Flex>
-                <hr style={{height: "2px", width:"100%",background:"var(--mantine-color-gray-1)",  border:0}}/>
+                <hr style={{ height: '2px', width: '100%', background: 'var(--mantine-color-gray-1)', border: 0 }} />
             </Flex>
-        )
-    })
+        );
+    });
 
 return (
     <>
