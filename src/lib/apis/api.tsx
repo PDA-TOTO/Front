@@ -13,6 +13,5 @@ export const shinhanStockInstance = axios.create({
 });
 
 export const stockInstance = axios.create({
-  baseURL: BASE_URL + "/stocks",
+    baseURL: BASE_URL + '/stocks',
 });
-
