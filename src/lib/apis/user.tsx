@@ -9,5 +9,13 @@ export async function logIn(email:string,password:string){
 }
 
 export async function logOut(){
-    return await userInstance.post("/log-out");
+    return await userInstance.post("/log-out",{});
+}
+
+export async function tendency(point:number){
+    return await userInstance.post("/tendency", {point})
+}
+
+export async function getMyInfo(){
+    return await userInstance.get("/my-info")
 }

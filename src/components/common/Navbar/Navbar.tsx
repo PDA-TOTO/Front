@@ -25,6 +25,9 @@ export default function Navbar() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isUser = useAppSelector((state) => state.user.isUser);
+ 
+
+
 
   const links = data.map((item) => {
     if ("links" in item)
@@ -75,6 +78,7 @@ export default function Navbar() {
     if(location.pathname === "/quiz"){
       setActive('퀴즈');
     }
+
   },[])
 
   return (

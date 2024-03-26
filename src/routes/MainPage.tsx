@@ -7,9 +7,11 @@ import VoteBar from '../components/stockDetail/VoteBar';
 import ThumbsUpColor from "../assets/img/stock/community/ThumbsUpColor.svg"
 import ThumbsDownColor from "../assets/img/stock/community/ThumbsDownColor.svg";
 import lock from "../assets/img/stock/lock/lock.svg";
+import { useAppSelector } from '../lib/hooks/reduxHooks';
 
 export default function MainPage() {
   const [modal, setModal] = useState(false);
+  const user = useAppSelector(state=>state.user.user.account)
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ export default function MainPage() {
     if(location.state){
       setModal(location.state.signup)
     }
+
   },[])
 
 
@@ -62,12 +65,12 @@ export default function MainPage() {
                   <Flex gap="10px">
                     <Text size='18px' fw="600">계좌</Text>
                     <Text size='18px' fw="600">|</Text>
-                    <Text size='18px' fw="600">110-222-3311333</Text>
+                    <Text size='18px' fw="600">{user.account}</Text>
                   </Flex> 
                   <Flex gap="10px">
                     <Text size='18px' fw="600">자산</Text>
                     <Text size='18px' fw="600">|</Text>
-                    <Text size='18px' fw="600">₩ 10,000,000</Text>
+                    <Text size='18px' fw="600">₩ {user.amount.toLocaleString()} 원</Text>
                   </Flex>
               </Flex>
               <Button w="300px" color="primary.5" onClick={()=>{setModal(false); navigate('/quiztest')}}>
