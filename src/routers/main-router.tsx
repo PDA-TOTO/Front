@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import MainPage from '../routes/MainPage';
 import MainLayout from '../routes/MainLayout';
 import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
@@ -15,6 +14,10 @@ import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
 import MainRenewPage from '../routes/MainRenewPage';
 import TendencyTestPage from '../routes/quiz/TendencyTestPage';
+
+
+
+
 
 export const mainRouter = [
     {
