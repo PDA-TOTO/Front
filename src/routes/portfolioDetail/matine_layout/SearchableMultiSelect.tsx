@@ -6,13 +6,13 @@ import { getAllStockNames } from '../../../lib/apis/stocks';
 // let groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
 import { AxiosResponse } from 'axios';
 
-function codeAndName(values){
+function codeAndName(values : string[]){
     return getAllStockNames().then((response: AxiosResponse<any, any>) => {
         // 응답에서 데이터 추출
         const codes = response.data;
         // 추출한 데이터 필터링
         // console.log(codes)
-        return codes.filter((elem) => values.includes(elem.name));
+        return codes.filter((elem : {"code" : string, "name" : string}) => values.includes(elem.name));
     });
 }
 

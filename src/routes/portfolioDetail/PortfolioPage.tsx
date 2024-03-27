@@ -7,6 +7,7 @@ import { BarChart } from '@mantine/charts';
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { getPortNames } from '../../lib/apis/portfolios';
+import cookie from 'react-cookies';
 
 const data01 = [
     { x: 1, y: 2 },
@@ -27,7 +28,9 @@ const port = {
     // "weight" : [0.5, 0.25, 0.25],
     "portId" : "1234"
 }
-const portNames = ["포트1","포트폴리오2","프로포폴3"]
+
+// const portNames = ["포트1","포트폴리오2","프로포폴3"]
+
 const ScatterChartComponent: React.FC = () => {
     return (
         <ScatterChart
@@ -89,10 +92,12 @@ const data = [
 const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
     const portNames = useState<string>([])
+    
     useEffect(()=>{
-        const names = getPortNames();
-
+        const userCookie = cookie.load('userid')
+        const names = getPortNames(userCookie);
     },[])
+
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
