@@ -44,3 +44,22 @@ export async function stockNews(stockId: string) {
 export async function stockMajors() {
     return await stockInstance.get('/majors');
 }
+
+export type StockInfoResponse = {
+    chartLength: number;
+    chart: any[];
+    code: string;
+    name: string;
+    bundleUnit: string;
+};
+
+export const getStockInfo = async (id: string, prev: string, bundle: string) => {
+    const { data } = await stockInstance.get(`/${id}`, {
+        params: {
+            prev: prev,
+            bundle: bundle,
+        },
+    });
+
+    return data;
+};
