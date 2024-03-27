@@ -13,7 +13,8 @@ import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
 import MainRenewPage from '../routes/MainRenewPage';
-import NotFoundPage from '../routes/NotFoundPage';
+import NotFoundPage from '../routes/NotFoundPage';=
+import TendencyTestPage from '../routes/quiz/TendencyTestPage';
 
 export const mainRouter = [
     {
@@ -101,6 +102,11 @@ export const mainRouter = [
         element: <QuizTestPage />,
         index: true,
     },
+    {
+        path: '/tendencytest',
+        element: <TendencyTestPage />,
+        index: true,
+    }
 ];
 
 const router = createBrowserRouter(mainRouter);

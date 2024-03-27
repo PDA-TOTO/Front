@@ -12,6 +12,7 @@ export default function QuizTestPage() {
     const [choiceList, setChoiceList] = useState(quizs.map(()=>-1))
     const [number, setNumber] = useState(1);
     const [isSolved, setIsSolved] = useState(quizs.map(()=>false));
+    const optionCnt = quizs.map(()=>4)
     const answers = quizs.map((value)=> value.answer)
 
 
@@ -96,7 +97,7 @@ export default function QuizTestPage() {
                 </Button>}
             </Flex>
         </div>
-        <AnswerSheet setNumber={setNumber} isSolved={isSolved} setIsSolved={setIsSolved} setChoiceList={setChoiceList} choiceList={choiceList}/>
+        <AnswerSheet optionCnt={optionCnt} count={quizs.length} setNumber={setNumber} isSolved={isSolved} setIsSolved={setIsSolved} setChoiceList={setChoiceList} choiceList={choiceList}/>
     </Flex>
   )
 }
