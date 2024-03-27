@@ -7,8 +7,12 @@ import ThumbsDown from "../../assets/img/stock/community/ThumbsDown.svg";
 type Props = { leftAmount: number; rightAmount: number };
 
 export default function VoteBar({ leftAmount, rightAmount }: Props) {
-  const leftPercent = leftAmount / (leftAmount + rightAmount);
-  const rightPercent = rightAmount / (leftAmount + rightAmount);
+  const totalAmount = leftAmount + rightAmount;
+  let leftPercent = totalAmount === 0 ? 0.5 : leftAmount / totalAmount;
+  let rightPercent = totalAmount === 0 ? 0.5 : rightAmount / totalAmount;
+
+  if (leftPercent === 1) rightPercent = 0;
+  else if (rightPercent === 1) leftPercent = 0;
 
   function truncateToTwoDecimalPlaces(number: number) {
     const value = Math.floor(number * 1000) / 10;

@@ -13,7 +13,6 @@ type Props = {
 export default function LockInfo({ tabName, imgLink }: Props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("parapm:", id);
   return (
     <Flex
       direction={"column"}
