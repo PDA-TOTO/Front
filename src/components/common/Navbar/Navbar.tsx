@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import classes from '../../../styles/Navbar.module.css';
 import { LinksGroup } from './NavbarLinksGroup';
 import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
@@ -23,35 +23,45 @@ export default function Navbar() {
   const [active, setActive] = useState('Billing');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isUser = useAppSelector(state => state.user.isUser)
+  const isUser = useAppSelector((state) => state.user.isUser);
+ 
 
-    const links = data.map((item) => {
-        if ('links' in item) return <LinksGroup {...item} active={active} setActive={setActive} key={item.label} />;
-        else {
-            return (
-                <a
-                    className={classes.link}
-                    data-active={item.label === active || undefined}
-                    href={item.link}
-                    key={item.label}
-           
-                        onClick={(event) => {
-                            event.preventDefault();
-                
-                            if (item.label === "퀴즈") {
-                              navigate(item.link, { state: { solve: false } });
-                            } else {
-                              navigate(item.link);
-                            }
-                        setActive(item.label);
-                    }}
-                >
-                
-                    <span>{item.label}</span>
-                </a>
-            );
-        }
-    });
+
+
+  const links = data.map((item) => {
+    if ("links" in item)
+      return (
+        <LinksGroup
+          {...item}
+          active={active}
+          setActive={setActive}
+          key={item.label}
+        />
+      );
+    else {
+      return (
+        <a
+          className={classes.link}
+          data-active={item.label === active || undefined}
+          href={item.link}
+          key={item.label}
+          onClick={(event) => {
+            event.preventDefault();
+
+            if (item.label === "퀴즈") {
+              navigate(item.link, { state: { solve: false } });
+            } else {
+              navigate(item.link);
+            }
+
+            setActive(item.label);
+          }}
+        >
+          <span>{item.label}</span>
+        </a>
+      );
+    }
+  });
 
   function onClickLogout(event:React.MouseEvent<HTMLAnchorElement, MouseEvent>){
     event.preventDefault(); 
@@ -60,6 +70,13 @@ export default function Navbar() {
       navigate('/');
     })
   }
+
+  useEffect(()=>{
+    if(location.pathname === "/quiz"){
+      setActive('퀴즈');
+    }
+
+  },[])
 
   return (
     <nav className={classes.navbar}>

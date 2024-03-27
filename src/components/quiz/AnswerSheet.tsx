@@ -1,9 +1,10 @@
-import { useAppSelector } from '../../lib/hooks/reduxHooks'
 import { Flex, Stack, Text} from '@mantine/core'
 import classes from '../../styles/quiz/AnswerSheet.module.css'
 import Option from './Option'
 
 type Props = {
+    optionCnt: number[],
+    count: number,
     isSolved: boolean[],
     setIsSolved: React.Dispatch<React.SetStateAction<boolean[]>>,
     choiceList: Array<number>,
@@ -11,12 +12,13 @@ type Props = {
     setNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function AnswerSheet({ isSolved, setIsSolved, choiceList, setChoiceList, setNumber}: Props) {
-    const quizs = useAppSelector(state => state.quiz)
+export default function AnswerSheet({ optionCnt, count, isSolved, setIsSolved, choiceList, setChoiceList, setNumber}: Props) {
+    const cnt = [];
+    for(let i = 0 ; i < count; i++) cnt.push(1);
 
-    const quiz = quizs.map((value,idx) => {
+    const quiz = cnt.map((value,idx) => {
         return (
-            <Option key={idx} no={idx} setIsSolved={setIsSolved} isSolved={isSolved} choiceList={choiceList} setChoiceList={setChoiceList} setNumber={setNumber}/>
+            <Option cnt={optionCnt[idx]} key={idx} no={idx} setIsSolved={setIsSolved} isSolved={isSolved} choiceList={choiceList} setChoiceList={setChoiceList} setNumber={setNumber}/>
         )
     })
 
@@ -24,10 +26,10 @@ export default function AnswerSheet({ isSolved, setIsSolved, choiceList, setChoi
   return (
     <Flex className={classes.page} justify="space-between" align="center" direction={"column"} bg={"secondary.5"}>
         <Flex direction={"column"}>
-            <Text ta='center' className={classes.title} size='22px' fw="600" p='xl' w='200px' h='90px' c='primary.5'>
+            <Text ta='center' className={classes.title} size='22px' fw="600" p='xl' w='100%' h='90px' c='primary.5'>
                 답안지
             </Text>
-            <Stack p="20px 0px" >
+            <Stack py="20px" >
                 {quiz}
             </Stack>
         </Flex>

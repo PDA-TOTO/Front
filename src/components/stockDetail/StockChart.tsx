@@ -1,78 +1,6 @@
 import { AreaChart, getFilteredChartTooltipPayload } from '@mantine/charts';
 import { Paper, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
-
-const mockStockData = [
-    {
-        date: '2023/12/11',
-        price: 130000,
-    },
-    {
-        date: '2023/12/12',
-        price: 128000,
-    },
-    {
-        date: '2023/12/13',
-        price: 132000,
-    },
-    {
-        date: '2023/12/14',
-        price: 142000,
-    },
-    {
-        date: '2023/12/15',
-        price: 132000,
-    },
-    {
-        date: '2023/12/16',
-        price: 112000,
-    },
-    {
-        date: '2023/12/17',
-        price: 132020,
-    },
-    {
-        date: '2023/12/18',
-        price: 132000,
-    },
-    {
-        date: '2023/12/19',
-        price: 132000,
-    },
-    {
-        date: '2023/12/20',
-        price: 132000,
-    },
-    {
-        date: '2023/12/21',
-        price: 132000,
-    },
-    {
-        date: '2023/12/22',
-        price: 172000,
-    },
-    {
-        date: '2023/12/23',
-        price: 132000,
-    },
-    {
-        date: '2023/12/24',
-        price: 132000,
-    },
-    {
-        date: '2023/12/27',
-        price: 232000,
-    },
-    {
-        date: '2023/12/28',
-        price: 132800,
-    },
-    {
-        date: '2023/12/29',
-        price: 142900,
-    },
-];
-
 interface ChartTooltipProps {
     label: string;
     payload: Record<string, any>[] | undefined;
@@ -95,35 +23,34 @@ function ChartTooltip({ label, payload }: ChartTooltipProps) {
     );
 }
 
-const StockChart: React.FC = () => {
-    const [stockData, setStockData] = useState(mockStockData);
+type StockChartProps = {
+    stockData: any[];
+};
+
+const StockChart: React.FC<StockChartProps> = ({ stockData }: StockChartProps) => {
+    const [chart, setChart] = useState<any[]>([]);
 
     useEffect(() => {
-        const id = setInterval(() => {
-            stockData[stockData.length - 1].price += 10000;
+        const tmp = stockData.map((stock) => {
+            return {
+                date: stock.price_date.toString().substr(0, 10).replaceAll('-', '/'),
+                price: stock.price_ePr,
+            };
+        });
 
-            let tmp = stockData.slice();
-            setStockData(tmp);
-        }, 1000);
-
-        if (stockData[stockData.length - 1].price > 300000) {
-            clearInterval(id);
-        }
-
-        return () => clearInterval(id);
+        setChart(tmp.reverse());
     }, [stockData]);
 
-    // 차트 이외의 버튼 들이 존재할 수 있음
     return (
         <Stack>
             <AreaChart
                 h={320}
                 curveType="linear"
-                data={stockData}
+                data={chart}
                 tooltipAnimationDuration={700}
                 dataKey="date"
                 unit="₩"
-                yAxisProps={{ width: 80 }}
+                yAxisProps={{ width: 80, domain: ([_, dataMax], allowDataOverflow) => [0, dataMax * 1.5] }}
                 xAxisProps={{
                     padding: { right: 30 },
                 }}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Grid,Input,MultiSelect,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 import { useNavigate,useLocation } from 'react-router-dom';
-import {SearchableMultiSelect} from './matine_layout/SearchableMultiSelect';
+import SearchableMultiSelect from './matine_layout/SearchableMultiSelect';
 import { useState, useEffect, useMemo } from 'react';
 import { createPortfolio } from '../../lib/apis/portfolios';
 import { useSelector } from 'react-redux';
@@ -105,7 +105,7 @@ const PortfolioEdit : React.FC = () => {
     //테스트용 클릭
     const onClicked = async ( items )=>{ //종목이름만 가져옴
         // console.log("dd",items)
-        const stocks = items.map((elem : )=>{return elem.name})
+        const stocks = items.map((elem )=>{return elem.name})
         setSelectedStock(stocks)
         setStockCode(items)
     }
