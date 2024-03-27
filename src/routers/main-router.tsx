@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import MainPage from '../routes/MainPage';
 import MainLayout from '../routes/MainLayout';
 import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
@@ -14,6 +13,8 @@ import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
 import MainRenewPage from '../routes/MainRenewPage';
+import NotFoundPage from '../routes/NotFoundPage';=
+import TendencyTestPage from '../routes/quiz/TendencyTestPage';
 
 export const mainRouter = [
     {
@@ -89,6 +90,11 @@ export const mainRouter = [
                     },
                 ],
             },
+            {
+                path: '/*',
+                element: <NotFoundPage />,
+                index: true,
+            },
         ],
     },
     {
@@ -96,6 +102,11 @@ export const mainRouter = [
         element: <QuizTestPage />,
         index: true,
     },
+    {
+        path: '/tendencytest',
+        element: <TendencyTestPage />,
+        index: true,
+    }
 ];
 
 const router = createBrowserRouter(mainRouter);

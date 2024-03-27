@@ -1,20 +1,13 @@
 .page{
-    min-width: var(--answer-sheet-w);
-    height: 100%;
-    position: fixed;
-    right: 0px;
-    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    width: calc( 100vw - var(--answer-sheet-w))
 }
 
-.title{
-    border-bottom: solid 1px var(--mantine-color-gray-3);
+.border{
+    border-radius: 10px;
 }
 
-.number{
-    border: solid 2px var(--mantine-color-gray-5);
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 .option{
     position: relative;
@@ -62,7 +55,6 @@
     color: var(--mantine-color-white-5)
 }
 
-.question{
-    border: 1px solid var(--mantine-color-gray-5);
-    border-radius: 10px;
+.exit{
+    z-index: 2;
 }

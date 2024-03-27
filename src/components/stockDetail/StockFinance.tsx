@@ -34,17 +34,17 @@ const MainStack: React.FC<MainStackProps> = ({ height, children }: MainStackProp
     return <div style={{ display: 'flex', flexDirection: 'column', height: height, gap: 18 }}>{children}</div>;
 };
 
-const getDefaultGroup = (sec1: string, sec2: string) => {
+const getDefaultGroup = (sec1: string, sec2: string, desc: string) => {
     return (
         <Group justify="space-between">
-            <HoverCard>
+            <HoverCard width={400}>
                 <HoverCard.Target>
                     <Text size="lg" fw="bolder">
                         {sec1}
                     </Text>
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                    <Text size="md">per은 뭐 어쩌구 저쩌구</Text>
+                    <Text size="md">{desc}</Text>
                 </HoverCard.Dropdown>
             </HoverCard>
             <Text size="lg" fw="bolder">
@@ -54,17 +54,17 @@ const getDefaultGroup = (sec1: string, sec2: string) => {
     );
 };
 
-const getBigGroup = (sec1: string, sec2: string) => {
+const getBigGroup = (sec1: string, sec2: string, description: string) => {
     return (
         <Group align="flex-start" justify="space-between">
-            <HoverCard>
+            <HoverCard width={400}>
                 <HoverCard.Target>
                     <Text size="lg" fw="bolder">
                         {sec1}
                     </Text>
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                    <Text size="md">per은 뭐 어쩌구 저쩌구</Text>
+                    <Text size="md">{description}</Text>
                 </HoverCard.Dropdown>
             </HoverCard>
             <Text size={rem(32)} fw="bolder">
@@ -74,17 +74,17 @@ const getBigGroup = (sec1: string, sec2: string) => {
     );
 };
 
-const getProfitGroup = (sec1: string, price: string) => {
+const getProfitGroup = (sec1: string, price: string, description: string) => {
     return (
         <Stack gap={0}>
-            <HoverCard>
+            <HoverCard width={340}>
                 <HoverCard.Target>
                     <Text size="lg" fw="bolder">
                         {sec1}
                     </Text>
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                    <Text size="md">per은 뭐 어쩌구 저쩌구</Text>
+                    <Text size="md">{description}</Text>
                 </HoverCard.Dropdown>
             </HoverCard>
 
@@ -95,18 +95,23 @@ const getProfitGroup = (sec1: string, price: string) => {
     );
 };
 
-const getPercentageGroup = (sec1: string, price: number | string = 'N/A', percentage: number | string = 'N/A') => {
+const getPercentageGroup = (
+    sec1: string,
+    price: number | string = 'N/A',
+    percentage: number | string = 'N/A',
+    desc: string
+) => {
     return (
         <Stack gap={0}>
             <Group justify="space-between">
-                <HoverCard>
+                <HoverCard width={350}>
                     <HoverCard.Target>
                         <Text size="lg" fw="bolder">
                             {sec1}
                         </Text>
                     </HoverCard.Target>
                     <HoverCard.Dropdown>
-                        <Text size="md">per은 뭐 어쩌구 저쩌구</Text>
+                        <Text size="md">{desc}</Text>
                     </HoverCard.Dropdown>
                 </HoverCard>
                 <Text size="lg" fw="bolder">
@@ -140,14 +145,17 @@ const getPercentageGroup = (sec1: string, price: number | string = 'N/A', percen
 const getBeta = (num?: number) => {
     return (
         <Stack py={50}>
-            <HoverCard>
+            <HoverCard width={340}>
                 <HoverCard.Target>
                     <Text size="lg" fw="bolder">
                         Beta
                     </Text>
                 </HoverCard.Target>
                 <HoverCard.Dropdown>
-                    <Text size="md">per은 뭐 어쩌구 저쩌구</Text>
+                    <Text size="md">
+                        주식의 시장 변동성에 대한 민감도를 측정하는 지표입니다. 베타가 1보다 높으면 시장보다 변동성이
+                        크고, 1보다 낮으면 시장보다 변동성이 작다는 것을 의미합니다.
+                    </Text>
                 </HoverCard.Dropdown>
             </HoverCard>
             {num ? (
@@ -236,36 +244,103 @@ const StockFinance: React.FC<StockFinanceProps> = ({ id }: StockFinanceProps) =>
             <Group grow pb={40}>
                 <MainStack height="600px">
                     <DefaultBox bg="secondary" grow={3}>
-                        {getDefaultGroup('영업 이익률', toStr(finance?.incomeRate, '%'))}
-                        {getDefaultGroup('순이익률', toStr(finance?.netincomeRate, '%'))}
-                        {getDefaultGroup('ROE', toStr(finance?.roeVal, '%'))}
+                        {getDefaultGroup(
+                            '영업 이익률',
+                            toStr(finance?.incomeRate, '%'),
+                            '기업의 핵심 사업에서 얼마나 효율적으로 이익을 창출하는지를 보여주는 지표입니다. 매출액 대비 영업이익의 비율로 계산되며, 수익성 분석에 중요한 역할을 합니다'
+                        )}
+                        {getDefaultGroup(
+                            '순이익률',
+                            toStr(finance?.netincomeRate, '%'),
+                            '기업의 최종적인 수익성을 나타내는 지표입니다. 매출액 대비 순이익의 비율로 계산됩니다'
+                        )}
+                        {getDefaultGroup(
+                            'ROE',
+                            toStr(finance?.roeVal, '%'),
+                            '자기자본이익률이라고도 하며, 기업이 자기자본(주주지분)을 활용하여 얼마나 이익을 냈는지를 나타내는 지표입니다. \nROE = (당기순이익 / 자본총계) x 100'
+                        )}
                     </DefaultBox>
                     <DefaultBox bg="primary" grow={7}>
-                        {getBigGroup('EPS', toStr(finance?.eps))}
-                        {getBigGroup('PER', toStr(finance?.per))}
-                        {getBigGroup('BPS', toStr(finance?.bps))}
-                        {getBigGroup('PBR', toStr(finance?.pbr))}
+                        {getBigGroup(
+                            'EPS',
+                            toStr(finance?.eps),
+                            '주당순이익이라고도 하며, 기업이 1주당 얼마나 이익을 냈는지를 나타내는 지표입니다. 당기순이익을 유통주식수로 나누어 계산됩니다. EPS = (당기순이익 / 유통주식수)'
+                        )}
+                        {getBigGroup(
+                            'PER',
+                            toStr(finance?.per),
+                            '주가수익비율이라고도 하며, 주가가 주당순이익의 몇 배인가를 나타내는 지표입니다. 주가를 주당순이익으로 나누어 계산됩니다. PER = 주가 / 주당순이익(EPS)'
+                        )}
+                        {getBigGroup(
+                            'BPS',
+                            toStr(finance?.bps),
+                            '주당순자산가치라고도 하며, 기업의 자산을 모두 청산했을 때 주주들에게 돌아갈 금액을 나타내는 지표입니다. 총자산에서 총부채를 뺀 순자산을 발행주식수로 나누어 계산됩니다. BPS = (총자산 - 총부채) / 발행주식수'
+                        )}
+                        {getBigGroup(
+                            'PBR',
+                            toStr(finance?.pbr),
+                            '주가순자산비율이라고 하며, 주가가 순자산 대비 얼마나 비싼지를 나타내는 지표입니다. 주가를 주당순자산으로 나누어 계산됩니다. PBR = 주가 / 주당순자산(BPS)'
+                        )}
                     </DefaultBox>
                 </MainStack>
                 <MainStack height="600px">
                     <DefaultBox bg="primary" grow={6}>
-                        {getProfitGroup('시가총액', toMoney(finance?.cap))}
-                        {getPercentageGroup('매출액', finance?.rev, finance?.revGrownthRate)}
-                        {getPercentageGroup('영업이익', finance?.income, finance?.incomeGrownthRate)}
-                        {getPercentageGroup('당기순이익', finance?.netincome, finance?.netincomeGrownthRate)}
+                        {getProfitGroup(
+                            '시가총액',
+                            toMoney(finance?.cap),
+                            '상장기업의 총 발행주식의 가치를 의미합니다. 기업의 규모를 나타내는 지표로 가장 많이 사용됩니다. 시가총액 = 주가 x 발행주식수'
+                        )}
+                        {getPercentageGroup(
+                            '매출액',
+                            finance?.rev,
+                            finance?.revGrownthRate,
+                            '기업이 특정 기간 동안 상품이나 서비스를 판매하여 얻은 금액입니다. 기업의 주요 수익원이며, 기업의 성장성과 수익성을 평가하는 중요한 지표입니다. 매출액 = 판매량 x 판매가격'
+                        )}
+                        {getPercentageGroup(
+                            '영업이익',
+                            finance?.income,
+                            finance?.incomeGrownthRate,
+                            '기업의 주된 영업활동을 통해 발생한 이익을 의미합니다. 매출액에서 매출원가, 판매비, 일반관리비를 차감하여 계산됩니다. 영업이익 = 매출액 - (매출원가 + 판매비 + 일반관리비)'
+                        )}
+                        {getPercentageGroup(
+                            '당기순이익',
+                            finance?.netincome,
+                            finance?.netincomeGrownthRate,
+                            '기업이 일정 기간 동안 (보통 1년) 모든 영업 활동과 비영업 활동을 포함하여 얻은 최종 이익을 의미합니다. 매출에서 모든 비용과 세금을 차감하여 계산됩니다. 당기 순이익 = 영업이익 + 영업외수익 - 영업외비 - 법인세'
+                        )}
                     </DefaultBox>
                     <DefaultBox bg="secondary" grow={4}>
-                        {getDefaultGroup('배당률', toStr(finance?.dividendRate, '%'))}
-                        {getDefaultGroup('배당금', toStr(finance?.dividend, '원'))}
+                        {getDefaultGroup(
+                            '배당률',
+                            toStr(finance?.dividendRate, '%'),
+                            '주식 1주당 배당금액을 주당 시가로 나눈 비율로, 주주들이 투자한 주식에 대해 얼마나 이익을 얻을 수 있는지를 나타내는 지표입니다. \n배당률 = (주당 배당금액 / 주당 시가) x 100'
+                        )}
+                        {getDefaultGroup(
+                            '배당금',
+                            toStr(finance?.dividend, '원'),
+                            '배당금은 기업이 이익의 일부를 주주들에게 나누어 주는 금액입니다.'
+                        )}
                     </DefaultBox>
                 </MainStack>
                 <MainStack height="600px">
                     <DefaultBox bg="secondary" grow={1}>
-                        {getDefaultGroup('부채비율', toStr(finance?.lbltRate, '%'))}
-                        {getDefaultGroup('당좌비율', toStr(finance?.quickRatio, '%'))}
+                        {getDefaultGroup(
+                            '부채비율',
+                            toStr(finance?.lbltRate, '%'),
+                            '기업의 부채 수준을 나타내는 지표입니다. 부채를 자본으로 나눈 비율로 계산되며, 기업의 재무 안정성을 평가하는 데 중요한 역할을 합니다. 부채 비율 = (부채 / 자본) x 100'
+                        )}
+                        {getDefaultGroup(
+                            '당좌비율',
+                            toStr(finance?.quickRatio, '%'),
+                            '당좌비율은 기업의 단기 유동성을 측정하는 지표입니다. 단기 부채를 얼마나 빠르게 상환할 수 있는지를 나타냅니다. 당좌비율 = (당좌자산 / 유동부채) x 100'
+                        )}
                     </DefaultBox>
                     <DefaultBox bg="primary" grow={1}>
-                        {getProfitGroup('Consensus', toStr(finance?.consensus, '원'))}
+                        {getProfitGroup(
+                            'Consensus',
+                            toStr(finance?.consensus, '원'),
+                            '증권사 분석가들의 평균적인 투자 의견을 의미합니다. 일반적으로 목표 주가와 추천 등급으로 나타냅니다.'
+                        )}
                         {getBeta(finance?.beta)}
                     </DefaultBox>
                 </MainStack>

@@ -1,19 +1,32 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { logIn, logOut } from "../../lib/apis/user";
+import { getMyInfo, logIn, logOut} from "../../lib/apis/user";
 
+export type Account = {
+  account : string,
+  amount : number,
+  id : number
+}
 
 export type VisibleUser = {
   id: number;
+  account: Account
   email: string;
-  exp: number;
-  createdAt: Date;
+  tendency: number|null,
+  experience: number;
+  createdAt: Date; 
 };
 
 const initialState = {
   user: {
     id: 0,
+    account:{
+      account: "",
+      amount: 0,
+      id: 1
+    } as Account,
     email: "",
-    exp: 0,
+    experience: 0,
+    tendency: null,
     createdAt: new Date(),
   } as VisibleUser,
   isUser: false,
@@ -28,18 +41,27 @@ type Result= {
 export const userLogin = createAsyncThunk(
   "user/userLogin",
   async (data:{email: string, password: string}):Promise<Result> => {
-      const response = await logIn(data.email,data.password);
-      return response.data;
+    const response = await logIn(data.email,data.password);
+    return response.data;
   }
 )
 
 export const userLogout = createAsyncThunk(
   "user/userLogout",
   async () => {
-      const response = await logOut();
-      return response;
+    const response = await logOut();
+    return response;
   }
 )
+
+export const userGetinfo = createAsyncThunk(
+  "user/getInfo",
+  async ():Promise<Result> => {
+      const response = await getMyInfo();
+      return response.data
+  }
+)
+
 
 
 const userSlice = createSlice({
@@ -61,9 +83,18 @@ const userSlice = createSlice({
     builder.addCase(userLogout.fulfilled,(state)=>{
       state.user.id =  0;
       state.user.email = "";
-      state.user.exp = 0,
+      state.user.experience = 0,
+      state.user.account = {
+        account : "",
+        amount : 0,
+        id: 0
+      }
       state.user.createdAt = new Date(),
       state.isUser = false;
+      state.user.tendency = null;
+    });
+    builder.addCase(userGetinfo.fulfilled,(state, action)=>{
+      state.user = action.payload.result
     });
   }
 });
