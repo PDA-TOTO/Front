@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
       "process.env.BASE_URL": JSON.stringify(env.BASE_URL),
       "process.env.SHINHAN_BASE_URL": JSON.stringify(env.SHINHAN_BASE_URL),
       "process.env.SHINHAN_APP_KEY": JSON.stringify(env.SHINHAN_APP_KEY),
+      "process.env.WEBSOCKET_URL": JSON.stringify(env.WEBSOCKET_URL),
     },
     plugins: [react()],
     server: {

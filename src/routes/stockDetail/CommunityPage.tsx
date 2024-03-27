@@ -205,10 +205,7 @@ export default function CommunityPage({}) {
           </Flex>
           <div className={classes.main_padding} />
           {communityInfo && (
-            <VoteBar
-              leftAmount={communityInfo.yesCount}
-              rightAmount={communityInfo.noCount}
-            />
+            <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
           )}
           <Flex style={{ paddingTop: "20px" }}>
             <Flex
