@@ -13,11 +13,8 @@ import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
 import MainRenewPage from '../routes/MainRenewPage';
+import NotFoundPage from '../routes/NotFoundPage';=
 import TendencyTestPage from '../routes/quiz/TendencyTestPage';
-
-
-
-
 
 export const mainRouter = [
     {
@@ -92,6 +89,11 @@ export const mainRouter = [
                         index: true,
                     },
                 ],
+            },
+            {
+                path: '/*',
+                element: <NotFoundPage />,
+                index: true,
             },
         ],
     },
