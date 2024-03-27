@@ -1,3 +1,22 @@
+<<<<<<< HEAD
+import { createBrowserRouter } from 'react-router-dom';
+import MainLayout from '../routes/MainLayout';
+import LoginPage from '../routes/user/LoginPage';
+import SignupPage from '../routes/user/SignupPage';
+import StockDetailPage from '../routes/stockDetail/StockDetailPage';
+import PortfolioPage from '../routes/portfolioDetail/PortfolioPage';
+import PortfolioEdit from '../routes/portfolioDetail/PortfolioEdit';
+import QuizTestPage from '../routes/quiz/QuizTestPage';
+import QuizMainPage from '../routes/quiz/QuizMainPage';
+import StockPage from '../routes/stock/StockPage';
+import CommunityPage from '../routes/stockDetail/CommunityPage';
+import MyPage from '../routes/user/MyPage';
+import { Provider } from 'react-redux';
+import stockDetailStore from '../store/stockDetailStore';
+import MainRenewPage from '../routes/MainRenewPage';
+import NotFoundPage from '../routes/NotFoundPage';
+import TendencyTestPage from '../routes/quiz/TendencyTestPage';
+=======
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../routes/MainLayout";
 import LoginPage from "../routes/user/LoginPage";
@@ -15,6 +34,7 @@ import stockDetailStore from "../store/stockDetailStore";
 import MainRenewPage from "../routes/MainRenewPage";
 import NotFoundPage from "../routes/NotFoundPage";
 import TendencyTestPage from "../routes/quiz/TendencyTestPage";
+>>>>>>> 449624f3d7a56541f07fffba1c2e51908d37ed30
 
 export const mainRouter = [
   {

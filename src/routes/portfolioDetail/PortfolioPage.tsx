@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import { getPortNames } from '../../lib/apis/portfolios';
+import cookie from 'react-cookies';
+
 const data01 = [
     { x: 1, y: 2 },
     { x: 2, y: 5 },
@@ -14,11 +18,19 @@ const data01 = [
 ];
 
 const port = {
-    "items" : ["삼성전자","SK하이닉스","셀트리온"],
-    "weight" : [0.5, 0.25, 0.25]
-
+    "items" : [
+        {"stockId" : "005930", "name":"삼성전자", "weight" : 0.5},
+        {"stockId" : "005930", "name":"SK하이닉스", "weight" : 0.3},
+        {"stockId" : "005930", "name":"셀트리온", "weight" : 0.2}
+    ],
+    "portName" : "포트1",
+    // "items" : ["삼성전자","SK하이닉스","셀트리온"],
+    // "weight" : [0.5, 0.25, 0.25],
+    "portId" : "1234"
 }
-const portNames = ["포트1","포트폴리오2","프로포폴3"]
+
+// const portNames = ["포트1","포트폴리오2","프로포폴3"]
+
 const ScatterChartComponent: React.FC = () => {
     return (
         <ScatterChart
@@ -46,9 +58,7 @@ function portSelectClicked(){
 }
 
 function Demo() {
-
-    const elements =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
-    
+    const elements :{ [key : string] : number} =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
     const rows = (
       <Table.Tr>
         {Object.keys(elements).map((key) => (
@@ -74,26 +84,6 @@ function Demo() {
     );
 }
 
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: 'Chart.js Bar Chart - Stacked',
-      },
-    },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
-  };
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
 ]
@@ -101,6 +91,13 @@ const data = [
 
 const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
+    const portNames = useState<string>([])
+    
+    useEffect(()=>{
+        const userCookie = cookie.load('userid')
+        const names = getPortNames(userCookie);
+    },[])
+
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
@@ -118,10 +115,10 @@ const PortfolioPage: React.FC = () => {
                     <select style={{marginLeft:"10px"}}>
                         {portNames.map((elem,idx)=>{return <option value={idx}>{elem}</option>})}
                     </select>
-                    <button style={{marginLeft:"10px"}} onClick={(e)=>portSelectClicked()}>
+                    <button style={{marginLeft:"10px"}} onClick={()=>portSelectClicked()}>
                         보기
                     </button>
-                    <button style={{marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("create")}}>
+                    <button style={{marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("create")}}>
                         포트폴리오 만들기
                     </button>
                 </div>
@@ -130,7 +127,7 @@ const PortfolioPage: React.FC = () => {
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
                     <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
                     <Switch style={{marginLeft:"10px"}}/>
-                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={(e)=>{portSelectClicked(); navigate("edit")}}>
+                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("edit",{ state : port})}}>
                         편집
                     </button>
                 </div>
@@ -147,7 +144,6 @@ const PortfolioPage: React.FC = () => {
                         { name: 'Tablets', color: 'teal.6' },
                     ]}
                 />              
-
                 <h3>
                     기간별 수익률
                     {Demo()}

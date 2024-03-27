@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState,useEffect } from 'react';
 import classes from '../../../styles/Navbar.module.css';
 import { LinksGroup } from './NavbarLinksGroup';
 import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/reducers/user';
 
 const data = [
@@ -20,9 +20,8 @@ const data = [
 ];
 
 export default function Navbar() {
-  const [active, setActive] = useState("Billing");
+  const [active, setActive] = useState('Billing');
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useAppDispatch();
   const isUser = useAppSelector((state) => state.user.isUser);
  
@@ -64,14 +63,12 @@ export default function Navbar() {
     }
   });
 
-  function onClickLogout(
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) {
-    event.preventDefault();
-    setActive("");
-    dispatch(userLogout()).then(() => {
-      navigate("/");
-    });
+  function onClickLogout(event:React.MouseEvent<HTMLAnchorElement, MouseEvent>){
+    event.preventDefault(); 
+    setActive(''); 
+    dispatch(userLogout()).then(()=>{
+      navigate('/');
+    })
   }
 
   useEffect(()=>{
@@ -84,65 +81,30 @@ export default function Navbar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <div
-          className={classes.header}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          TOTO
+        <div className={classes.header} onClick={()=>{}}>
+            TOTO
         </div>
         {links}
       </div>
-      {!isUser ? (
+      { !isUser ?
+      <div className={classes.footer}>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/login')}}>
+          <span>로그인</span>
+        </a>
+        <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/signup')}}>
+          <span>회원가입</span>
+        </a>
+      </div>
+        :
         <div className={classes.footer}>
-          <a
-            href="#"
-            className={classes.footerLink}
-            onClick={(event) => {
-              event.preventDefault();
-              setActive("");
-              navigate("/login");
-            }}
-          >
-            <span>로그인</span>
-          </a>
-          <a
-            href="#"
-            className={classes.footerLink}
-            onClick={(event) => {
-              event.preventDefault();
-              setActive("");
-              navigate("/signup");
-            }}
-          >
-            <span>회원가입</span>
-          </a>
-        </div>
-      ) : (
-        <div className={classes.footer}>
-          <a
-            href="#"
-            className={classes.footerLink}
-            onClick={(event) => {
-              event.preventDefault();
-              setActive("");
-              navigate("/my")
-            }}
-          >
+          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive('')}}>
             <span>마이페이지</span>
           </a>
-          <a
-            href="#"
-            className={classes.footerLink}
-            onClick={(event) => {
-              onClickLogout(event);
-            }}
-          >
+          <a href="#" className={classes.footerLink} onClick={(event) => {onClickLogout(event)}}>
             <span>로그아웃</span>
           </a>
         </div>
-      )}
+      }
     </nav>
   );
 }
