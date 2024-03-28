@@ -13,6 +13,12 @@ import CommunityPage from '../routes/stockDetail/CommunityPage';
 import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
+<<<<<<< Updated upstream
+=======
+import MainRenewPage from '../routes/MainRenewPage';
+import NotFoundPage from '../routes/NotFoundPage';
+import TendencyTestPage from '../routes/quiz/TendencyTestPage';
+>>>>>>> Stashed changes
 
 export const mainRouter = [
     {

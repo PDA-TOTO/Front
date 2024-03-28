@@ -6,6 +6,12 @@ import portfolio from "../../assets/img/my/portfolio.png";
 
 export default function MyPage() {
     const [tab,setTab] = useState('마이페이지');
+<<<<<<< Updated upstream
+=======
+    const navigate = useNavigate();
+    const user = useAppSelector(state => state.user);
+    // const tier = ["Bronze","Silver","Gold","Platinum",""];
+>>>>>>> Stashed changes
 
     const lists = [1,2,3,4,5,6,7,8,9,10].map((value)=>{
         return(

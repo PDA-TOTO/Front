@@ -4,6 +4,7 @@ import { LinksGroup } from './NavbarLinksGroup';
 import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/reducers/user';
+import { notifications } from '@mantine/notifications';
 
 const data = [
     { link: '/', label: '메인' },
@@ -68,6 +69,9 @@ export default function Navbar() {
     setActive("");
     dispatch(userLogout()).then(() => {
       navigate("/");
+      notifications.show({
+        message: '로그아웃 완료되었습니다.'
+      })
     });
   }
 
