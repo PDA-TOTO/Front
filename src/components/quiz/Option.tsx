@@ -3,6 +3,7 @@ import classes from '../../styles/quiz/AnswerSheet.module.css'
 
 type Props ={
     no: number,
+    cnt: number,
     isSolved: boolean[],
     setIsSolved: React.Dispatch<React.SetStateAction<boolean[]>>,
     choiceList: Array<number>,
@@ -11,7 +12,8 @@ type Props ={
 
 }
 
-export default function Option({no, isSolved, setIsSolved, choiceList, setChoiceList, setNumber}:Props) {
+export default function Option({no, cnt, isSolved, setIsSolved, choiceList, setChoiceList, setNumber}:Props) {
+    const options = [];
 
     function onClickOption(idx:number){
         setChoiceList(choiceList.map((value,index)=>{
@@ -31,28 +33,30 @@ export default function Option({no, isSolved, setIsSolved, choiceList, setChoice
           }))
     }
 
-    const list = [1,2,3,4].map((value,idx)=>{
+    for(let i = 0 ; i < cnt; i++) options.push(i+1)
+
+    const list = options.map((value,idx)=>{
         
         return(
-            <>        
+            <div key={idx}>        
                 {choiceList[no] === idx?
-                    <div key={idx} className={classes.option} onClick={()=>{onClickOption(idx)}}>
+                    <div className={classes.option} onClick={()=>{onClickOption(idx)}}>
                         <div className={classes.answerBorder}></div>
                         <div className={classes.answerText}>{idx+1}</div>
                     </div>
                     :
-                    <div key={idx} className={classes.option} onClick={()=>{onClickOption(idx)}}>
+                    <div className={classes.option} onClick={()=>{onClickOption(idx)}}>
                         <div className={classes.optionBorder}></div>
                         <div className={classes.optionText}>{idx+1}</div>
                     </div>
                 }
-            </>
+            </div>
         )
     })
 
 
     return(
-        <Flex gap={"24px"} justify={"center"} key={no}>
+        <Flex gap={"24px"}key={no}>
             <Flex w="28px" h="28px" justify="center" align="center" className={classes.number} onClick={()=>{setNumber(no+1)}}>
                 <Text size='18px' ta="center" fw="600" lh="28px"> {no+1}</Text>
             </Flex>

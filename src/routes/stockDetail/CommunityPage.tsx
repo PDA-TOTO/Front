@@ -4,6 +4,7 @@ import classes from "../../styles/stock/Community.module.css";
 import { Flex, Image, Select, Badge } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import headCount from "../../assets/img/stock/community/headCount.svg";
+import { communityBykrxCode } from "../../lib/apis/community";
 import date from "../../assets/img/stock/community/date.svg";
 import VoteBar from "../../components/stockDetail/VoteBar";
 import Comment from "../../components/stockDetail/Comment";
@@ -11,7 +12,15 @@ import ThumbsUp2 from "../../assets/img/stock/community/ThumbsUp2.svg";
 import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
-type Props = {};
+export interface community {
+  id: number;
+  voteTitle: string;
+  yesCount: number;
+  noCount: number;
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+}
 
 const commetDummy = [
   {
@@ -43,9 +52,10 @@ const commetDummy = [
   },
 ];
 
-export default function CommunityPage({}: Props) {
-  const params = useParams();
+export default function CommunityPage({}) {
+  const { id } = useParams();
   const MAX_LENGTH = 100;
+  const [communityInfo, setCommunityInfo] = useState<community>();
   const [value, setValue] = useState<string | null>("");
   const [leftCnt, setLeftCnt] = useState<number>(100);
   const [rightCnt, setRightCnt] = useState<number>(120);
@@ -132,6 +142,16 @@ export default function CommunityPage({}: Props) {
     );
   };
 
+  useEffect(() => {
+    id &&
+      communityBykrxCode(id).then((response) => {
+        setCommunityInfo(response.data[0]);
+        console.log(response.data[0]);
+        setLeftCnt(response.data[0].yesCount);
+        setRightCnt(response.data[0].noCount);
+      });
+  }, []);
+
   return (
     <Flex
       direction={"column"}
@@ -159,7 +179,7 @@ export default function CommunityPage({}: Props) {
           className={classes.vote_header}
         >
           <div className={classes.main_header}>투표</div>
-          <div className={classes.main_title}>삼성전자 다시 오를까?</div>
+          <div className={classes.main_title}>{communityInfo?.voteTitle}</div>
           <Flex
             direction={"row"}
             justify="center"
@@ -171,14 +191,22 @@ export default function CommunityPage({}: Props) {
               w="auto"
               style={{ paddingRight: "5px" }}
             />
-            3,789명 참여 중
+            {communityInfo && (
+              <div>
+                {communityInfo.yesCount + communityInfo.noCount}명 참여 중
+              </div>
+            )}
           </Flex>
           <Flex direction={"row"}>
             <Image src={date} h={20} w="auto" style={{ paddingRight: "5px" }} />
-            <div className={classes.main_date}>2024.03.08 ~ 2024.03.15</div>
+            <div className={classes.main_date}>
+              {communityInfo?.startDate} ~ {communityInfo?.endDate}
+            </div>
           </Flex>
           <div className={classes.main_padding} />
-          <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
+          {communityInfo && (
+            <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
+          )}
           <Flex style={{ paddingTop: "20px" }}>
             <Flex
               className={classes.vote_v1}
@@ -215,7 +243,6 @@ export default function CommunityPage({}: Props) {
             </Flex>
           </Flex>
         </Flex>
-        {/* <hr className={classes.main_hr} /> */}
         <Flex
           justify="space-between"
           align="center"
