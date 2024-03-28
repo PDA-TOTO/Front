@@ -14,12 +14,19 @@ import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
 export interface community {
   id: number;
+  codeId: string;
   voteTitle: string;
-  yesCount: number;
-  noCount: number;
   startDate: string;
   endDate: string;
-  createdAt: string;
+  numOfParticipants: number;
+  numOfLikes: number;
+  numOfUnlikes: number;
+  isVoteType: string;
+}
+export interface communityInfoType {
+  success: boolean;
+  message: string;
+  result: community;
 }
 
 const commetDummy = [
@@ -55,7 +62,7 @@ const commetDummy = [
 export default function CommunityPage({}) {
   const { id } = useParams();
   const MAX_LENGTH = 100;
-  const [communityInfo, setCommunityInfo] = useState<community>();
+  const [communityInfo, setCommunityInfo] = useState<communityInfoType>();
   const [value, setValue] = useState<string | null>("");
   const [leftCnt, setLeftCnt] = useState<number>(100);
   const [rightCnt, setRightCnt] = useState<number>(120);
@@ -145,10 +152,9 @@ export default function CommunityPage({}) {
   useEffect(() => {
     id &&
       communityBykrxCode(id).then((response) => {
-        setCommunityInfo(response.data[0]);
-        console.log(response.data[0]);
-        setLeftCnt(response.data[0].yesCount);
-        setRightCnt(response.data[0].noCount);
+        setCommunityInfo(response.data);
+        setLeftCnt(response.data.result.numOfLikes);
+        setRightCnt(response.data.result.numOfUnlikes);
       });
   }, []);
 
@@ -179,7 +185,9 @@ export default function CommunityPage({}) {
           className={classes.vote_header}
         >
           <div className={classes.main_header}>투표</div>
-          <div className={classes.main_title}>{communityInfo?.voteTitle}</div>
+          <div className={classes.main_title}>
+            {communityInfo?.result.voteTitle}
+          </div>
           <Flex
             direction={"row"}
             justify="center"
@@ -192,15 +200,14 @@ export default function CommunityPage({}) {
               style={{ paddingRight: "5px" }}
             />
             {communityInfo && (
-              <div>
-                {communityInfo.yesCount + communityInfo.noCount}명 참여 중
-              </div>
+              <div>{communityInfo.result.numOfParticipants}명 참여 중</div>
             )}
           </Flex>
           <Flex direction={"row"}>
             <Image src={date} h={20} w="auto" style={{ paddingRight: "5px" }} />
             <div className={classes.main_date}>
-              {communityInfo?.startDate} ~ {communityInfo?.endDate}
+              {communityInfo?.result.startDate} ~{" "}
+              {communityInfo?.result.endDate}
             </div>
           </Flex>
           <div className={classes.main_padding} />
