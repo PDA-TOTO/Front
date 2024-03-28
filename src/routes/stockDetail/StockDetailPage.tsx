@@ -17,6 +17,7 @@ import {
   pushWebsocketPrice,
   resetWebSocketState,
 } from "../../store/reducers/stockWebSocketReducers";
+import { useLocation } from "react-router-dom";
 
 type StockInfo = {
   price: number;
@@ -25,6 +26,7 @@ type StockInfo = {
 
 const StockDetailPage: React.FC = () => {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const [isProMode, proModeToggle] = useToggle([false, true] as const);
   const [stockName, setStockName] = useState<string>("");
   const [chart, setChart] = useState([]);
@@ -37,7 +39,8 @@ const StockDetailPage: React.FC = () => {
   });
 
   const handleWebSocket = useCallback(() => {
-    if (WEBSOCKET_URL) {
+    const url = window.location.href;
+    if (/^[0-9]$/.test(url[url.length - 1]) && WEBSOCKET_URL) {
       const ws = new WebSocket(WEBSOCKET_URL);
       let intervalId: NodeJS.Timeout | null = null; // 타이머 ID 저장 변수
 
@@ -52,12 +55,21 @@ const StockDetailPage: React.FC = () => {
       };
 
       ws.onclose = function () {
+        console.log("-CLOSE-");
         stockDetailDispatch(resetWebSocketState());
       };
 
       ws.onmessage = function (event) {
         const message = JSON.parse(JSON.parse(event.data));
+        const url = window.location.href;
+
         console.log("message:", message);
+        if (/^[0-9]$/.test(url[url.length - 1]) === false) {
+          ws.close();
+          if (intervalId) {
+            clearInterval(intervalId);
+          }
+        }
         const webSocketData = {
           krxCode: id || "",
           aspr_acpt_hour: message.output1.aspr_acpt_hour,
