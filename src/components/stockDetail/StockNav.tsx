@@ -4,9 +4,9 @@ import StockNews from './news/StockNews';
 import { useParams } from 'react-router-dom';
 import LockInfo from './common/LockInfo';
 import LockResearch from '../../assets/img/stock/lock/LockResearch.png';
-import LockNews from '../../assets/img/stock/lock/LockNews.png';
-import LockCommunity from '../../assets/img/stock/lock/LockCommunity.png';
-import LockInformation from '../../assets/img/stock/lock/LockInformation.png';
+// import LockNews from '../../assets/img/stock/lock/LockNews.png';
+// import LockCommunity from '../../assets/img/stock/lock/LockCommunity.png';
+// import LockInformation from '../../assets/img/stock/lock/LockInformation.png';
 import CompanySummary from './CompanySummary';
 import StockFinance from './StockFinance';
 
@@ -46,7 +46,7 @@ const StockNav: React.FC = () => {
                     </Tabs.Tab>
                 ))}
             </Tabs.List>
-            <Tabs.Panel value="summary">{id && <CompanySummary />}</Tabs.Panel>
+            <Tabs.Panel value="summary">{id && <CompanySummary id={id}/>}</Tabs.Panel>
             <Tabs.Panel value="community">{id && <StockCommunity id={id} />}</Tabs.Panel>
             <Tabs.Panel value="info">{id && <StockFinance id={id} />}</Tabs.Panel>
             <Tabs.Panel value="news">{id && <StockNews id={id} />}</Tabs.Panel>
