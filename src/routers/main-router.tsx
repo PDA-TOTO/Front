@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import MainPage from '../routes/MainPage';
 import MainLayout from '../routes/MainLayout';
 import LoginPage from '../routes/user/LoginPage';
 import SignupPage from '../routes/user/SignupPage';
@@ -13,12 +12,9 @@ import CommunityPage from '../routes/stockDetail/CommunityPage';
 import MyPage from '../routes/user/MyPage';
 import { Provider } from 'react-redux';
 import stockDetailStore from '../store/stockDetailStore';
-<<<<<<< Updated upstream
-=======
 import MainRenewPage from '../routes/MainRenewPage';
 import NotFoundPage from '../routes/NotFoundPage';
 import TendencyTestPage from '../routes/quiz/TendencyTestPage';
->>>>>>> Stashed changes
 
 export const mainRouter = [
   {

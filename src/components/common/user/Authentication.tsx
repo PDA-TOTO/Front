@@ -60,14 +60,9 @@ export function AuthenticationForm({type}:props) {
         }else{
           dispatch(userLogin({email,password})).then(()=>{
             navigate('/');
-<<<<<<< Updated upstream
-          }).catch((error)=>{
-            console.log(error)
-=======
             notifications.show({
               message:'로그인 완료되었습니다.'
             })
->>>>>>> Stashed changes
           })
         }
       }

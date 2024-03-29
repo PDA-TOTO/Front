@@ -41,7 +41,7 @@ const MainRenewPage = () => {
                         <Text size='18px' fw="600">₩ {user.amount.toLocaleString()} 원</Text>
                     </Flex>
                 </Flex>
-                <Button w="300px" color="primary.5" onClick={()=>{setModal(false); navigate('/quiztest')}}>
+                <Button w="300px" color="primary.5" onClick={()=>{setModal(false); navigate('/quiz',{state:{solve:false}})}}>
                     LEVEL 평가하러 가기
                 </Button>
                 </Flex>
