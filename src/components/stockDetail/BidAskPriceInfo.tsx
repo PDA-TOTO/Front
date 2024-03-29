@@ -10,29 +10,6 @@ type BidAskPrice = {
   cell?: number;
 };
 
-const mockData: BidAskPrice[] = [
-  { buy: 2399, price: 13999 },
-  { buy: 2399, price: 13999 },
-  { buy: 2399, price: 13999 },
-  { buy: 2399, price: 133000 },
-  { buy: 2399, price: 133500 },
-  { buy: 2399, price: 134000 },
-  { buy: 2399, price: 134500 },
-  { buy: 2399, price: 134900 },
-  { buy: 2399, price: 134500 },
-  { buy: 2399, price: 134900 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-  { cell: 2399, price: 135000 },
-];
-
 type BidAskPriceInfoProps = {
   onPriceClick: (price: number) => void;
 };
@@ -61,8 +38,17 @@ const BidAskPriceInfo: React.FC<BidAskPriceInfoProps> = ({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {mockData.map((data, index) => (
-            <Table.Tr key={index} onClick={() => onPriceClick(data.price)}>
+          {Array.from({ length: 20 }, (_, index) => (
+            <Table.Tr
+              key={index}
+              onClick={() =>
+                onPriceClick(
+                  index < 10
+                    ? Number(stockWebSocket[`askp${10 - index}`])
+                    : Number(stockWebSocket[`bidp${index - 9}`])
+                )
+              }
+            >
               <Table.Td c="blue.6">
                 {index < 10 &&
                   stockWebSocket[`askp_rsqn${10 - index}`].toLocaleString()}
