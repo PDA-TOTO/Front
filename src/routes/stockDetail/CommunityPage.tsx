@@ -65,9 +65,9 @@ export default function CommunityPage({}) {
   const MAX_LENGTH = 100;
   const [communityInfo, setCommunityInfo] = useState<communityInfoType>();
   const [value, setValue] = useState<string | null>("");
-  const [leftCnt, setLeftCnt] = useState<number>(100);
-  const [rightCnt, setRightCnt] = useState<number>(120);
-  const [userVote, setUserVote] = useState<string>("none"); // none, left, right
+  const [likeCnt, setLikeCnt] = useState<number>(100);
+  const [unlikeCnt, setUnlikeCnt] = useState<number>(120);
+  const [userVote, setUserVote] = useState<string>("NONE"); // NONE, left, right
   const [writeToggle, setWriteToggle] = useState<boolean>(false);
   const [commentList, setCommentList] = useState(commetDummy);
   const [commentText, setCommentText] = useState("");
@@ -80,29 +80,29 @@ export default function CommunityPage({}) {
       title = "투표가 완료되었습니다!";
       message = "투표는 한 번만 할 수 있어요 😀";
     } else {
-      if (vote === "left") {
+      if (vote === "LIKE") {
         title = "왜 찬성을 선택하셨나요?";
         message = "이유를 공유해주세요 😀";
-        setLeftCnt((prev) => prev + 1);
+        setLikeCnt((prev) => prev + 1);
         id &&
           communityInfo &&
           voteChange(id, communityInfo.result.id, "LIKE").then((data) =>
             console.log("vote:", data)
           );
-        if (userVote === "right") {
-          setRightCnt((prev) => prev - 1);
+        if (userVote === "UNLIKE") {
+          setUnlikeCnt((prev) => prev - 1);
         }
-      } else if (vote === "right") {
+      } else if (vote === "UNLIKE") {
         title = "왜 반대를 선택하셨나요?";
         message = "이유를 공유해주세요 😀";
-        setRightCnt((prev) => prev + 1);
+        setUnlikeCnt((prev) => prev + 1);
         id &&
           communityInfo &&
           voteChange(id, communityInfo?.result.id, "UNLIKE").then((data) =>
             console.log("vote:", data)
           );
-        if (userVote === "left") {
-          setLeftCnt((prev) => prev - 1);
+        if (userVote === "LIKE") {
+          setLikeCnt((prev) => prev - 1);
         }
       }
       setUserVote(vote);
@@ -114,7 +114,7 @@ export default function CommunityPage({}) {
       autoClose: 3000,
       radius: "md",
       color:
-        userVote === vote ? "primary.5" : vote === "left" ? "red.5" : "blue.5",
+        userVote === vote ? "primary.5" : vote === "LIKE" ? "red.5" : "blue.5",
     });
   };
 
@@ -139,7 +139,7 @@ export default function CommunityPage({}) {
       likeAmount: 0,
       isLiked: false,
       time: 0,
-      vote: userVote === "left" ? true : false,
+      vote: userVote === "LIKE" ? true : false,
     };
     setCommentList((prevList) => [...prevList, newComment]);
     setCommentText("");
@@ -164,8 +164,9 @@ export default function CommunityPage({}) {
     id &&
       communityBykrxCode(id).then((response) => {
         setCommunityInfo(response.data);
-        setLeftCnt(response.data.result.numOfLikes);
-        setRightCnt(response.data.result.numOfUnlikes);
+        setLikeCnt(response.data.result.numOfLikes);
+        setUnlikeCnt(response.data.result.numOfUnlikes);
+        setUserVote(response.data.result.isVoteType);
       });
   }, []);
 
@@ -223,12 +224,12 @@ export default function CommunityPage({}) {
           </Flex>
           <div className={classes.main_padding} />
           {communityInfo && (
-            <VoteBar leftAmount={leftCnt} rightAmount={rightCnt} />
+            <VoteBar leftAmount={likeCnt} rightAmount={unlikeCnt} />
           )}
           <Flex style={{ paddingTop: "20px" }}>
             <Flex
               className={classes.vote_v1}
-              onClick={() => handleVoteChange("left")}
+              onClick={() => handleVoteChange("LIKE")}
               justify="center"
               align="center"
             >
@@ -236,7 +237,7 @@ export default function CommunityPage({}) {
               <div className={classes.vote_v_img}>
                 <Image src={ThumbsUp2} />
               </div>
-              {userVote === "left" && (
+              {userVote === "LIKE" && (
                 <div className={classes.vote_check}>
                   <Image src={Check} />
                 </div>
@@ -247,13 +248,13 @@ export default function CommunityPage({}) {
               className={classes.vote_v2}
               justify="center"
               align="center"
-              onClick={() => handleVoteChange("right")}
+              onClick={() => handleVoteChange("UNLIKE")}
             >
               반대
               <div className={classes.vote_v_img}>
                 <Image src={ThumbsDown2} />
               </div>
-              {userVote === "right" && (
+              {userVote === "UNLIKE" && (
                 <div className={classes.vote_check}>
                   <Image src={Check} />
                 </div>
@@ -285,29 +286,29 @@ export default function CommunityPage({}) {
           </div>
         </Flex>
         {writeToggle &&
-          (userVote === "none" ? (
+          (userVote === "NONE" ? (
             <Flex
               direction={"column"}
               justify="center"
-              className={classes.write_none_flex}
+              className={classes.write_NONE_flex}
             >
-              <div className={classes.write_none_1}>
+              <div className={classes.write_NONE_1}>
                 아직 투표가 완료되지 않았어요!
               </div>
-              <div className={classes.write_none_2}>
+              <div className={classes.write_NONE_2}>
                 위에서 투표를 끝내고 이유를 작성해주세요 😀
               </div>
             </Flex>
           ) : (
             <Flex direction={"column"} justify="center" align="center">
               <Flex direction={"column"} align="flex-start">
-                {userVote === "left" && (
+                {userVote === "LIKE" && (
                   <Flex className={classes.write_1} align="center">
                     <div className={classes.write_badge_red}>찬성</div>을 선택한
                     이유를 써주세요!
                   </Flex>
                 )}
-                {userVote === "right" && (
+                {userVote === "UNLIKE" && (
                   <Flex align="center" className={classes.write_1}>
                     <div className={classes.write_badge_blue}>반대</div>를
                     선택한 이유를 써주세요!
