@@ -12,6 +12,7 @@ import ThumbsUp2 from "../../assets/img/stock/community/ThumbsUp2.svg";
 import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
+import { voteChange } from "../../lib/apis/community";
 export interface community {
   id: number;
   codeId: string;
@@ -83,6 +84,11 @@ export default function CommunityPage({}) {
         title = "왜 찬성을 선택하셨나요?";
         message = "이유를 공유해주세요 😀";
         setLeftCnt((prev) => prev + 1);
+        id &&
+          communityInfo &&
+          voteChange(id, communityInfo.result.id, "LIKE").then((data) =>
+            console.log("vote:", data)
+          );
         if (userVote === "right") {
           setRightCnt((prev) => prev - 1);
         }
@@ -90,6 +96,11 @@ export default function CommunityPage({}) {
         title = "왜 반대를 선택하셨나요?";
         message = "이유를 공유해주세요 😀";
         setRightCnt((prev) => prev + 1);
+        id &&
+          communityInfo &&
+          voteChange(id, communityInfo?.result.id, "UNLIKE").then((data) =>
+            console.log("vote:", data)
+          );
         if (userVote === "left") {
           setLeftCnt((prev) => prev - 1);
         }

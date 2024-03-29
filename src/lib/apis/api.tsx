@@ -5,7 +5,7 @@ export const SHINHAN_BASE_URL = process.env.SHINHAN_BASE_URL;
 
 export const userInstance = axios.create({
   baseURL: BASE_URL + "/users",
-  withCredentials: true
+  withCredentials: true,
 });
 
 export const shinhanStockInstance = axios.create({
@@ -18,4 +18,5 @@ export const stockInstance = axios.create({
 
 export const communityInstance = axios.create({
   baseURL: BASE_URL + "/community",
+  withCredentials: true,
 });
