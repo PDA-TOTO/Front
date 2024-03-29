@@ -6,8 +6,9 @@ import { BarChart } from '@mantine/charts';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import { getPortNames } from '../../lib/apis/portfolios';
-import cookie from 'react-cookies';
+import { findStocksByPortId, getPortNames } from '../../lib/apis/portfolios';
+import { portfolioInstance } from '../../lib/apis/api';
+// import cookie from 'react-cookies';
 
 const data01 = [
     { x: 1, y: 2 },
@@ -17,17 +18,7 @@ const data01 = [
     { x: 5, y: 10 },
 ];
 
-const port = {
-    "items" : [
-        {"stockId" : "005930", "name":"삼성전자", "weight" : 0.5},
-        {"stockId" : "005930", "name":"SK하이닉스", "weight" : 0.3},
-        {"stockId" : "005930", "name":"셀트리온", "weight" : 0.2}
-    ],
-    "portName" : "포트1",
-    // "items" : ["삼성전자","SK하이닉스","셀트리온"],
-    // "weight" : [0.5, 0.25, 0.25],
-    "portId" : "1234"
-}
+
 
 // const portNames = ["포트1","포트폴리오2","프로포폴3"]
 
@@ -91,13 +82,38 @@ const data = [
 
 const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
-    const portNames = useState<string>([])
+    const [portNames,setPortNames] = useState<string>([])
+    const [myPorts, setMyPorts] = useState([])
+    const [numSelected, setNumSelected] = useState<number>(-1)
+    const [port, setPort] = useState<[{items : [], portNames : "", portid : ""}]>([{items : [], portNames : "", portid : ""}])
+    useEffect(()=>{
+        const func = async ()=>{
+            return await getPortNames();
+        }
+        func().then(result=>{
+            const port = result.data.result
+            setMyPorts(port)
+
+            const names = port.map((elem)=>{return elem.portName})
+            console.log(names)
+            setPortNames(names)
+        }).then(()=>{
+
+        });
+
+    },[])
     
     useEffect(()=>{
-        const userCookie = cookie.load('userid')
-        const names = getPortNames(userCookie);
-    },[])
+        console.log(numSelected,"selected")
+        console.log(portNames)
+        const tempPort = {"portName" : portNames[numSelected], "portId" : 1}
+    },[numSelected])
 
+    const test = async (e) => {
+        console.log(myPorts)
+        console.log(port)
+        findStocksByPortId(78)
+    };
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
@@ -112,13 +128,14 @@ const PortfolioPage: React.FC = () => {
                     <div>
                         포트폴리오
                     </div>
-                    <select style={{marginLeft:"10px"}}>
-                        {portNames.map((elem,idx)=>{return <option value={idx}>{elem}</option>})}
+                    <select style={{marginLeft:"10px"}}  onChange={(e)=>{setNumSelected(Number(e.target.value))}}>
+                        {/* {portNames.map((elem,idx)=>{return <option value={idx}>{elem}</option>})} */}
+                        {myPorts.map((elem,idx)=>{return <option value={idx}>{elem.portName}</option>})}
                     </select>
-                    <button style={{marginLeft:"10px"}} onClick={()=>portSelectClicked()}>
+                    <button style={{marginLeft:"10px"}} onClick={test}>
                         보기
                     </button>
-                    <button style={{marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("create")}}>
+                    <button style={{marginLeft:"10px"}} onClick={()=>{navigate("create")}}>
                         포트폴리오 만들기
                     </button>
                 </div>
@@ -127,16 +144,13 @@ const PortfolioPage: React.FC = () => {
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
                     <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
                     <Switch style={{marginLeft:"10px"}}/>
-                    <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={()=>{portSelectClicked(); navigate("edit",{ state : port})}}>
+                    {/* <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={()=>{ navigate("edit",{ state : port})}}>
                         편집
-                    </button>
+                    </button> */}
                 </div>
-                {/* <Bar options={options} data={data}></Bar> */}
                 <BarChart h={300}
                     data={data}
                     dataKey="month"
-                    // xScale={{ type: 'linear' }}
-                    // yScale={{ type: 'band' }}
                     type="percent"
                     series={[
                         { name: 'Smartphones', color: 'violet.6' },

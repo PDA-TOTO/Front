@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Grid,Input,MultiSelect,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 import { useNavigate,useLocation } from 'react-router-dom';
@@ -7,51 +7,88 @@ import { useState, useEffect, useMemo } from 'react';
 import { createPortfolio } from '../../lib/apis/portfolios';
 import { useSelector } from 'react-redux';
 import { NumberInput } from '@mantine/core';
+import { getPrice } from '../../lib/apis/stocks';
 //선택한 종목들 버튼 누르면 종목이름과 비중 입력받을 수 있는 테이블 입력
 
 const PortfolioEdit : React.FC = () => {
-
-    const location = useLocation()
+    const navigate = useNavigate();
     const user = useSelector(state => state.user.user);
-    
-    const [inputType,setInputType] = useState(false) //기본 0이면 %로 받겠다는 뜻
-    const [isEditType , setIsEditType] = useState(false) // 수정하는 화면인지 아닌지에 따라 제목이 포폴 수정하기, 생성하기로 다르게 보임
-    
-    const [port, setPort] = useState([]) //[ {"name" : "이름", "code" : "123456"}, ... ]
-    const [portId , setPortId ] = useState(0) //없으면 일단 0으로 만들고 서버에 넘겨주면 알아서 id부여해준다
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [portName , setPortName] = useState<string>("")
-    // let portName : string = ""
-    
-    const [stockCode, setStockCode ] = useState([])
-    const [selectedStock, setSelectedStock] = useState<string[]>([])
 
-    const [selectedStockWeight , setselectedStockWeight] = useState<number[]>([])
+    //멀티 select에서 선택된 종목 이름 띄우기
+    const [selectedStock, setSelectedStock] = useState<{"stockName" : string, "krxCode" : string}[]>([])
+    const [prices, setPrices] = useState<number[]>([])
     
-    // console.log("user", user)
+    //오른쪽에 종목별 총합
+    const [sumPrices, setSumPrices] = useState<number[]>([])
 
+    //밑에 나오는 가격 총 합
+    const [totalPrice, setTotalPrice] = useState<number>(0);
+
+    const portNameRef = useRef(null);
+
+    const [selectedStockAmount , setselectedStockAmount] = useState<number[]>([])
+
+
+    const onChange = (e)=>{
+        return e.target.value
+    }
+
+    const onClicked = async ( items : {krxCode : string, name : string, type : string} [] )=>{ //종목이름만 가져옴
+        const p = getPrice(["123"]);
+        setPrices(p)
+        //종목 이름 띄우기
+        const stocks = items.map((elem,idx )=>{
+            return {"stockName" : elem.name,"krxCode" : elem.krxCode}})
+        setSelectedStock(stocks)
+        
+        const updatedPrices = items.map(() => 0);
+        setSumPrices(updatedPrices);
+    }
+
+    useEffect(() => {
+        let total = 0;
+        sumPrices.forEach((amount) => {
+            total += Number(amount);
+        });
+        setTotalPrice(total);
+    }, [selectedStockAmount, prices]);
+
+    const handlePriceChange = (e, idx) => {
+        const newAmounts = [...selectedStockAmount];
+        newAmounts[idx] = Number(e);
+        setselectedStockAmount(newAmounts);
+        console.log(selectedStockAmount)
+      };
     
-    function table(stocks : string[], inputType : boolean ){ //stocks => selectedStock임
-        const rows = stocks?.map((elem,idx) =>(
+    const tempportName : string | void = useMemo(()=>{onChange},[portName])
+    // const tempprices = useMemo(()=>{onChange},[prices])
+    const numberInputHandler = (e, idx)=>{
+        const tempPrice = prices[idx] * Number(e);
+        const newSumPrices = [...sumPrices];
+        newSumPrices[idx] = tempPrice;
+        handlePriceChange(e, idx);
+        if(e<0){
+            alert("음수는 안된단다~")
+        }else{
+            setSumPrices(newSumPrices);
+            // setSelectedStock(temp)
+        }
+    }
+    function table(stocks : {"stockName" : string, "krxCode" : string}[]){ //stocks => selectedStock
+        const rows = stocks?.map((elem,idx) =>(  //{"stockName" : string, "stockPrice" : number}[]
             <>
-                <Table.Tbody key={elem}>
+                <Table.Tbody key={elem.krxCode}>
                 <Table.Tr>
-                    <Table.Td>{elem}</Table.Td>
+                    <Table.Td>{elem.stockName}</Table.Td>
+                    <Table.Td>{prices[idx]}</Table.Td>
                     <Table.Td style={{display:"flex", alignItems:"center", alignContent:"center"}}>
-                        {inputType === false ? 
-                        <div style={{display:"flex", alignItems:"center", marginRight:"30px" ,width:"100px"}}>
-                            <Input 
-                            style={{width:"100px"}} 
-                            value={selectedStockWeight[idx]} 
-                            onChange={(e)=>{    
-                                selectedStockWeight[idx] = Number(e.target.value);
-                                // console.log(selectedStockWeight)
-                                setselectedStockWeight(selectedStockWeight)}}>
-                        </Input>%</div> 
-                        : <div style={{display:"flex" , alignItems:"center", marginRight:"30px",width:"100px"}}>
-                            <NumberInput defaultValue={0}></NumberInput>주</div>
+                        {<div style={{display:"flex" , alignItems:"center", marginRight:"30px",width:"100px"}}>
+                            <NumberInput value={selectedStockAmount[idx]}  min={0} onChange={(e)=>numberInputHandler(e,idx)}></NumberInput>주</div>
                         }
                     </Table.Td> 
+                    <Table.Td>{sumPrices[idx]} 원</Table.Td>
                 </Table.Tr>
                 </Table.Tbody>
             </>
@@ -62,85 +99,50 @@ const PortfolioEdit : React.FC = () => {
             <Table.Thead>
             <Table.Tr>
                 <Table.Th style={{width:"100px"}}>종목명</Table.Th>
-                <Table.Th style={{width:"100px"}}>비중입력</Table.Th>
+                <Table.Th style={{width:"100px"}}>가격</Table.Th>
+                <Table.Th style={{width:"100px"}}>수량입력</Table.Th>
+                <Table.Th style={{width:"100px"}}>총 금액</Table.Th>
             </Table.Tr>
             </Table.Thead>
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
-                <div>금액으로 입력</div>
-                <Switch onChange={()=>{setInputType(!inputType)}} style={{marginLeft:"10px"}}/>
-                <Button onClick={()=>{
-                    // console.log(stockCode);
-                    createPortfolio({user, portId, portName, stockCode , selectedStockWeight});
-                    navigate(-1);
-                    // console.log("yeah",selectedStockWeight, selectedStock)
-                }} style={{marginLeft : "20px"}}>제출하기</Button>
+                <Button onClick={(e)=>{
+                    const newPortName = portNameRef.current.value;
+                    if(confirm("제출하시겠습니까?")){
+                        createPortfolio({user, newPortName, selectedStock , selectedStockAmount});
+                        navigate(-1);
+                    }else{
+                        console.log("암것도 안함")
+                        console.log(selectedStock, selectedStockAmount)
+                    }
+                }} style={{marginLeft : "20px", marginTop:"20px"}}>제출하기</Button>
             </div>
+            <Table.Th style={{width:"100px"}}>총 금액: {totalPrice}원</Table.Th>
             </Table>
         );
     }
-        
-    const navigate = useNavigate()
 
-    useEffect(() => {
-        if (location.state) {
-          setIsEditType(location.state.length === 0 ? false : true) //길이가 0이면 수정모드가 아니라 새로 만드는 모드
-          setPort(location.state.items) //종목들 쭈루루루 
-          setPortName(location.state.portName)
-        }
 
-        setPortId(location.state?.portId || 0);
-        
-        //전에 넘겨줬던 location.state.items구조 => {"stockId" : "005930", "name":"삼성전자", "weight" : 0.5} 이게 배열에 담겨있는 형태
-        const tempStocks : string[] = port.map((elem : {"name" : string} )=>{ return elem.name })
-        const tempWeight : number[] = port.map((elem : {"weight" : number} )=>{ return elem.weight})
-        
-        // console.log(tempStocks, tempWeight)
-
-        //기존에 받아왔던 종목들 다시 multiselector에 넘겨줘서 선택된 상태로 보여주기
-        setSelectedStock(tempStocks)
-        setselectedStockWeight(tempWeight)
-    }, [port]);
-
-    //테스트용 클릭
-    const onClicked = async ( items )=>{ //종목이름만 가져옴
-        // console.log("dd",items)
-        const stocks = items.map((elem )=>{return elem.name})
-        setSelectedStock(stocks)
-        setStockCode(items)
-    }
-
-    const onChange = (e)=>{
-        return e.target.value
-    }
-
-    const tempportName = useMemo(()=>{onChange},[portName])
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
                 <Button onClick={()=>{navigate(-1)}}>뒤로가기</Button>
                 <div style={{display:"flex", alignItems:"center", alignContent:"center"}}>
-                    {isEditType === false ? <h3>포트폴리오 추가하기</h3> : <h3>포트폴리오 수정하기</h3>}
+                    <h3>포트폴리오 추가하기</h3>
                     <Button>+</Button>
                 </div>
                 
-                {isEditType === false ? 
+                
                 <div style={{display:"flex", marginBottom:"10px", alignItems:"center"}}>
-                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input value={tempportName} onChange={onChange}></Input>
-                </div> :
-                <div style={{display:"flex", marginBottom:"10px", alignItems:"center"}}>
-                    <h4 style={{margin:"10px"}}>승준이포트폴리오</h4>
+                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input ref={portNameRef} value={tempportName} onChange={(e)=>{onChange(e);}
+                        }></Input>
                 </div>
-                }
 
                 <div style={{ width:"100%",display:"flex"}}>
                     {/* 일단 전에 받아왔던 주식정보들 넘겨준다 existStock은 포폴에 담긴 주식들 보내주는거고 Click함수는 부모에서 처리 */}
-                    <SearchableMultiSelect
-                        onClicked={onClicked} 
-                        existStocks={selectedStock.length > 0 ?  selectedStock : []}>
-                    </SearchableMultiSelect>
+                    <SearchableMultiSelect onClicked={onClicked}></SearchableMultiSelect>
                 </div>
-                {table(selectedStock,inputType)}
+                {table(selectedStock)}
             </Grid.Col>
         </Grid>
     );

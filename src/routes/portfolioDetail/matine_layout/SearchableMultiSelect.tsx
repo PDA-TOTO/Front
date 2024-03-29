@@ -11,39 +11,38 @@ function codeAndName(values : string[]){
         // 응답에서 데이터 추출
         const codes = response.data;
         // 추출한 데이터 필터링
-        // console.log(codes)
         return codes.filter((elem : {"code" : string, "name" : string}) => values.includes(elem.name));
     });
 }
 
-export default function SearchableMultiSelect({ onClicked, existStocks }: { onClicked: (selectedItems: string[]) => void, existStocks: string[] }){
+export default function SearchableMultiSelect({ onClicked }: { onClicked: (selectedItems: string[]) => void, existStocks: string[] }){
   
     const [value, setValue] = useState<string[]>([]); //
     const [names, setNames] = useState<string[]>([]); //모든 종목들 이름 가져오기
 
-    async function handleClick() {
-        try {
-            const result = await codeAndName(value);
-            // result를 사용하여 원하는 작업 수행
-            console.log('Filtered data:', result);
-        } catch (error) {
-            console.error('Error occurred:', error);
-        }
-    }
+    // async function handleClick() {
+    //     try {
+    //         const result = await codeAndName(value);
+    //         // result를 사용하여 원하는 작업 수행
+    //         console.log('Filtered data:', result);
+    //     } catch (error) {
+    //         console.error('Error occurred:', error);
+    //     }
+    // }
+// 
     useEffect(() => {
         async function api() {
             return await getAllStockNames(); //모든 종목들 가져와 보리기~~
         }
         api().then((stocks) => {
-            // console.log(stocks)
+            console.log(stocks)
             //종목이름들 가져와 보리기~
             const temp = stocks.data?.map((elem : {name : string})=>{ return elem.name });
             //가져온 이름 세팅 가보자 가보자 => MultiSelect에 data값으로 넣어준다
             setNames(temp) 
-        }).then(async () => {
-            setValue(existStocks)
         });
-    }, [existStocks,codeAndName]);
+    }, [codeAndName]);
+
     return( 
     <>
         <MultiSelect style={{width:"100%"}} data={names} value={value}  onChange={setValue} searchable/> 
@@ -51,14 +50,12 @@ export default function SearchableMultiSelect({ onClicked, existStocks }: { onCl
         <Button onClick={async () => {
                 await codeAndName(value)
                     .then(async (result) => {
-                        // console.log(result.map((elem) => elem.name))
                         await onClicked(result);
                     })
                     .catch((error) => {
                         console.error('Error occurred:', error);
                     });
             }}>선택</Button>
-    </>);
+    </>
+    );
 }
-// export const Search
-// export const MemoSearchableMultiSelect = React.memo(SearchableMultiSelect);

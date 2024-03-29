@@ -35,6 +35,7 @@
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.29",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@types/redux-logger": "^3.0.13",

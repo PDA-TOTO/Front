@@ -13,7 +13,8 @@ export const shinhanStockInstance = axios.create({
 });
 
 export const portfolioInstance = axios.create({
-    baseURL: "/portfolio",
+    baseURL: BASE_URL + "/portfolios",
+    withCredentials: true
 });
   
 
