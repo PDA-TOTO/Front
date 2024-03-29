@@ -13,7 +13,7 @@ import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
 import { voteChange } from "../../lib/apis/community";
-import { getCommentByCommunityId } from "../../lib/apis/comment";
+import { getCommentByCommunityId, saveComment } from "../../lib/apis/comment";
 export interface community {
   id: number;
   codeId: string;
@@ -143,6 +143,12 @@ export default function CommunityPage({}) {
       writerVoteType: userVote,
     };
     setCommentList((prevList) => [...prevList, newComment]);
+    communityInfo &&
+      saveComment(communityInfo.result.id, commentText.trim()).then(
+        (response) => {
+          console.log(response.data);
+        }
+      );
     setCommentText("");
     setWriteToggle((prev) => !prev);
   };
