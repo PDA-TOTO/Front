@@ -1,9 +1,13 @@
 import { Button, Stack, Text, useCombobox } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PortfolioComobobox from "./PortfolioCombobox";
 import StockPriceInfobox from "./StockPriceInfobox";
-import { useStockDetailSelector } from "../../lib/hooks/stockReduxHooks";
+import {
+  useStockDetailSelector,
+  useStockDetailDispatch,
+} from "../../lib/hooks/stockReduxHooks";
 import AnimatedNumber from "../common/animate/AnimatedNumber";
+import { setPrice } from "../../store/reducers/stockControlReducers";
 
 type StockTradingBodyProps = {
   gap: "xs" | "sm" | "md" | "lg" | "xl";
@@ -28,10 +32,15 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
   const [targetPortfolio, setTargetPortfolio] = useState(portfolios[0]);
+  const stockDetailDispatch = useStockDetailDispatch();
   const stockControl = useStockDetailSelector((state) => state.stockControl);
   const stockWebSocket = useStockDetailSelector(
     (state) => state.stockWebSocket
   );
+
+  useEffect(() => {
+    stockDetailDispatch(setPrice(Number(stockWebSocket.bidp1)));
+  }, [stockWebSocket.bidp1]);
 
   const getTotalPrice = (price?: number, quantity: number = 0) => {
     if (!price) {
@@ -50,10 +59,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
       <Stack gap={0}>
         <Text>총금액</Text>
         <AnimatedNumber
-          toNumber={getTotalPrice(
-            Number(stockWebSocket.bidp1),
-            stockControl.quantity
-          )}
+          toNumber={getTotalPrice(stockControl.price, stockControl.quantity)}
           fw="bolder"
           size="xxl"
           suffix="원"
