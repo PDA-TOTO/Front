@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import VoteBar from "../VoteBar";
 import classes from "../../../styles/stock/StockTabCommunity.module.css";

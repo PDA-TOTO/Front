@@ -8,23 +8,23 @@ import LikeEmpty from "../../assets/img/stock/community/LikeEmpty.svg";
 
 type Props = {
   id: number;
-  userName: string;
-  text: string;
+  writerEmail: string;
+  content: string;
   likeAmount: number;
-  isLiked: boolean;
-  time: number;
-  vote: boolean;
+  isLiked: string;
+  createdAt: number;
+  writerVoteType: string;
   onLikeClick: () => void;
 };
 
 export default function Comment({
   id,
-  userName,
-  text,
+  writerEmail,
+  content,
   likeAmount,
   isLiked,
-  time,
-  vote,
+  createdAt,
+  writerVoteType,
   onLikeClick,
 }: Props) {
   return (
@@ -42,15 +42,15 @@ export default function Comment({
       />
       <Flex direction={"column"} gap={20} style={{ width: "100%" }}>
         <Flex direction={"row"} gap={10} align="center">
-          <div className={classes.cmt_userName}>{userName}</div>
-          <div className={classes.cmt_time}>{time}분전</div>
-          {vote ? (
+          <div className={classes.cmt_writerEmail}>{writerEmail}</div>
+          <div className={classes.cmt_time}>{createdAt}분전</div>
+          {writerVoteType === "LIKE" ? (
             <Image src={ThumbsUpColor} className={classes.cmt_vote_img} />
           ) : (
             <Image src={ThumbsDownColor} className={classes.cmt_vote_img} />
           )}
         </Flex>
-        {text}
+        {content}
         <Flex style={{ width: "100%" }} justify="flex-end">
           <Flex direction={"row"} align="center">
             <div
@@ -58,7 +58,7 @@ export default function Comment({
               onClick={onLikeClick}
               style={{ cursor: "pointer" }}
             >
-              {isLiked ? (
+              {isLiked === "LIKE" ? (
                 <Image src={Like} className={classes.cmt_like} />
               ) : (
                 <Image src={LikeEmpty} className={classes.cmt_like} />

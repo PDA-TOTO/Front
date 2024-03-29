@@ -20,3 +20,8 @@ export const communityInstance = axios.create({
   baseURL: BASE_URL + "/community",
   withCredentials: true,
 });
+
+export const commentInstance = axios.create({
+  baseURL: BASE_URL + "/comment",
+  withCredentials: true,
+});

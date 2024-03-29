@@ -13,6 +13,7 @@ import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
 import { voteChange } from "../../lib/apis/community";
+import { getCommentByCommunityId } from "../../lib/apis/comment";
 export interface community {
   id: number;
   codeId: string;
@@ -33,30 +34,30 @@ export interface communityInfoType {
 const commetDummy = [
   {
     id: 1,
-    userName: "email",
-    text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
+    writerEmail: "email",
+    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
     likeAmount: 3,
-    isLiked: true,
-    time: 25,
-    vote: true,
+    isLiked: "LIKE",
+    createdAt: 25,
+    writerVoteType: "LIKE",
   },
   {
     id: 2,
-    userName: "email",
-    text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
+    writerEmail: "email",
+    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
     likeAmount: 3,
-    isLiked: true,
-    time: 25,
-    vote: false,
+    isLiked: "LIKE",
+    createdAt: 25,
+    writerVoteType: "UNLIKE",
   },
   {
     id: 3,
-    userName: "email",
-    text: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
+    writerEmail: "email",
+    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
     likeAmount: 3,
-    isLiked: false,
-    time: 25,
-    vote: true,
+    isLiked: "UNLIKE",
+    createdAt: 25,
+    writerVoteType: "LIKE",
   },
 ];
 
@@ -133,27 +134,28 @@ export default function CommunityPage({}) {
       return;
     }
     const newComment = {
-      id: commentList.length + 1,
-      userName: "사용자",
-      text: commentText.trim(),
+      id: commentList[commentList.length - 1].id + 1,
+      writerEmail: "사용자",
+      content: commentText.trim(),
       likeAmount: 0,
-      isLiked: false,
-      time: 0,
-      vote: userVote === "LIKE" ? true : false,
+      isLiked: "UNLIKE",
+      createdAt: 0,
+      writerVoteType: userVote,
     };
     setCommentList((prevList) => [...prevList, newComment]);
     setCommentText("");
     setWriteToggle((prev) => !prev);
   };
 
-  const handleLikeClick = (index: number, isLiked: boolean) => {
+  const handleLikeClick = (index: number, isLiked: string) => {
     setCommentList((prevList) =>
       prevList.map((item, idx) =>
         item.id === index
           ? {
               ...item,
-              likeAmount: !isLiked ? item.likeAmount + 1 : item.likeAmount - 1,
-              isLiked: !isLiked,
+              likeAmount:
+                isLiked === "LIKE" ? item.likeAmount - 1 : item.likeAmount + 1,
+              isLiked: isLiked === "UNLIKE" ? "LIKE" : "UNLIKE",
             }
           : item
       )
@@ -167,6 +169,10 @@ export default function CommunityPage({}) {
         setLikeCnt(response.data.result.numOfLikes);
         setUnlikeCnt(response.data.result.numOfUnlikes);
         setUserVote(response.data.result.isVoteType);
+        getCommentByCommunityId(response.data.result.id).then((response) => {
+          console.log(response.data);
+          setCommentList(response.data);
+        });
       });
   }, []);
 
@@ -351,12 +357,12 @@ export default function CommunityPage({}) {
               >
                 <Comment
                   id={value.id}
-                  userName={value.userName}
-                  text={value.text}
+                  writerEmail={value.writerEmail}
+                  content={value.content}
                   likeAmount={value.likeAmount}
                   isLiked={value.isLiked}
-                  time={value.time}
-                  vote={value.vote}
+                  createdAt={value.createdAt}
+                  writerVoteType={value.writerVoteType}
                   onLikeClick={() => handleLikeClick(value.id, value.isLiked)}
                 />
                 {/* <hr style={{ width: "55vw" }} /> */}
