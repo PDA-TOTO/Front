@@ -117,7 +117,8 @@ export default function CommunityPage({}) {
       return;
     }
     const newComment = {
-      id: commentList[commentList.length - 1].id + 1,
+      id:
+        commentList.length > 0 ? commentList[commentList.length - 1].id + 1 : 1,
       writerEmail: "사용자",
       content: commentText.trim(),
       likeAmount: 0,
@@ -338,6 +339,12 @@ export default function CommunityPage({}) {
             </Flex>
           ))}
         <div className={classes.cmt_padding} />
+        {commentList?.length === 0 && (
+          <Flex direction={"column"} justify="center" align="center">
+            <div className={classes.cmt_0_title}>아직 댓글이 없어요!</div>
+            투표하고 첫 댓글을 작성해보세요😀
+          </Flex>
+        )}
         {commentList
           ?.slice()
           .reverse()
