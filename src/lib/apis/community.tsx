@@ -1,4 +1,5 @@
 import { communityInstance } from "./api";
+import { AxiosRequestConfig } from "axios";
 
 export enum VoteType {
   NONE = "NONE",
@@ -24,4 +25,18 @@ export async function voteChange(
 
 export async function getNaverStockInfo(stockId: string) {
   return await communityInstance.get("/naver/" + stockId);
+}
+
+export async function getNaverRisingStockInfo(stockList: string) {
+  const data = {
+    list: stockList,
+  };
+
+  const config: AxiosRequestConfig = {
+    method: "post",
+    url: "/naver/rising/list",
+    data: data,
+  };
+
+  return await communityInstance(config);
 }
