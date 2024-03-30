@@ -30,7 +30,15 @@ export interface communityInfoType {
   message: string;
   result: community;
 }
-
+export interface commentType {
+  id: number;
+  writerEmail: string;
+  content: string;
+  likeAmount: number;
+  isLiked: string;
+  createdAt: string;
+  writerVoteType: string;
+}
 const commetDummy = [
   {
     id: 1,
@@ -70,7 +78,7 @@ export default function CommunityPage({}) {
   const [unlikeCnt, setUnlikeCnt] = useState<number>(120);
   const [userVote, setUserVote] = useState<string>("NONE"); // NONE, left, right
   const [writeToggle, setWriteToggle] = useState<boolean>(false);
-  const [commentList, setCommentList] = useState(commetDummy);
+  const [commentList, setCommentList] = useState<commentType[]>([]);
   const [commentText, setCommentText] = useState("");
   const [textAreaError, setTextAreaError] = useState(false);
   const handleVoteChange = (vote: string) => {
@@ -139,7 +147,7 @@ export default function CommunityPage({}) {
       content: commentText.trim(),
       likeAmount: 0,
       isLiked: "UNLIKE",
-      createdAt: 0,
+      createdAt: "0",
       writerVoteType: userVote,
     };
     setCommentList((prevList) => [...prevList, newComment]);
@@ -371,7 +379,6 @@ export default function CommunityPage({}) {
                   writerVoteType={value.writerVoteType}
                   onLikeClick={() => handleLikeClick(value.id, value.isLiked)}
                 />
-                {/* <hr style={{ width: "55vw" }} /> */}
               </Flex>
             );
           })}

@@ -12,7 +12,7 @@ type Props = {
   content: string;
   likeAmount: number;
   isLiked: string;
-  createdAt: number;
+  createdAt: string;
   writerVoteType: string;
   onLikeClick: () => void;
 };
