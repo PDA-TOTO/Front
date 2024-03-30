@@ -27,7 +27,7 @@ export async function getNaverStockInfo(stockId: string) {
   return await communityInstance.get("/naver/" + stockId);
 }
 
-export async function getNaverRisingStockInfo(stockList: string) {
+export async function getNaverRisingStockInfo(stockList: string[]) {
   const data = {
     list: stockList,
   };

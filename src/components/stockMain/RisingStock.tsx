@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Grid, rem, Image } from "@mantine/core";
+import { Flex, Grid, rem, Image, Badge } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { risingStock } from "../../lib/apis/shinhan.stock";
 import classes from "../../styles/stock/BottomStock.module.css";
@@ -68,6 +68,14 @@ export default function RisingStock({}: Props) {
   }, []);
   return (
     <Flex direction={"column"}>
+      <Badge
+        size="xl"
+        variant="gradient"
+        gradient={{ from: "#e28c8c", to: "#8bc3e5", deg: 90 }}
+        className={classes.top}
+      >
+        TOP 5
+      </Badge>
       <Grid>
         {risingInfoList.length > 0 &&
           risingInfoList?.map((value, idx) => {
