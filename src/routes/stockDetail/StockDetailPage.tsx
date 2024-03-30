@@ -18,6 +18,7 @@ import {
   resetWebSocketState,
 } from "../../store/reducers/stockWebSocketReducers";
 import { useLocation } from "react-router-dom";
+import { getNaverStockInfo } from "../../lib/apis/community";
 
 type StockInfo = {
   price: number;
@@ -180,11 +181,14 @@ const StockDetailPage: React.FC = () => {
   return (
     <Stack px={72} pt={34}>
       <Group align="start" justify="space-between">
-        <StockTitle
-          name={stockName}
-          price={stockInfo.price}
-          percent={stockInfo.percent}
-        />
+        {id && (
+          <StockTitle
+            name={stockName}
+            price={stockInfo.price}
+            percent={stockInfo.percent}
+            stockId={id}
+          />
+        )}
         <Switch
           color="primary.5"
           labelPosition="left"

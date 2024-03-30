@@ -12,7 +12,7 @@ import ThumbsUp2 from "../../assets/img/stock/community/ThumbsUp2.svg";
 import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
-import { voteChange } from "../../lib/apis/community";
+import { voteChange, getNaverStockInfo } from "../../lib/apis/community";
 import {
   getCommentByCommunityId,
   saveComment,
@@ -46,7 +46,12 @@ export interface commentType {
   createdAt: string;
   writerVoteType: string;
 }
-
+export interface naverStockInfo {
+  fluctuationsRatio: string;
+  closePrice: string;
+  compareToPreviousClosePrice: string;
+  marketStatus: string;
+}
 export default function CommunityPage({}) {
   const { id } = useParams();
   const MAX_LENGTH = 100;
@@ -60,9 +65,7 @@ export default function CommunityPage({}) {
   const [commentLikedList, setCommentLikedList] = useState<commentType[]>([]);
   const [commentText, setCommentText] = useState("");
   const [textAreaError, setTextAreaError] = useState(false);
-  const stockWebSocket = useStockDetailSelector(
-    (state) => state.stockWebSocket
-  );
+  const [naverStockInfo, setNaverStockInfo] = useState<naverStockInfo>();
   const handleVoteChange = (vote: string) => {
     let title = "";
     let message = "";
@@ -176,6 +179,19 @@ export default function CommunityPage({}) {
     );
   };
 
+  const calculateCurrentPrice = (
+    closePrice: string,
+    compareToPreviousClosePrice: string
+  ) => {
+    const closePriceNumber = Number(closePrice.replace(/,/g, ""));
+    const compareToPreviousClosePriceNumber = Number(
+      compareToPreviousClosePrice.replace(/,/g, "")
+    );
+    return (closePriceNumber + compareToPreviousClosePriceNumber)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
     id &&
       communityBykrxCode(id).then((response) => {
@@ -194,6 +210,11 @@ export default function CommunityPage({}) {
           setCommentLikedList(sortedCommentList);
           setCommentList(sortedCommentList2);
         });
+      });
+    id &&
+      getNaverStockInfo(id).then((response) => {
+        console.log(response.data);
+        setNaverStockInfo(response.data);
       });
   }, []);
 
@@ -214,8 +235,26 @@ export default function CommunityPage({}) {
           {communityInfo?.result.stockCodeName}
         </div>
         <Flex direction={"row"}>
-          <div className={classes.header_price}>원</div>
-          <div className={classes.header_percent}>+1.1%</div>
+          <div className={classes.header_price}>
+            {naverStockInfo && naverStockInfo.marketStatus === "CLOSE"
+              ? naverStockInfo.closePrice
+              : naverStockInfo &&
+                calculateCurrentPrice(
+                  naverStockInfo.closePrice,
+                  naverStockInfo.compareToPreviousClosePrice
+                )}
+            원
+          </div>
+          <div
+            className={
+              Number(naverStockInfo?.fluctuationsRatio) > 0
+                ? classes.header_percent_plus
+                : classes.header_percent_minus
+            }
+          >
+            {Number(naverStockInfo?.fluctuationsRatio) > 0 && "+"}
+            {naverStockInfo?.fluctuationsRatio}%
+          </div>
         </Flex>
       </Flex>
       <Flex className={classes.main} direction={"column"} align="center">

@@ -21,3 +21,7 @@ export async function voteChange(
   };
   return await communityInstance.post("/vote/" + stockId, data);
 }
+
+export async function getNaverStockInfo(stockId: string) {
+  return await communityInstance.get("/naver/" + stockId);
+}
