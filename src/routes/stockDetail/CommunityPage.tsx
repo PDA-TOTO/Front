@@ -13,7 +13,11 @@ import ThumbsDown2 from "../../assets/img/stock/community/ThumbsDown2.svg";
 import Check from "../../assets/img/stock/community/Check.svg";
 import ErrorTextArea from "../../assets/img/stock/community/ErrorTextArea.svg";
 import { voteChange } from "../../lib/apis/community";
-import { getCommentByCommunityId, saveComment } from "../../lib/apis/comment";
+import {
+  getCommentByCommunityId,
+  saveComment,
+  likeComment,
+} from "../../lib/apis/comment";
 export interface community {
   id: number;
   codeId: string;
@@ -39,35 +43,6 @@ export interface commentType {
   createdAt: string;
   writerVoteType: string;
 }
-const commetDummy = [
-  {
-    id: 1,
-    writerEmail: "email",
-    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
-    likeAmount: 3,
-    isLiked: "LIKE",
-    createdAt: 25,
-    writerVoteType: "LIKE",
-  },
-  {
-    id: 2,
-    writerEmail: "email",
-    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
-    likeAmount: 3,
-    isLiked: "LIKE",
-    createdAt: 25,
-    writerVoteType: "UNLIKE",
-  },
-  {
-    id: 3,
-    writerEmail: "email",
-    content: "이번에 ㄱㄹㅅ 폭발했다던데 그거 때문에 내려간듯",
-    likeAmount: 3,
-    isLiked: "UNLIKE",
-    createdAt: 25,
-    writerVoteType: "LIKE",
-  },
-];
 
 export default function CommunityPage({}) {
   const { id } = useParams();
@@ -173,6 +148,12 @@ export default function CommunityPage({}) {
             }
           : item
       )
+    );
+    console.log(index, isLiked);
+    likeComment(index, isLiked === "UNLIKE" ? "LIKE" : "UNLIKE").then(
+      (response) => {
+        console.log(response.data);
+      }
     );
   };
 

@@ -11,3 +11,11 @@ export async function saveComment(communityId: number, content: string) {
   };
   return await commentInstance.post("/", data);
 }
+
+export async function likeComment(commentId: number, likeType: string) {
+  const data = {
+    commentId,
+    likeType,
+  };
+  return await commentInstance.post("/like", data);
+}
