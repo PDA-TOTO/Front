@@ -3,18 +3,20 @@ import AnswerSheet from "../../components/quiz/AnswerSheet";
 import { useNavigate } from "react-router-dom";
 import classes from "../../styles/quiz/QuizMain.module.css";
 import answer from "../../styles/quiz/AnswerSheet.module.css"
-import { useAppSelector } from "../../lib/hooks/reduxHooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks/reduxHooks";
+import { updateExperience } from "../../lib/apis/quiz";
+import { userGetinfo } from "../../store/reducers/user";
 
 export default function QuizTestPage() {
     const navigate = useNavigate();
-    const quizs = useAppSelector(state => state.quiz)
-    const [choiceList, setChoiceList] = useState(quizs.map(()=>-1))
+    const quizs = useAppSelector(state => state.quiz.quiz);
+    const [choiceList, setChoiceList] = useState<Array<number>>([])
     const [number, setNumber] = useState(1);
-    const [isSolved, setIsSolved] = useState(quizs.map(()=>false));
-    const optionCnt = quizs.map(()=>4)
-    const answers = quizs.map((value)=> value.answer)
-
+    const [isSolved, setIsSolved] = useState<Array<boolean>>([]);
+    const [optionCnt, setOptionCnt] = useState<Array<number>>([])
+    const [answers, setAnswers] = useState<Array<number>>([])
+    const dispatch = useAppDispatch();
 
     function onClickOption(idx:number){
         setChoiceList(choiceList.map((value,index)=>{
@@ -43,10 +45,14 @@ export default function QuizTestPage() {
             }
         }
 
-        navigate('/quiz',{state:{solve:true, correct: correct, total: choiceList.length, choiceList: choiceList}});
+        updateExperience(correct*10).then(()=>{
+            dispatch(userGetinfo());
+        });
+
+        navigate('/quiz',{state:{solve:true, correct: correct, total: choiceList.length, choiceList: choiceList, quizs: quizs}});
     }
 
-    const options = [quizs[number-1].answer1,quizs[number-1].answer2,quizs[number-1].answer3,quizs[number-1].answer4].map((value,idx)=>{
+    const options = (quizs.length !== 0 ?[quizs[number-1].option1,quizs[number-1].option2,quizs[number-1].option3,quizs[number-1].option4].map((value,idx)=>{
         return(
             <Grid.Col key={idx} span={6} >
                 <Flex>
@@ -65,8 +71,18 @@ export default function QuizTestPage() {
                 </Flex>
             </Grid.Col>
         )
-    })
+    }):
+        null
+    )
 
+    useEffect(()=>{
+
+        setAnswers(quizs.map((value)=> value.answer))
+        setOptionCnt(quizs.map(()=> 4))
+        setChoiceList(quizs.map(()=>-1))
+        setIsSolved(quizs.map(()=>false))
+
+    },[])
 
   return (
     <Flex>
@@ -79,7 +95,7 @@ export default function QuizTestPage() {
                     {number}
                 </Text>
                 <Text size="22px" m="20px 0px" lh="30px" mih="100px" fw="600">
-                    {quizs[number-1].question}
+                    {(quizs.length !== 0) && quizs[number-1].question}
                 </Text>
                 <Grid>
                     {options}

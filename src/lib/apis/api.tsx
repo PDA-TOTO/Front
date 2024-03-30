@@ -10,17 +10,26 @@ export const userInstance = axios.create({
 
 export const shinhanStockInstance = axios.create({
   baseURL: "/openapi",
+  withCredentials: true
 });
 
 export const portfolioInstance = axios.create({
-    baseURL: "/portfolio",
+  baseURL: "/portfolio",
+  withCredentials: true
 });
   
 
 export const stockInstance = axios.create({
   baseURL: BASE_URL + "/stocks",
+  withCredentials: true
 });
 
 export const communityInstance = axios.create({
   baseURL: BASE_URL + "/community",
+  withCredentials: true
+});
+
+export const quizInstance = axios.create({
+  baseURL: BASE_URL + "/quiz",
+  withCredentials: true
 });
