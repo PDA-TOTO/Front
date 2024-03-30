@@ -27,6 +27,30 @@ export default function Comment({
   writerVoteType,
   onLikeClick,
 }: Props) {
+  const calculateTimeDifference = (dateTimeString: string): string => {
+    const date: Date = new Date(dateTimeString);
+    const now: Date = new Date();
+
+    const diffMs: number = now.getTime() - 9 * 60 * 60 * 1000 - date.getTime(); // Convert dates to timestamps
+    const diffMinutes: number = Math.floor(diffMs / (1000 * 60));
+    const diffHours: number = Math.floor(diffMinutes / 60);
+    const diffDays: number = Math.floor(diffHours / 24);
+
+    if (dateTimeString === "0") {
+      return "방금 전";
+    }
+
+    if (diffDays > 0) {
+      return diffDays === 1 ? "하루 전" : `${diffDays}일 전`;
+    } else if (diffHours > 0) {
+      return diffHours === 1 ? "한 시간 전" : `${diffHours}시간 전`;
+    } else if (diffMinutes > 0) {
+      return diffMinutes === 1 ? "1분 전" : `${diffMinutes}분 전`;
+    } else {
+      return "방금 전";
+    }
+  };
+
   return (
     <Flex
       direction={"row"}
@@ -43,7 +67,9 @@ export default function Comment({
       <Flex direction={"column"} gap={20} style={{ width: "100%" }}>
         <Flex direction={"row"} gap={10} align="center">
           <div className={classes.cmt_writerEmail}>{writerEmail}</div>
-          <div className={classes.cmt_time}>{createdAt}분전</div>
+          <div className={classes.cmt_time}>
+            {calculateTimeDifference(createdAt)}
+          </div>
           {writerVoteType === "LIKE" ? (
             <Image src={ThumbsUpColor} className={classes.cmt_vote_img} />
           ) : (

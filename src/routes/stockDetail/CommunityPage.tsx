@@ -149,7 +149,6 @@ export default function CommunityPage({}) {
           : item
       )
     );
-    console.log(index, isLiked);
     likeComment(index, isLiked === "UNLIKE" ? "LIKE" : "UNLIKE").then(
       (response) => {
         console.log(response.data);

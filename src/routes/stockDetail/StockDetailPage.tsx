@@ -24,12 +24,22 @@ type StockInfo = {
   percent: number;
 };
 
+type chartData = {
+  price_code: string;
+  price_date: string;
+  price_ePr: string;
+  price_hPr: string;
+  price_iPr: string;
+  price_id: number;
+  price_sPr: string;
+};
+
 const StockDetailPage: React.FC = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
   const [isProMode, proModeToggle] = useToggle([false, true] as const);
   const [stockName, setStockName] = useState<string>("");
-  const [chart, setChart] = useState([]);
+  const [chart, setChart] = useState<chartData[]>([]);
   const navigate = useNavigate();
   const stockDetailDispatch = useStockDetailDispatch();
   const WEBSOCKET_URL = process.env.WEBSOCKET_URL;
@@ -37,6 +47,17 @@ const StockDetailPage: React.FC = () => {
     price: 134900,
     percent: 12.9,
   });
+  const getCurrentDateTimeString = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const hours = String(currentDate.getHours()).padStart(2, "0");
+    const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+    const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000Z`;
+  };
 
   const handleWebSocket = useCallback(() => {
     const url = window.location.href;
@@ -115,6 +136,16 @@ const StockDetailPage: React.FC = () => {
           bidp_rsqn10: message.output1.bidp_rsqn10,
         };
         stockDetailDispatch(pushWebsocketPrice(webSocketData));
+        const newData = {
+          price_code: id || "",
+          price_date: getCurrentDateTimeString(),
+          price_ePr: message.output1.bidp1,
+          price_hPr: "",
+          price_iPr: "",
+          price_id: 1232424,
+          price_sPr: "",
+        };
+        setChart((prevChart) => [newData, ...prevChart]);
       };
 
       return () => {
@@ -134,7 +165,7 @@ const StockDetailPage: React.FC = () => {
   const fetchStockBasicInfo = async () => {
     try {
       const data = await getStockInfo(id!, "3m", "DAY");
-      console.log(data.result.chart);
+      console.log("chart:", data.result.chart);
       setStockName(data.result.name);
       setChart(data.result.chart);
     } catch (_) {
