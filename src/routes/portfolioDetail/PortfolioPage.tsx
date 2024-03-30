@@ -8,8 +8,12 @@ import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Ba
 import { useNavigate } from 'react-router-dom';
 import { findStocksByPortId, getPortNames } from '../../lib/apis/portfolios';
 import { portfolioInstance } from '../../lib/apis/api';
-// import cookie from 'react-cookies';
 
+type portfolioItem = {
+    id : Number,
+    amount : Number,
+    krxCode : {krxCode: String , name: String, type: String}
+}
 const data01 = [
     { x: 1, y: 2 },
     { x: 2, y: 5 },
@@ -17,10 +21,6 @@ const data01 = [
     { x: 4, y: 9 },
     { x: 5, y: 10 },
 ];
-
-
-
-// const portNames = ["포트1","포트폴리오2","프로포폴3"]
 
 const ScatterChartComponent: React.FC = () => {
     return (
@@ -40,13 +40,9 @@ const ScatterChartComponent: React.FC = () => {
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
             <Legend />
             <Scatter name="Portfolio" data={data01} fill="#8884d8" />
-            {/* <Scatter name="B school" data={data02} fill="#82ca9d" /> */}
         </ScatterChart>
     );
 };
-function portSelectClicked(){
-    console.log(1)
-}
 
 function Demo() {
     const elements :{ [key : string] : number} =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
@@ -74,7 +70,6 @@ function Demo() {
       </Table>
     );
 }
-
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
 ]
@@ -84,18 +79,21 @@ const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
     const [portNames,setPortNames] = useState<string>([])
     const [myPorts, setMyPorts] = useState([])
-    const [numSelected, setNumSelected] = useState<number>(-1)
+    const [numSelected, setNumSelected] = useState<number>(0)
     const [port, setPort] = useState<[{items : [], portNames : "", portid : ""}]>([{items : [], portNames : "", portid : ""}])
+    
     useEffect(()=>{
         const func = async ()=>{
             return await getPortNames();
         }
         func().then(result=>{
             const port = result.data.result
+            console.log(port)
             setMyPorts(port)
 
             const names = port.map((elem)=>{return elem.portName})
-            console.log(names)
+
+            // console.log(names)
             setPortNames(names)
         }).then(()=>{
 
@@ -106,14 +104,27 @@ const PortfolioPage: React.FC = () => {
     useEffect(()=>{
         console.log(numSelected,"selected")
         console.log(portNames)
-        const tempPort = {"portName" : portNames[numSelected], "portId" : 1}
+        // const tempPort = {"portName" : portNames[numSelected], "portId" : 1}
     },[numSelected])
 
+    function showDetail(myports, numSelected){
+        const selectedPort = myports[numSelected];
+        const selectedPorts = selectedPort?.portfolioItems
+        console.log(selectedPort)
+        return (
+            <>
+                {selectedPorts?.map((elem)=>{
+                    return <div>{elem.krxCode.name}</div>})}
+                <div>1</div>
+            </>
+        )
+    }
+    
     const test = async (e) => {
-        console.log(myPorts)
         console.log(port)
         findStocksByPortId(78)
     };
+
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
@@ -142,22 +153,10 @@ const PortfolioPage: React.FC = () => {
 
                 <div style={{display: "flex", alignItems: "center"}}>
                     <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
-                    <div style={{marginLeft:"25px", fontSize:"12px"}}>자세히보기</div>
-                    <Switch style={{marginLeft:"10px"}}/>
-                    {/* <button style={{fontSize:"10px",marginLeft:"10px"}} onClick={()=>{ navigate("edit",{ state : port})}}>
-                        편집
-                    </button> */}
+                    <h4 style={{marginLeft : "50px"}}>베타 : </h4>
+                    <h5>1.3</h5>
                 </div>
-                <BarChart h={300}
-                    data={data}
-                    dataKey="month"
-                    type="percent"
-                    series={[
-                        { name: 'Smartphones', color: 'violet.6' },
-                        { name: 'Laptops', color: 'blue.6' },
-                        { name: 'Tablets', color: 'teal.6' },
-                    ]}
-                />              
+                {showDetail(myPorts, numSelected)}      
                 <h3>
                     기간별 수익률
                     {Demo()}

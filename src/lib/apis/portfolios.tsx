@@ -1,25 +1,23 @@
 import { portfolioInstance } from "./api";
 
 export type stockAmountAndPriceProps={
-    user : string,
     newPortName : string,
-    stockCode: Array<{name : string, krxCode : string}>,
-    stockAmountAndPrice: Array<{amount : number, price : number}>
+    selectedStock : Array<{stockName: string, krxCode: string}>,
+    selectedStockAmount: Array<number>,
+    prices : Array<number>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function createPortfolio({user, newPortName ,stockCode , stockAmountAndPrice} : stockAmountAndPriceProps){
-    console.log(stockCode)
-    const req: { user : string, portName : string ,items: {"amount" : number , "price" : number, "krxCode":string}[] } = {
-        user : user,
+export async function createPortfolio({newPortName ,selectedStock , selectedStockAmount, prices } : stockAmountAndPriceProps){
+    const data: { portName : string , items: {"amount" : number , "price" : number, "krxCode":string}[] } = {
         items: [],
         portName : newPortName
       };
-    for(let i = 0; i<stockCode.length; i++){
-        console.log(stockCode[i],stockAmountAndPrice[i])
-        req.items.push({"amount" : stockAmountAndPrice[i].amount, "price" : stockAmountAndPrice[i].price, "krxCode" : stockCode[i].krxCode})
+    for(let i = 0; i<selectedStock.length; i++){
+        data.items.push({"amount" : selectedStockAmount[i], "price" : prices[i], "krxCode" : selectedStock[i].krxCode})
     }
-    return await portfolioInstance.post("/create",{data : req})
+    console.log(data)
+    return await portfolioInstance.post("/",data)
 }
 
 export async function getPortNames(){

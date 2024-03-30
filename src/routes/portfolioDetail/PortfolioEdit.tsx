@@ -39,7 +39,7 @@ const PortfolioEdit : React.FC = () => {
         const p = getPrice(["123"]);
         setPrices(p)
         //종목 이름 띄우기
-        const stocks = items.map((elem,idx )=>{
+        const stocks = items.map((elem)=>{
             return {"stockName" : elem.name,"krxCode" : elem.krxCode}})
         setSelectedStock(stocks)
         
@@ -64,7 +64,7 @@ const PortfolioEdit : React.FC = () => {
     
     const tempportName : string | void = useMemo(()=>{onChange},[portName])
     // const tempprices = useMemo(()=>{onChange},[prices])
-    const numberInputHandler = (e, idx)=>{
+    const numberInputHandler = (e : number , idx : number)=>{
         const tempPrice = prices[idx] * Number(e);
         const newSumPrices = [...sumPrices];
         newSumPrices[idx] = tempPrice;
@@ -106,14 +106,16 @@ const PortfolioEdit : React.FC = () => {
             </Table.Thead>
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
-                <Button onClick={(e)=>{
+                <Button onClick={()=>{
                     const newPortName = portNameRef.current.value;
                     if(confirm("제출하시겠습니까?")){
-                        createPortfolio({user, newPortName, selectedStock , selectedStockAmount});
+                        createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
                         navigate(-1);
                     }else{
+                        
+                        // createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
                         console.log("암것도 안함")
-                        console.log(selectedStock, selectedStockAmount)
+                        console.log({newPortName, selectedStock , selectedStockAmount, prices})
                     }
                 }} style={{marginLeft : "20px", marginTop:"20px"}}>제출하기</Button>
             </div>
