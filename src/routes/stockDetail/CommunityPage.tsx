@@ -18,6 +18,8 @@ import {
   saveComment,
   likeComment,
 } from "../../lib/apis/comment";
+import { useStockDetailSelector } from "../../lib/hooks/stockReduxHooks";
+import { PersistState } from "../../store/store";
 export interface community {
   id: number;
   codeId: string;
@@ -28,6 +30,7 @@ export interface community {
   numOfLikes: number;
   numOfUnlikes: number;
   isVoteType: string;
+  stockCodeName: string;
 }
 export interface communityInfoType {
   success: boolean;
@@ -48,14 +51,18 @@ export default function CommunityPage({}) {
   const { id } = useParams();
   const MAX_LENGTH = 100;
   const [communityInfo, setCommunityInfo] = useState<communityInfoType>();
-  const [value, setValue] = useState<string | null>("");
+  const [value, setValue] = useState<string | null>("최신순");
   const [likeCnt, setLikeCnt] = useState<number>(100);
   const [unlikeCnt, setUnlikeCnt] = useState<number>(120);
   const [userVote, setUserVote] = useState<string>("NONE"); // NONE, left, right
   const [writeToggle, setWriteToggle] = useState<boolean>(false);
   const [commentList, setCommentList] = useState<commentType[]>([]);
+  const [commentLikedList, setCommentLikedList] = useState<commentType[]>([]);
   const [commentText, setCommentText] = useState("");
   const [textAreaError, setTextAreaError] = useState(false);
+  const stockWebSocket = useStockDetailSelector(
+    (state) => state.stockWebSocket
+  );
   const handleVoteChange = (vote: string) => {
     let title = "";
     let message = "";
@@ -119,7 +126,7 @@ export default function CommunityPage({}) {
     const newComment = {
       id:
         commentList.length > 0 ? commentList[commentList.length - 1].id + 1 : 1,
-      writerEmail: "사용자",
+      writerEmail: "나",
       content: commentText.trim(),
       likeAmount: 0,
       isLiked: "UNLIKE",
@@ -138,6 +145,18 @@ export default function CommunityPage({}) {
   };
 
   const handleLikeClick = (index: number, isLiked: string) => {
+    setCommentLikedList((prevList) =>
+      prevList.map((item, idx) =>
+        item.id === index
+          ? {
+              ...item,
+              likeAmount:
+                isLiked === "LIKE" ? item.likeAmount - 1 : item.likeAmount + 1,
+              isLiked: isLiked === "UNLIKE" ? "LIKE" : "UNLIKE",
+            }
+          : item
+      )
+    );
     setCommentList((prevList) =>
       prevList.map((item, idx) =>
         item.id === index
@@ -161,12 +180,19 @@ export default function CommunityPage({}) {
     id &&
       communityBykrxCode(id).then((response) => {
         setCommunityInfo(response.data);
+        console.log(response.data.result);
         setLikeCnt(response.data.result.numOfLikes);
         setUnlikeCnt(response.data.result.numOfUnlikes);
         setUserVote(response.data.result.isVoteType);
         getCommentByCommunityId(response.data.result.id).then((response) => {
-          console.log(response.data);
-          setCommentList(response.data);
+          const sortedCommentList2 = [...response.data].sort(
+            (a: commentType, b: commentType) => a.id - b.id
+          );
+          const sortedCommentList = [...response.data].sort(
+            (a: commentType, b: commentType) => b.likeAmount - a.likeAmount
+          );
+          setCommentLikedList(sortedCommentList);
+          setCommentList(sortedCommentList2);
         });
       });
   }, []);
@@ -184,9 +210,11 @@ export default function CommunityPage({}) {
         align="center"
         className={classes.header}
       >
-        <div className={classes.header_title}>삼성전자</div>
+        <div className={classes.header_title}>
+          {communityInfo?.result.stockCodeName}
+        </div>
         <Flex direction={"row"}>
-          <div className={classes.header_price}>73,000원</div>
+          <div className={classes.header_price}>원</div>
           <div className={classes.header_percent}>+1.1%</div>
         </Flex>
       </Flex>
@@ -345,30 +373,54 @@ export default function CommunityPage({}) {
             투표하고 첫 댓글을 작성해보세요😀
           </Flex>
         )}
-        {commentList
-          ?.slice()
-          .reverse()
-          .map((value, index) => {
-            return (
-              <Flex
-                key={value.id}
-                direction={"column"}
-                justify="center"
-                align="center"
-              >
-                <Comment
-                  id={value.id}
-                  writerEmail={value.writerEmail}
-                  content={value.content}
-                  likeAmount={value.likeAmount}
-                  isLiked={value.isLiked}
-                  createdAt={value.createdAt}
-                  writerVoteType={value.writerVoteType}
-                  onLikeClick={() => handleLikeClick(value.id, value.isLiked)}
-                />
-              </Flex>
-            );
-          })}
+        {value === "최신순"
+          ? commentList
+              ?.slice()
+              .reverse()
+              .map((value, index) => {
+                return (
+                  <Flex
+                    key={value.id}
+                    direction={"column"}
+                    justify="center"
+                    align="center"
+                  >
+                    <Comment
+                      id={value.id}
+                      writerEmail={value.writerEmail}
+                      content={value.content}
+                      likeAmount={value.likeAmount}
+                      isLiked={value.isLiked}
+                      createdAt={value.createdAt}
+                      writerVoteType={value.writerVoteType}
+                      onLikeClick={() =>
+                        handleLikeClick(value.id, value.isLiked)
+                      }
+                    />
+                  </Flex>
+                );
+              })
+          : commentLikedList?.slice().map((value, index) => {
+              return (
+                <Flex
+                  key={value.id}
+                  direction={"column"}
+                  justify="center"
+                  align="center"
+                >
+                  <Comment
+                    id={value.id}
+                    writerEmail={value.writerEmail}
+                    content={value.content}
+                    likeAmount={value.likeAmount}
+                    isLiked={value.isLiked}
+                    createdAt={value.createdAt}
+                    writerVoteType={value.writerVoteType}
+                    onLikeClick={() => handleLikeClick(value.id, value.isLiked)}
+                  />
+                </Flex>
+              );
+            })}
       </Flex>
     </Flex>
   );
