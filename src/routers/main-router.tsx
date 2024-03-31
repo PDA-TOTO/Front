@@ -1,4 +1,3 @@
-import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../routes/MainLayout";
 import LoginPage from "../routes/user/LoginPage";
 import SignupPage from "../routes/user/SignupPage";
@@ -26,6 +25,15 @@ export const mainRouter = [
         element: <MainRenewPage />,
         index: true,
       },
+    ],
+  },
+];
+
+export const unloginRouter = [
+  {
+    path: "",
+    element: <MainLayout />,
+    children: [
       {
         path: "/login",
         element: <LoginPage />,
@@ -36,6 +44,15 @@ export const mainRouter = [
         element: <SignupPage />,
         index: true,
       },
+    ],
+  },
+];
+
+export const loginRouter = [
+  {
+    path: "",
+    element: <MainLayout />,
+    children: [
       {
         path: "/my",
         element: <MyPage />,
@@ -108,7 +125,3 @@ export const mainRouter = [
     index: true,
   },
 ];
-
-const router = createBrowserRouter(mainRouter);
-
-export default router;

@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { Center, Grid,Switch,Table } from '@mantine/core';
+=======
+import { Grid, Switch, Table } from '@mantine/core';
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { findStocksByPortId, getPortNames } from '../../lib/apis/portfolios';
 import { portfolioInstance } from '../../lib/apis/api';
+=======
+import { getPortNames } from '../../lib/apis/portfolios';
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
 
 type portfolioItem = {
     id : number,
@@ -29,6 +37,23 @@ const data01 = [
     { x: 5, y: 10 },
 ];
 
+<<<<<<< HEAD
+=======
+const port = {
+    items: [
+        { stockId: '005930', name: '삼성전자', weight: 0.5 },
+        { stockId: '005930', name: 'SK하이닉스', weight: 0.3 },
+        { stockId: '005930', name: '셀트리온', weight: 0.2 },
+    ],
+    portName: '포트1',
+    // "items" : ["삼성전자","SK하이닉스","셀트리온"],
+    // "weight" : [0.5, 0.25, 0.25],
+    portId: '1234',
+};
+
+// const portNames = ["포트1","포트폴리오2","프로포폴3"]
+
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
 const ScatterChartComponent: React.FC = () => {
     return (
         <ScatterChart
@@ -50,33 +75,39 @@ const ScatterChartComponent: React.FC = () => {
         </ScatterChart>
     );
 };
+<<<<<<< HEAD
+=======
+function portSelectClicked() {
+    console.log(1);
+}
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
 
 function Demo() {
-    const elements :{ [key : string] : number} =  { m1 : 10, m3 : -20, m6 : -30, m12 : 40}
+    const elements: { [key: string]: number } = { m1: 10, m3: -20, m6: -30, m12: 40 };
     const rows = (
-      <Table.Tr>
-        {Object.keys(elements).map((key) => (
-            <Table.Td style={elements[key]>0 ? {color:"red"}: {color:"blue"}}>{elements[key]} %</Table.Td>
-        ))}
-      </Table.Tr>
+        <Table.Tr>
+            {Object.keys(elements).map((key) => (
+                <Table.Td style={elements[key] > 0 ? { color: 'red' } : { color: 'blue' }}>{elements[key]} %</Table.Td>
+            ))}
+        </Table.Tr>
     );
-  
-    return (
-      <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>1개월</Table.Th>
-            <Table.Th>3개월</Table.Th>
-            <Table.Th>6개월</Table.Th>
-            <Table.Th>12개월</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
 
-        <Table.Tbody>{rows}</Table.Tbody>
-        
-      </Table>
+    return (
+        <Table>
+            <Table.Thead>
+                <Table.Tr>
+                    <Table.Th>1개월</Table.Th>
+                    <Table.Th>3개월</Table.Th>
+                    <Table.Th>6개월</Table.Th>
+                    <Table.Th>12개월</Table.Th>
+                </Table.Tr>
+            </Table.Thead>
+
+            <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
     );
 }
+<<<<<<< HEAD
 const data = [
     { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
 ]
@@ -102,6 +133,14 @@ const PortfolioPage: React.FC = () => {
         });
 
     },[])
+=======
+
+const data = [{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }];
+
+const PortfolioPage: React.FC = () => {
+    const navigate = useNavigate();
+    const [portNames, setPortNames] = useState<string[]>([]);
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
 
     function showDetail(myports, numSelected){
         const selectedPort = myports[numSelected];
@@ -141,14 +180,13 @@ const PortfolioPage: React.FC = () => {
 
     }
     return (
-        <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
+        <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{ display: 'flex' }}>
             <Grid.Col span={4}>
-                <h2>
-                    포트폴리오 지표 분석
-                </h2>
+                <h2>포트폴리오 지표 분석</h2>
                 <div style={{ width: '100%', height: 300 }}>
                     <ScatterChartComponent />
                 </div>
+<<<<<<< HEAD
                 
                 <div style={{fontWeight : 'bold' ,display : "flex"}}>
                     <div>
@@ -162,10 +200,31 @@ const PortfolioPage: React.FC = () => {
                         보기
                     </button>
                     <button style={{marginLeft:"10px"}} onClick={()=>{navigate("create")}}>
+=======
+
+                <div style={{ fontWeight: 'bold', display: 'flex' }}>
+                    <div>포트폴리오</div>
+                    <select style={{ marginLeft: '10px' }}>
+                        {portNames.map((elem: string, idx: number) => {
+                            return <option value={idx}>{elem}</option>;
+                        })}
+                    </select>
+                    <button style={{ marginLeft: '10px' }} onClick={() => portSelectClicked()}>
+                        보기
+                    </button>
+                    <button
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => {
+                            portSelectClicked();
+                            navigate('create');
+                        }}
+                    >
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
                         포트폴리오 만들기
                     </button>
                 </div>
 
+<<<<<<< HEAD
                 <div style={{display: "flex", alignItems: "center"}}>
                     <h1 style={{marginLeft : "10px" ,fontFamily : "Arial",width : "200PX",fontWeight : 'bold' ,display : "flex"}}>{myPorts[numSelected]?.portName}</h1>
                     <h3 style={{marginLeft : "50px"}}>베타 : 1.3</h3>
@@ -174,6 +233,36 @@ const PortfolioPage: React.FC = () => {
                     <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>기대수익률 : {52}%</h3>
                 </div>
                 {showDetail(myPorts, numSelected)}      
+=======
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <h3 style={{ fontWeight: 'bold', display: 'flex' }}>투자구성종목</h3>
+                    <div style={{ marginLeft: '25px', fontSize: '12px' }}>자세히보기</div>
+                    <Switch style={{ marginLeft: '10px' }} />
+                    <button
+                        style={{ fontSize: '10px', marginLeft: '10px' }}
+                        onClick={() => {
+                            portSelectClicked();
+                            navigate('edit', { state: port });
+                        }}
+                    >
+                        편집
+                    </button>
+                </div>
+                {/* <Bar options={options} data={data}></Bar> */}
+                <BarChart
+                    h={300}
+                    data={data}
+                    dataKey="month"
+                    // xScale={{ type: 'linear' }}
+                    // yScale={{ type: 'band' }}
+                    type="percent"
+                    series={[
+                        { name: 'Smartphones', color: 'violet.6' },
+                        { name: 'Laptops', color: 'blue.6' },
+                        { name: 'Tablets', color: 'teal.6' },
+                    ]}
+                />
+>>>>>>> b92a27002831c6231b4a1302c6b8e7eddd32b14f
                 <h3>
                     기간별 수익률
                     {Demo()}

@@ -1,5 +1,15 @@
 import { stockInstance } from "./api";
 
+
+export async function getStockTransaction(page: number, size: number) {
+  return await stockInstance.get("transactions?page=1&size=2", {
+    params: {
+      page,
+      size,
+    },
+  });
+}
+
 export async function getAllStockNames(){
     return await stockInstance.get("/");
 }

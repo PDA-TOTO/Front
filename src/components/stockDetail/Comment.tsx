@@ -8,25 +8,49 @@ import LikeEmpty from "../../assets/img/stock/community/LikeEmpty.svg";
 
 type Props = {
   id: number;
-  userName: string;
-  text: string;
+  writerEmail: string;
+  content: string;
   likeAmount: number;
-  isLiked: boolean;
-  time: number;
-  vote: boolean;
+  isLiked: string;
+  createdAt: string;
+  writerVoteType: string;
   onLikeClick: () => void;
 };
 
 export default function Comment({
   id,
-  userName,
-  text,
+  writerEmail,
+  content,
   likeAmount,
   isLiked,
-  time,
-  vote,
+  createdAt,
+  writerVoteType,
   onLikeClick,
 }: Props) {
+  const calculateTimeDifference = (dateTimeString: string): string => {
+    const date: Date = new Date(dateTimeString);
+    const now: Date = new Date();
+
+    const diffMs: number = now.getTime() - 9 * 60 * 60 * 1000 - date.getTime(); // Convert dates to timestamps
+    const diffMinutes: number = Math.floor(diffMs / (1000 * 60));
+    const diffHours: number = Math.floor(diffMinutes / 60);
+    const diffDays: number = Math.floor(diffHours / 24);
+
+    if (dateTimeString === "0") {
+      return "방금 전";
+    }
+
+    if (diffDays > 0) {
+      return diffDays === 1 ? "하루 전" : `${diffDays}일 전`;
+    } else if (diffHours > 0) {
+      return diffHours === 1 ? "한 시간 전" : `${diffHours}시간 전`;
+    } else if (diffMinutes > 0) {
+      return diffMinutes === 1 ? "1분 전" : `${diffMinutes}분 전`;
+    } else {
+      return "방금 전";
+    }
+  };
+
   return (
     <Flex
       direction={"row"}
@@ -42,15 +66,17 @@ export default function Comment({
       />
       <Flex direction={"column"} gap={20} style={{ width: "100%" }}>
         <Flex direction={"row"} gap={10} align="center">
-          <div className={classes.cmt_userName}>{userName}</div>
-          <div className={classes.cmt_time}>{time}분전</div>
-          {vote ? (
+          <div className={classes.cmt_writerEmail}>{writerEmail}</div>
+          <div className={classes.cmt_time}>
+            {calculateTimeDifference(createdAt)}
+          </div>
+          {writerVoteType === "LIKE" ? (
             <Image src={ThumbsUpColor} className={classes.cmt_vote_img} />
           ) : (
             <Image src={ThumbsDownColor} className={classes.cmt_vote_img} />
           )}
         </Flex>
-        {text}
+        {content}
         <Flex style={{ width: "100%" }} justify="flex-end">
           <Flex direction={"row"} align="center">
             <div
@@ -58,7 +84,7 @@ export default function Comment({
               onClick={onLikeClick}
               style={{ cursor: "pointer" }}
             >
-              {isLiked ? (
+              {isLiked === "LIKE" ? (
                 <Image src={Like} className={classes.cmt_like} />
               ) : (
                 <Image src={LikeEmpty} className={classes.cmt_like} />

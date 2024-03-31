@@ -4,6 +4,7 @@ import { LinksGroup } from './NavbarLinksGroup';
 import { useAppDispatch, useAppSelector } from '../../../lib/hooks/reduxHooks';
 import { useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/reducers/user';
+import { notifications } from '@mantine/notifications';
 
 const data = [
     { link: '/', label: '메인' },
@@ -12,7 +13,7 @@ const data = [
         links: [
             { link: '/stocks', label: '주식' },
             { link: '', label: '채권' },
-            { link: '', label: 'EFT' },
+            { link: '', label: 'ETF' },
         ],
     },
     { link: '/quiz', label: '퀴즈' },
@@ -63,12 +64,17 @@ export default function Navbar() {
     }
   });
 
-  function onClickLogout(event:React.MouseEvent<HTMLAnchorElement, MouseEvent>){
-    event.preventDefault(); 
-    setActive(''); 
-    dispatch(userLogout()).then(()=>{
-      navigate('/');
-    })
+  function onClickLogout(
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) {
+    event.preventDefault();
+    setActive("");
+    dispatch(userLogout()).then(() => {
+      navigate("/");
+      notifications.show({
+        message: '로그아웃 완료되었습니다.'
+      })
+    });
   }
 
   useEffect(()=>{
@@ -97,7 +103,7 @@ export default function Navbar() {
       </div>
         :
         <div className={classes.footer}>
-          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive('')}}>
+          <a href="#" className={classes.footerLink} onClick={(event) => {event.preventDefault(); setActive(''); navigate('/my')}}>
             <span>마이페이지</span>
           </a>
           <a href="#" className={classes.footerLink} onClick={(event) => {onClickLogout(event)}}>
