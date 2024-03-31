@@ -85,7 +85,7 @@ export default function MyPage() {
                 {value.code.name}
               </Text>
               <Text size="16px" fw="600" c="gray.5">
-                {value.createdAt.toString()}
+                {value.createdAt.toString().replace("T", " ").replace("Z", " ")}
               </Text>
               {value.transactionType === "BUY" ? (
                 <Text size="24px" fw="600" c="red.5" px="30px" ta="end">
@@ -247,14 +247,13 @@ export default function MyPage() {
                   color="blue.5"
                   bg="white.5"
                   value={
-                    user.user.experience -
-                    (user.user.experience < 100
-                      ? 0
+                    user.user.experience < 100
+                      ? user.user.experience
                       : user.user.experience < 400
-                      ? 100
+                      ? (user.user.experience - 100) / 3
                       : user.user.experience < 800
-                      ? 400
-                      : 800)
+                      ? (user.user.experience - 400) / 4
+                      : (user.user.experience - 800) / 10
                   }
                   animated
                   size={"12px"}

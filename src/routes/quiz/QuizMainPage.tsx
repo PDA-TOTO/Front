@@ -24,15 +24,7 @@ export default function QuizMainPage() {
   const [modal, setModal] = useState(false);
   const quizs = useAppSelector((state) => state.quiz.quiz);
   const user = useAppSelector((state) => state.user);
-  const [progress, setProgress] = useState(
-    user.user.experience < 100
-      ? 0
-      : user.user.experience < 400
-      ? 100
-      : user.user.experience < 800
-      ? 400
-      : 800
-  );
+  const [progress, setProgress] = useState(0);
   const dispatch = useAppDispatch();
   const location = useLocation();
 
@@ -144,7 +136,16 @@ export default function QuizMainPage() {
       setSolve(location.state.solve);
       if (location.state.solve) {
         const interval = setInterval(() => {
-          if (progress >= user.user.experience) {
+          if (
+            progress >=
+            (user.user.experience < 100
+              ? user.user.experience
+              : user.user.experience < 400
+              ? (user.user.experience - 100) / 3
+              : user.user.experience < 800
+              ? (user.user.experience - 400) / 4
+              : (user.user.experience - 800) / 10)
+          ) {
             clearInterval(interval);
             return;
           }
