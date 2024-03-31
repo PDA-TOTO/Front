@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
-import { stockMajors2 } from "../../lib/apis/stock";
+import { stockMajors2, stockSearch } from "../../lib/apis/stock";
 
 export interface stockMajor {
   itemCode: string;
@@ -42,11 +42,24 @@ export interface stockMajor {
 export default function StockPage() {
   const [activateId, setActivateId] = useState(0);
   const [stockMajorList, setStockMajorList] = useState<stockMajor[]>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
   useEffect(() => {
     stockMajors2().then((response) => {
       setStockMajorList(response.data);
     });
   }, []);
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+
+    try {
+      const value = e.target.value;
+      const response = value !== "" && (await stockSearch(e.target.value));
+      response && console.log("search:", response.data.result);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
 
   const buttonGroup = [
     {
@@ -109,8 +122,14 @@ export default function StockPage() {
             );
           })}
         </Flex>
-        <input className={classes.input_stock} placeholder="검색할 주식 입력" />
+        <input
+          className={classes.input_stock}
+          placeholder="검색할 주식 입력"
+          onChange={(e) => handleInputChange(e)}
+          value={searchValue}
+        />
       </Flex>
+      <div>hi</div>
       <div className={classes.bottom_stock_box}>
         <BottomStock id={activateId} />
       </div>
