@@ -3,6 +3,7 @@ import { Group, Collapse, UnstyledButton, rem } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import classes from "../../../styles/Navbar.module.css";
 import { useNavigate } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
 
 interface LinksGroupProps {
   label: string;
@@ -23,14 +24,24 @@ export function LinksGroup({
 
   const items = (hasLinks ? links : []).map((item) => (
     <a
-      className={classes.links}
+      className={
+        item.label === "채권" || item.label === "ETF"
+          ? classes.unActive
+          : classes.links
+      }
       data-active={item.label === active || undefined}
       href={item.link}
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
         setActive(item.label);
-        navigate(item.link);
+        if (item.label === "채권" || item.label === "ETF") {
+          notifications.show({
+            message: "해당 레벨에서는 볼 수 없는 서비스예요.",
+          });
+        } else {
+          navigate(item.link);
+        }
       }}
     >
       <span>{item.label}</span>

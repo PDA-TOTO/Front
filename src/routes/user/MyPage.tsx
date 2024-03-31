@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tabs,
   Flex,
@@ -15,7 +15,8 @@ import portfolio from "../../assets/img/my/portfolio.png";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../lib/hooks/reduxHooks";
 import { getStockTransaction } from "../../lib/apis/stocks";
-import { Transaction } from "../../lib/type";
+import { Portfolio, Transaction } from "../../lib/type";
+import { getMyInfo } from "../../lib/apis/user";
 
 export default function MyPage() {
   const [tab, setTab] = useState("마이페이지");
@@ -24,6 +25,7 @@ export default function MyPage() {
   const [transactions, setTransactions] = useState<Array<Transaction>>([]);
   const [totalPage, setTotalPage] = useState(1);
   const [page, setPage] = useState<number>(1);
+  const [portfolios, setPortfolios] = useState<Array<Portfolio>>([]);
 
   const numLevel =
     user.user.experience < 100
@@ -52,12 +54,12 @@ export default function MyPage() {
     else return "공격투자형";
   };
 
-  const lists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value, index) => {
+  const lists = portfolios.map((value, index) => {
     return (
       <Grid.Col key={index} span={4} w="100%">
         <Flex justify={"center"}>
           <Text size="18px" fw="600">
-            포트폴리오 {value}
+            {value.portName}
           </Text>
         </Flex>
       </Grid.Col>
@@ -161,6 +163,9 @@ export default function MyPage() {
     getStockTransaction(page, 7).then((data) => {
       setTransactions(data.data.result.data);
       setTotalPage(data.data.result?.total);
+    });
+    getMyInfo().then((data) => {
+      setPortfolios(data.data.result?.portfolios);
     });
   }, [page]);
 
