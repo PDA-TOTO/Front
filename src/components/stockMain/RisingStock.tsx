@@ -68,14 +68,14 @@ export default function RisingStock({}: Props) {
   }, []);
   return (
     <Flex direction={"column"}>
-      <Badge
+      {/* <Badge
         size="xl"
         variant="gradient"
         gradient={{ from: "#e28c8c", to: "#8bc3e5", deg: 90 }}
         className={classes.top}
       >
         TOP 5
-      </Badge>
+      </Badge> */}
       <Grid>
         {risingInfoList.length > 0 &&
           risingInfoList?.map((value, idx) => {

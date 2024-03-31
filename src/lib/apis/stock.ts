@@ -71,3 +71,19 @@ export const getStockInfo = async (
 
   return data;
 };
+
+export async function stockNews2(stockId: string) {
+  return await stockInstance.get("/" + stockId + "/news");
+}
+
+export async function stockMajors2() {
+  return await stockInstance.get("/index/majors");
+}
+
+export async function stockInfo(stockId: string) {
+  return await stockInstance.get("/" + stockId + "/info");
+}
+
+export async function stockMarketCap(page: number, size: number) {
+  return await stockInstance.get(`/search/cap?page=${page}&size=${size}`);
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
-import { stockMajors } from "../../lib/apis/stock";
+import { stockMajors2 } from "../../lib/apis/stock";
 
 export interface stockMajor {
   itemCode: string;
@@ -43,7 +43,7 @@ export default function StockPage() {
   const [activateId, setActivateId] = useState(0);
   const [stockMajorList, setStockMajorList] = useState<stockMajor[]>([]);
   useEffect(() => {
-    stockMajors().then((response) => {
+    stockMajors2().then((response) => {
       setStockMajorList(response.data);
     });
   }, []);
@@ -57,10 +57,10 @@ export default function StockPage() {
       id: 1,
       label: "시가총액순",
     },
-    {
-      id: 2,
-      label: "관심종목",
-    },
+    // {
+    //   id: 2,
+    //   label: "관심종목",
+    // },
   ];
 
   return (

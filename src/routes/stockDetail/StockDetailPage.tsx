@@ -44,6 +44,9 @@ const StockDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const stockDetailDispatch = useStockDetailDispatch();
   const WEBSOCKET_URL = process.env.WEBSOCKET_URL;
+  const [latestChartData, setLatestChartData] = useState<chartData | null>(
+    null
+  );
   const [stockInfo, setStockInfo] = useState<StockInfo>({
     price: 134900,
     percent: 12.9,
@@ -146,7 +149,8 @@ const StockDetailPage: React.FC = () => {
           price_id: 1232424,
           price_sPr: "",
         };
-        setChart((prevChart) => [newData, ...prevChart]);
+        setLatestChartData(newData);
+        // setChart((prevChart) => [newData, ...prevChart]);
       };
 
       return () => {
@@ -160,6 +164,12 @@ const StockDetailPage: React.FC = () => {
   useEffect(() => {
     handleWebSocket();
   }, [handleWebSocket]);
+
+  useEffect(() => {
+    if (latestChartData) {
+      setChart((prevChart) => [latestChartData, ...prevChart.slice(1)]);
+    }
+  }, [latestChartData]);
 
   const { ref, width } = useElementSize();
 
