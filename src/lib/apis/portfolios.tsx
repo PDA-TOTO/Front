@@ -20,6 +20,10 @@ export async function createPortfolio({newPortName ,selectedStock , selectedStoc
     return await portfolioInstance.post("/",data)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function deletePortfolio(portId : number){
+    return await portfolioInstance.delete("/"+portId)
+}
 export async function getPortNames(){
     return await portfolioInstance.get("/getAllPorts")
 }

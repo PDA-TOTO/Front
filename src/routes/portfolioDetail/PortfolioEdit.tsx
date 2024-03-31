@@ -1,18 +1,16 @@
 import React, { useRef } from 'react';
-import { Button, Grid,Input,MultiSelect,Switch,Table } from '@mantine/core';
+import { Button, Grid,Input,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import SearchableMultiSelect from './matine_layout/SearchableMultiSelect';
 import { useState, useEffect, useMemo } from 'react';
 import { createPortfolio } from '../../lib/apis/portfolios';
-import { useSelector } from 'react-redux';
 import { NumberInput } from '@mantine/core';
 import { getPrice } from '../../lib/apis/stocks';
 //선택한 종목들 버튼 누르면 종목이름과 비중 입력받을 수 있는 테이블 입력
 
 const PortfolioEdit : React.FC = () => {
     const navigate = useNavigate();
-    const user = useSelector(state => state.user.user);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [portName , setPortName] = useState<string>("")
 
@@ -31,8 +29,9 @@ const PortfolioEdit : React.FC = () => {
     const [selectedStockAmount , setselectedStockAmount] = useState<number[]>([])
 
 
-    const onChange = (e : Event)=>{
-        return e.target!.value
+    const onChange = (e: Event) => {
+        const inputElement = e.target as HTMLInputElement;
+        return inputElement.value;
     }
 
     const onClicked = async ( items : {krxCode : string, name : string, type : string} [] )=>{ //종목이름만 가져옴
@@ -57,14 +56,14 @@ const PortfolioEdit : React.FC = () => {
         setTotalPrice(total);
     }, [selectedStockAmount, prices]);
 
-    const handlePriceChange = (e, idx) => {
+    const handlePriceChange = ( (e : number, idx : number)  => {
         const newAmounts = [...selectedStockAmount];
         newAmounts[idx] = Number(e);
         setselectedStockAmount(newAmounts);
         console.log(selectedStockAmount)
-      };
-    
-    const tempportName : string | void = useMemo(()=>{onChange},[portName])
+    });
+      
+    const tempportName : string = useMemo(()=>{onChange},[portName])
     
     const numberInputHandler = (e : number , idx : number)=>{
         const tempPrice = prices[idx] * Number(e);
@@ -104,8 +103,10 @@ const PortfolioEdit : React.FC = () => {
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
                 <Button onClick={async ()=>{
-                    const newPortName = portNameRef.current.value;
-                    if(confirm("제출하시겠습니까?")){
+                    const newPortName : string = portNameRef.current.value;
+                    // const portNameRef = useRef<HTMLInputElement>(null);
+
+                    if(newPortName !== undefined && confirm("제출하시겠습니까?")){
                         try{
                             await createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
                             navigate(-1);
