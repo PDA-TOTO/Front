@@ -79,3 +79,7 @@ export async function stockNews2(stockId: string) {
 export async function stockMajors2() {
   return await stockInstance.get("/index/majors");
 }
+
+export async function stockInfo(stockId: string) {
+  return await stockInstance.get("/" + stockId + "/info");
+}

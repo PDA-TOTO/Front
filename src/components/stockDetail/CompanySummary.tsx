@@ -1,8 +1,23 @@
-import { Group, Spoiler, Stack, Text, Title } from '@mantine/core';
+import { Group, Spoiler, Stack, Text, Title } from "@mantine/core";
+import { stockInfo } from "../../lib/apis/stock";
+import { useEffect, useState } from "react";
+type Props = { id: string };
 
-const CompanySummary: React.FC = () => {
-    const hashtags = ['제조업', '코스피'];
-    const mockSummary = `
+type infoType = {
+  id: number;
+  krxCode: string;
+  INFO: string;
+};
+const CompanySummary = ({ id }: Props) => {
+  const [info, setInfo] = useState<infoType[]>([]);
+  useEffect(() => {
+    stockInfo(id).then((response) => {
+      console.log(response.data);
+      setInfo(response.data);
+    });
+  }, []);
+  const hashtags = ["제조업", "코스피"];
+  const mockSummary = `
     SK 산하의 종합 반도체 제조회사(IDM). 반도체 업계의 호황기와 경쟁자의 해체, 집중적 투자로 인한 경쟁력 강화와 점유율 상승 등의 효과로 SK그룹 계열사 중 3대 
     축이자 그 중에서도 가장 높은 매출액과 영업이익, 시가총액을 유지하고 있다. 실제 20세기만 해도 대기업 순
     위 최상위권이라고 보긴 어렵던 SK가 21세기 들어 점점 최상위권으로 발돋움하는데 가장 큰 역할을 했다고 볼 수 있다.2\n
@@ -12,30 +27,33 @@ const CompanySummary: React.FC = () => {
      판을 열면 SK하이닉스 스티커 또는 각인이 있는 메모리 모듈을 볼 수 있다.그 외에도 CMOS 업계 점유율 3% 남짓으로 6위 사업자이며 파운드리 영역에
      도 진출했다.노동조합은 전임직이한국노총금속노련, 기술사무직과 전문직은 민주노총 화섬산업노조이다.`;
 
-    return (
-        <Stack mt="xl" gap="xl" mb={60}>
-            <Group>
-                {hashtags.map((h) => (
-                    <Text key={h}>{`#${h}`}</Text>
-                ))}
-            </Group>
-            <Stack gap={0}>
-                <Title order={2}>기업소개</Title>
-                <Spoiler
-                    maxHeight={120}
-                    showLabel="더 보기"
-                    hideLabel="닫기"
-                    styles={{
-                        control: {
-                            color: 'gray',
-                        },
-                    }}
-                >
-                    {mockSummary}
-                </Spoiler>
-            </Stack>
-        </Stack>
-    );
+  return (
+    <Stack mt="xl" gap="xl" mb={60}>
+      <Group>
+        {/* {hashtags.map((h) => (
+          <Text key={h}>{`#${h}`}</Text>
+        ))} */}
+      </Group>
+      <Stack gap={0}>
+        <Title order={2}>기업소개</Title>
+        <Spoiler
+          maxHeight={120}
+          showLabel="더 보기"
+          hideLabel="닫기"
+          styles={{
+            control: {
+              color: "gray",
+            },
+          }}
+        >
+          {info.map((value) => {
+            return value.INFO;
+          })}
+          {/* {mockSummary} */}
+        </Spoiler>
+      </Stack>
+    </Stack>
+  );
 };
 
 export default CompanySummary;
