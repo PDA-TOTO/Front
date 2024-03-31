@@ -19,12 +19,17 @@
 
 .header_price {
   font-size: 15px;
-  color: var(--mantine-color-red-5);
+  color: var(--mantine-color-black-5);
 }
 
-.header_percent {
+.header_percent_plus {
   font-size: 15px;
   color: var(--mantine-color-red-5);
+  padding-left: 5px;
+}
+.header_percent_minus {
+  font-size: 15px;
+  color: var(--mantine-color-blue-5);
   padding-left: 5px;
 }
 
@@ -229,4 +234,10 @@
   width: 12px;
   height: 12px;
   margin-right: 5px;
+}
+
+.cmt_0_title {
+  font-size: 20px;
+  font-weight: 800;
+  padding-top: 40px;
 }

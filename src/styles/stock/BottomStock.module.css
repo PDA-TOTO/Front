@@ -23,7 +23,7 @@
   justify-content: flex-end;
 }
 
-.grid_card_percent {
+.grid_card_percent_plus {
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
@@ -33,4 +33,19 @@
   justify-content: flex-end;
   color: var(--mantine-color-red-5);
   padding-left: 5px;
+}
+.grid_card_percent_minus {
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  text-align: end;
+  display: flex;
+  align-items: flex-end; /* 수직 정렬 추가 */
+  justify-content: flex-end;
+  color: var(--mantine-color-blue-5);
+  padding-left: 5px;
+}
+
+.top {
+  margin-bottom: 20px;
 }
