@@ -70,6 +70,7 @@ const PortfolioEdit : React.FC = () => {
         const tempPrice = prices[idx] * Number(e);
         const newSumPrices = [...sumPrices];
         newSumPrices[idx] = tempPrice;
+        setSumPrices(newSumPrices)
         handlePriceChange(e, idx);
     }
     function table(stocks : {"stockName" : string, "krxCode" : string}[]){ //stocks => selectedStock
@@ -102,14 +103,18 @@ const PortfolioEdit : React.FC = () => {
             </Table.Thead>
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
-                <Button onClick={()=>{
+                <Button onClick={async ()=>{
                     const newPortName = portNameRef.current.value;
                     if(confirm("제출하시겠습니까?")){
-                        createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
-                        navigate(-1);
-                    }else{
+                        try{
+                            await createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
+                            navigate(-1);
+                        } catch(error){
+                            console.error("Error occurred:", error);
+                            alert("잔고부족");
+                        }
                         
-                        // createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
+                    }else{
                         console.log("암것도 안함")
                         console.log({newPortName, selectedStock , selectedStockAmount, prices})
                     }
