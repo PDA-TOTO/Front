@@ -27,6 +27,7 @@
   height: 40px;
   border-radius: 12px;
   margin-top: 30px;
+  cursor: pointer;
 }
 
 .lock_btn1 {
