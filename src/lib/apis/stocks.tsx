@@ -3,8 +3,15 @@ import { stockInstance } from "./api";
 export async function getAllStockNames(){
     return await stockInstance.get("/");
 }
-export function getPrice(stocks : string[]) : number[] {
-    // return await stockInstance.get("/",stocks);
-    console.log(stocks)
-    return [10000,20300, 4000];
+export async function getPrice(stocks : {"stockName" : string, "krxCode" : string}[]) : Promise<number[]> {
+    const codes = stocks.map( (elem : {"stockName" : string, "krxCode" : string}) =>{ return elem.krxCode })
+
+    const promises = codes.map(async (elem : string)=>{ 
+        const result = await stockInstance.get("/"+elem+"/price")
+        return result.data
+    })
+
+    const prices = await Promise.all(promises);
+
+    return prices
 }

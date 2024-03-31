@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid,Switch,Table } from '@mantine/core';
+import { Center, Grid,Switch,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart } from '@mantine/charts';
@@ -10,9 +10,16 @@ import { findStocksByPortId, getPortNames } from '../../lib/apis/portfolios';
 import { portfolioInstance } from '../../lib/apis/api';
 
 type portfolioItem = {
-    id : Number,
-    amount : Number,
-    krxCode : {krxCode: String , name: String, type: String}
+    id : number,
+    amount : number,
+    avg : number,
+    krxCode : {krxCode: string , name: string, type: string}
+}
+type myPort = {
+    id : number,
+    ismain : boolean,
+    portName : string,
+    portfolioItems : portfolioItem[]
 }
 const data01 = [
     { x: 1, y: 2 },
@@ -80,7 +87,6 @@ const PortfolioPage: React.FC = () => {
     const [portNames,setPortNames] = useState<string>([])
     const [myPorts, setMyPorts] = useState([])
     const [numSelected, setNumSelected] = useState<number>(0)
-    const [port, setPort] = useState<[{items : [], portNames : "", portid : ""}]>([{items : [], portNames : "", portid : ""}])
     
     useEffect(()=>{
         const func = async ()=>{
@@ -88,43 +94,52 @@ const PortfolioPage: React.FC = () => {
         }
         func().then(result=>{
             const port = result.data.result
-            console.log(port)
             setMyPorts(port)
-
             const names = port.map((elem)=>{return elem.portName})
-
-            // console.log(names)
             setPortNames(names)
         }).then(()=>{
 
         });
 
     },[])
-    
-    useEffect(()=>{
-        console.log(numSelected,"selected")
-        console.log(portNames)
-        // const tempPort = {"portName" : portNames[numSelected], "portId" : 1}
-    },[numSelected])
 
     function showDetail(myports, numSelected){
         const selectedPort = myports[numSelected];
         const selectedPorts = selectedPort?.portfolioItems
-        console.log(selectedPort)
         return (
             <>
+                <div style={{height : "50px", border:"solid black 1px", margin : "20px", display:"flex", textAlign : "center"}}>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>종목명</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>수량</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평균단가</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평가금액</div>
+                
+                </div>
                 {selectedPorts?.map((elem)=>{
-                    return <div>{elem.krxCode.name}</div>})}
-                <div>1</div>
+                    return <div style={{height : "50px", border:"solid black 1px", margin : "20px", display:"flex", textAlign : "center"}}>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.krxCode.name}</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.amount}</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg}</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg* elem.amount}</div>
+                        </div>})}
             </>
         )
     }
     
     const test = async (e) => {
-        console.log(port)
-        findStocksByPortId(78)
+        console.log(myPorts)
+        // findStocksByPortId(78)
+        console.log(myPorts[numSelected].portName)
     };
 
+    function getPortSum( myPorts : myPort [] , numSelected : number){
+        const selectedPort = myPorts[numSelected];
+        const selectedPorts = selectedPort?.portfolioItems
+        let sum = 0
+        selectedPorts?.map( (elem :portfolioItem) =>{sum += Number(elem.amount) * elem.avg;})
+        return sum;
+
+    }
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
             <Grid.Col span={4}>
@@ -152,9 +167,11 @@ const PortfolioPage: React.FC = () => {
                 </div>
 
                 <div style={{display: "flex", alignItems: "center"}}>
-                    <h3 style={{fontWeight : 'bold' ,display : "flex"}}>투자구성종목</h3>
-                    <h4 style={{marginLeft : "50px"}}>베타 : </h4>
-                    <h5>1.3</h5>
+                    <h1 style={{marginLeft : "10px" ,fontFamily : "Arial",width : "200PX",fontWeight : 'bold' ,display : "flex"}}>{myPorts[numSelected]?.portName}</h1>
+                    <h3 style={{marginLeft : "50px"}}>베타 : 1.3</h3>
+                    <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>
+                        포트폴리오 자산 : {getPortSum(myPorts,numSelected)}</h3>
+                    <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>기대수익률 : {52}%</h3>
                 </div>
                 {showDetail(myPorts, numSelected)}      
                 <h3>

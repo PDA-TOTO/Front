@@ -31,17 +31,19 @@ const PortfolioEdit : React.FC = () => {
     const [selectedStockAmount , setselectedStockAmount] = useState<number[]>([])
 
 
-    const onChange = (e)=>{
-        return e.target.value
+    const onChange = (e : Event)=>{
+        return e.target!.value
     }
 
     const onClicked = async ( items : {krxCode : string, name : string, type : string} [] )=>{ //종목이름만 가져옴
-        const p = getPrice(["123"]);
-        setPrices(p)
+        
         //종목 이름 띄우기
         const stocks = items.map((elem)=>{
             return {"stockName" : elem.name,"krxCode" : elem.krxCode}})
         setSelectedStock(stocks)
+
+        const p = await getPrice(stocks);
+        setPrices(p)
         
         const updatedPrices = items.map(() => 0);
         setSumPrices(updatedPrices);
@@ -63,18 +65,12 @@ const PortfolioEdit : React.FC = () => {
       };
     
     const tempportName : string | void = useMemo(()=>{onChange},[portName])
-    // const tempprices = useMemo(()=>{onChange},[prices])
+    
     const numberInputHandler = (e : number , idx : number)=>{
         const tempPrice = prices[idx] * Number(e);
         const newSumPrices = [...sumPrices];
         newSumPrices[idx] = tempPrice;
         handlePriceChange(e, idx);
-        if(e<0){
-            alert("음수는 안된단다~")
-        }else{
-            setSumPrices(newSumPrices);
-            // setSelectedStock(temp)
-        }
     }
     function table(stocks : {"stockName" : string, "krxCode" : string}[]){ //stocks => selectedStock
         const rows = stocks?.map((elem,idx) =>(  //{"stockName" : string, "stockPrice" : number}[]
