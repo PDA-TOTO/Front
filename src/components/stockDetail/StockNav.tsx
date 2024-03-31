@@ -5,12 +5,16 @@ import { useParams } from "react-router-dom";
 import LockInfo from "./common/LockInfo";
 import LockResearch from "../../assets/img/stock/lock/LockResearch.png";
 import LockNews from "../../assets/img/stock/lock/LockNews.png";
-import LockCommunity from "../../assets/img/stock/lock/LockCommunity.png";
+// import LockCommunity from "../../assets/img/stock/lock/LockCommunity.png";
 import LockInformation from "../../assets/img/stock/lock/LockInformation.png";
 import CompanySummary from "./CompanySummary";
 import StockFinance from "./StockFinance";
 
+import { useEffect, useState } from "react";
+import { getMyInfo } from "../../lib/apis/user";
+
 const StockNav: React.FC = () => {
+  const [experience, setExperience] = useState<number>(0);
   const { id } = useParams();
   const tabs = [
     {
@@ -35,6 +39,12 @@ const StockNav: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    getMyInfo().then((data) => {
+      setExperience(data.data.result?.experience);
+    });
+  }, []);
+
   return (
     <Tabs color="primary.5" defaultValue="summary" style={{ zIndex: 5 }}>
       <Tabs.List grow justify="space-between">
@@ -52,8 +62,20 @@ const StockNav: React.FC = () => {
       <Tabs.Panel value="community">
         {id && <StockCommunity id={id} />}
       </Tabs.Panel>
-      <Tabs.Panel value="info">{id && <StockFinance id={id} />}</Tabs.Panel>
-      <Tabs.Panel value="news">{id && <StockNews id={id} />}</Tabs.Panel>
+      <Tabs.Panel value="info">
+        {experience >= 400 ? (
+          id && <StockFinance id={id} />
+        ) : (
+          <LockInfo tabName={"정보"} imgLink={LockInformation} />
+        )}
+      </Tabs.Panel>
+      <Tabs.Panel value="news">
+        {experience >= 100 ? (
+          id && <StockNews id={id} />
+        ) : (
+          <LockInfo tabName={"뉴스"} imgLink={LockNews} />
+        )}
+      </Tabs.Panel>
       <Tabs.Panel value="research">
         <LockInfo tabName={"리서치"} imgLink={LockResearch} />
       </Tabs.Panel>
