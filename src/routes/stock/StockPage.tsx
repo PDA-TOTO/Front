@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Flex } from "@mantine/core";
 import classes from "../../styles/stock/StockMain.module.css";
 import BottomStock from "../../components/stockMain/BottomStock";
-import { stockMajors2 } from "../../lib/apis/stock";
+import { stockMajors2, stockSearch } from "../../lib/apis/stock";
+import { useNavigate } from "react-router-dom";
 
 export interface stockMajor {
   itemCode: string;
@@ -39,14 +40,53 @@ export interface stockMajor {
   };
 }
 
+type StockInfo = {
+  krxCode: string;
+  name: string;
+  type: string;
+};
+
+const mockSearchList = [
+  { krxCode: "005930", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005931", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005932", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005933", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005934", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005935", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005936", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005937", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005938", name: "삼성전자", type: "STOCK" },
+  { krxCode: "005939", name: "삼성전자", type: "STOCK" },
+  { krxCode: "0059310", name: "삼성전자", type: "STOCK" },
+  { krxCode: "0059311", name: "삼성전자", type: "STOCK" },
+  { krxCode: "0059312", name: "삼성전자", type: "STOCK" },
+  { krxCode: "0059313", name: "삼성전자", type: "STOCK" },
+];
+
 export default function StockPage() {
   const [activateId, setActivateId] = useState(0);
   const [stockMajorList, setStockMajorList] = useState<stockMajor[]>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchList, setSearchList] = useState<StockInfo[]>();
+  const navigate = useNavigate();
   useEffect(() => {
     stockMajors2().then((response) => {
       setStockMajorList(response.data);
     });
   }, []);
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+
+    try {
+      const value = e.target.value;
+      const response = value !== "" && (await stockSearch(e.target.value));
+      response && console.log("search:", response.data.result);
+      response && setSearchList(response.data.result);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
 
   const buttonGroup = [
     {
@@ -109,7 +149,38 @@ export default function StockPage() {
             );
           })}
         </Flex>
-        <input className={classes.input_stock} placeholder="검색할 주식 입력" />
+        <Flex direction={"column"}>
+          <input
+            className={classes.input_stock}
+            placeholder="검색할 주식 입력"
+            onChange={(e) => handleInputChange(e)}
+            value={searchValue}
+          />
+          {searchValue !== "" && (
+            <Flex
+              className={`${classes.input_result} ${
+                searchValue !== "" ? classes.show : ""
+              }`}
+              direction={"column"}
+            >
+              {searchList?.map((value) => {
+                return (
+                  <Flex
+                    direction={"row"}
+                    onClick={() => navigate(`/stocks/${value.krxCode}`)}
+                    key={value.krxCode}
+                    className={classes.stock_search}
+                  >
+                    {value.name}
+                    <div className={classes.search_krxCode}>
+                      {value.krxCode}
+                    </div>
+                  </Flex>
+                );
+              })}
+            </Flex>
+          )}
+        </Flex>
       </Flex>
       <div className={classes.bottom_stock_box}>
         <BottomStock id={activateId} />
