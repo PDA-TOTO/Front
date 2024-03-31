@@ -127,7 +127,7 @@
 }
 
 .stock_search:hover {
-  background-color: var(--mantine-color-secondary-5);
+  background-color: var(--mantine-color-block-5);
   cursor: pointer;
 }
 .search_krxCode {
