@@ -32,7 +32,7 @@ const initialState = {
   isUser: false,
 };
 
-type Result= {
+export type Result= {
   success: boolean,
   message: string,
   result: VisibleUser
@@ -94,7 +94,9 @@ const userSlice = createSlice({
       state.user.tendency = null;
     });
     builder.addCase(userGetinfo.fulfilled,(state, action)=>{
-      state.user = action.payload.result
+      state.user.id = action.payload.result.id
+      state.user.experience = action.payload.result.experience
+      state.user.tendency = action.payload.result.tendency
     });
   }
 });
