@@ -20,15 +20,7 @@ function renderRoutes(routesObj: RouteObject[], type: number) {
           key={route.path}
           path={route.path}
           index={route.index}
-          element={
-            type === 0 ? (
-              <PrivateRoute component={route.element} />
-            ) : type === 1 ? (
-              <PublicRoute component={route.element} />
-            ) : (
-              route.element
-            )
-          }
+          element={route.element}
         >
           {route.children ? renderRoutes(route.children, type) : null}
         </Route>
