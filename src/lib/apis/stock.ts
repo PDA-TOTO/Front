@@ -83,3 +83,7 @@ export async function stockMajors2() {
 export async function stockInfo(stockId: string) {
   return await stockInstance.get("/" + stockId + "/info");
 }
+
+export async function stockMarketCap(page: number, size: number) {
+  return await stockInstance.get(`/search/cap?page=${page}&size=${size}`);
+}
