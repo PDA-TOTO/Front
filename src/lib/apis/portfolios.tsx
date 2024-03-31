@@ -27,3 +27,12 @@ export async function getPortNames(){
 export async function findStocksByPortId( portId : number){
     return await portfolioInstance.get("/getstocks",{ data : portId})
 }
+
+export async function getWeight(portId: number) {
+    return await portfolioInstance.get("/" + portId);
+}
+
+export async function getBeta() {
+    const result = await portfolioInstance.get("/1/beta");
+    return result.data.betas
+}

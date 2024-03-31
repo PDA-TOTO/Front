@@ -6,7 +6,7 @@ import { BarChart } from '@mantine/charts';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import { findStocksByPortId, getPortNames } from '../../lib/apis/portfolios';
+import { findStocksByPortId, getPortNames, getWeight, getBeta } from '../../lib/apis/portfolios';
 import { portfolioInstance } from '../../lib/apis/api';
 
 type portfolioItem = {
@@ -77,30 +77,43 @@ function Demo() {
       </Table>
     );
 }
-const data = [
-    { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 }
-]
-  
 
 const PortfolioPage: React.FC = () => {
     const navigate = useNavigate()
     const [portNames,setPortNames] = useState<string>([])
     const [myPorts, setMyPorts] = useState([])
     const [numSelected, setNumSelected] = useState<number>(0)
-    
+    const [betas, setBetas] = useState([])
+
     useEffect(()=>{
         const func = async ()=>{
+            const B = await getBeta();
+            setBetas(B)
             return await getPortNames();
         }
+
         func().then(result=>{
             const port = result.data.result
+            port.map(async (elem,idx)=>{
+                // Promise.all(await getWeight(elem.id))
+                // console.log(await getWeight(elem.id))
+                const res = await getWeight(elem.id)
+                const ratios = []
+                res.data.result.portfolioItems.map(async elem=>{
+                    // console.log(elem.ratio)
+                    await ratios.push(elem.ratio)
+                })
+                // console.log(ratios)
+                const tempmyports = port
+                tempmyports[idx].weight = ratios
+            })
+            
+
+            console.log(port)
             setMyPorts(port)
             const names = port.map((elem)=>{return elem.portName})
             setPortNames(names)
-        }).then(()=>{
-
-        });
-
+        }).then();
     },[])
 
     function showDetail(myports, numSelected){
@@ -113,32 +126,57 @@ const PortfolioPage: React.FC = () => {
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>수량</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평균단가</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평가금액</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>비중</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>베타</div>
                 
                 </div>
-                {selectedPorts?.map((elem)=>{
+                {selectedPorts?.map((elem : portfolioItem, idx : number)=>{
                     return <div style={{height : "50px", border:"solid black 1px", margin : "20px", display:"flex", textAlign : "center"}}>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.krxCode.name}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.amount}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg* elem.amount}</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{myports[numSelected]?.weight?.[idx]?.toFixed(2)}</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{betas[numSelected][idx].toFixed(2)}</div>
                         </div>})}
             </>
         )
     }
     
     const test = async (e) => {
+        // console.log(portWeight)
         console.log(myPorts)
         // findStocksByPortId(78)
-        console.log(myPorts[numSelected].portName)
+        // console.log(myPorts[numSelected].portName)
     };
 
     function getPortSum( myPorts : myPort [] , numSelected : number){
         const selectedPort = myPorts[numSelected];
         const selectedPorts = selectedPort?.portfolioItems
+        const betaList = betas[numSelected]
         let sum = 0
-        selectedPorts?.map( (elem :portfolioItem) =>{sum += Number(elem.amount) * elem.avg;})
+        selectedPorts?.map( (elem :portfolioItem,idx : number) =>{sum += Number(elem.amount) * elem.avg;})
         return sum;
-
+    }
+    function getBetaSum( myPorts : myPort [] , numSelected : number){
+        console.log(myPorts[numSelected]?.weight)
+        const selectedPort = myPorts[numSelected];
+        const selectedPorts = selectedPort?.portfolioItems
+        let sum = 0
+        selectedPorts?.map( (elem :portfolioItem, idx : number) =>{
+            const beta =  betas[numSelected]?.[idx]
+            const weight = myPorts[numSelected]?.weight?.[idx] 
+            console.log(beta,weight)
+            sum += beta * weight
+        })
+        return (sum/100).toFixed(2);
+    }
+    function getER(myPorts,numSelected){
+        const beta = Number(getBetaSum(myPorts,numSelected));
+        const rf = 3.414
+        const Em = 2
+        const capm = rf + beta*(Em-rf)
+        return capm.toFixed(2)
     }
     return (
         <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
@@ -168,10 +206,10 @@ const PortfolioPage: React.FC = () => {
 
                 <div style={{display: "flex", alignItems: "center"}}>
                     <h1 style={{marginLeft : "10px" ,fontFamily : "Arial",width : "200PX",fontWeight : 'bold' ,display : "flex"}}>{myPorts[numSelected]?.portName}</h1>
-                    <h3 style={{marginLeft : "50px"}}>베타 : 1.3</h3>
+                    <h3 style={{marginLeft : "50px"}}>베타 : {getBetaSum(myPorts,numSelected)}</h3>
                     <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>
                         포트폴리오 자산 : {getPortSum(myPorts,numSelected)}</h3>
-                    <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>기대수익률 : {52}%</h3>
+                    <h3 style={{marginLeft :"30px" , fontWeight : 'bold' ,display : "flex"}}>기대수익률 : {getER(myPorts,numSelected)}%</h3>    
                 </div>
                 {showDetail(myPorts, numSelected)}      
                 <h3>
