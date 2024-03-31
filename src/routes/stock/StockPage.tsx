@@ -57,10 +57,10 @@ export default function StockPage() {
       id: 1,
       label: "시가총액순",
     },
-    {
-      id: 2,
-      label: "관심종목",
-    },
+    // {
+    //   id: 2,
+    //   label: "관심종목",
+    // },
   ];
 
   return (
