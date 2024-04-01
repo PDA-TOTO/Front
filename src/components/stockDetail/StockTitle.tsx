@@ -11,6 +11,7 @@ type StockTitleProps = {
   price: number;
   percent: number;
   stockId: string;
+  stockData: any[];
 };
 
 type stockWebsocketType = {
@@ -21,6 +22,7 @@ const StockTitle: React.FC<StockTitleProps> = ({
   price,
   percent,
   stockId,
+  stockData,
 }: StockTitleProps) => {
   const [closePrice, setClosePrice] = useState<string>("");
   const [currentPercent, setCurrentPercent] = useState<number>(0);
@@ -47,6 +49,7 @@ const StockTitle: React.FC<StockTitleProps> = ({
     return change > 0 ? Number(change.toFixed(2)) : Number(change.toFixed(2));
   };
   useEffect(() => {
+    stockData.length > 0 && console.log("[chart]", stockData[0].price_ePr);
     stockId &&
       getNaverStockInfo(stockId).then((response) => {
         setClosePrice(response.data.closePrice);
@@ -55,17 +58,21 @@ const StockTitle: React.FC<StockTitleProps> = ({
           response.data.compareToPreviousClosePrice
         );
         const fluctuationsRatio = Number(response.data.fluctuationsRatio);
-        const NumberClosePrice =
-          fluctuationsRatio < 0
-            ? Number(response.data.closePrice.replace(/,/g, "")) +
-              compareToPreviousClosePrice
-            : Number(response.data.closePrice.replace(/,/g, "")) -
-              compareToPreviousClosePrice;
-        const calP: number = calculatePercentageChange(
-          NumberBidp1,
-          NumberClosePrice
-        );
-        setCurrentPercent(calP);
+        // const NumberClosePrice =
+        //   fluctuationsRatio < 0
+        //     ? Number(response.data.closePrice.replace(/,/g, "")) +
+        //       compareToPreviousClosePrice
+        //     : Number(response.data.closePrice.replace(/,/g, "")) -
+        //       compareToPreviousClosePrice;
+        if (stockData.length > 0) {
+          const secondNumber = Number(stockData[0].price_ePr);
+
+          const calP: number = calculatePercentageChange(
+            NumberBidp1,
+            secondNumber
+          );
+          setCurrentPercent(calP);
+        }
         console.log("stockWebSocket.bidp1", stockWebSocket.bidp1);
       });
   }, [stockWebSocket.bidp1]);

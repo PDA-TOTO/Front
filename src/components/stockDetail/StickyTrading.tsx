@@ -51,7 +51,6 @@ const StickyTrading: React.FC<StickyTradingProps> = ({
   };
 
   const renderCurrentPage = (pageType: TradingPageType) => {
-    console.log("RENDER:", info);
     switch (pageType) {
       case TradingPageType.BUY:
         return <StockTradingBody gap={stackGap} tradingType="BUY" />;

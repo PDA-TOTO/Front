@@ -46,7 +46,7 @@ const MainStockTradingBody: React.FC<MainStockTradingBodyProps> = ({
     if (9 <= hours && hours <= 16) {
       setActive(true);
     } else {
-      setActive(false);
+      setActive(true);
     }
 
     // const stockCode = location.pathname.split("/").pop();
