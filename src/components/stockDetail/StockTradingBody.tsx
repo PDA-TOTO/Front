@@ -15,6 +15,7 @@ import {
   sellStock,
 } from "../../lib/apis/portfolios";
 import { notifications } from "@mantine/notifications";
+import { getMyInfo } from "../../lib/apis/user";
 
 type StockTradingBodyProps = {
   gap: "xs" | "sm" | "md" | "lg" | "xl";
@@ -49,7 +50,7 @@ const portfolios = [
   "포폴 3",
   "이상하게 긴 포트폴리오 이름은 어떻게 될까요?????",
 ];
-const balance = 2300000;
+// const balance = 2300000;
 
 const StockTradingBody: React.FC<StockTradingBodyProps> = ({
   gap,
@@ -63,6 +64,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
   const [portList, setPortList] = useState<Portfolio[]>([]);
   const stockDetailDispatch = useStockDetailDispatch();
   const stockControl = useStockDetailSelector((state) => state.stockControl);
+  const [balance, setBalance] = useState<number>(0);
   const stockWebSocket = useStockDetailSelector(
     (state) => state.stockWebSocket
   );
@@ -71,6 +73,10 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
     getAllPortfolio().then((response) => {
       console.log("response:", response.data.result);
       setPortList(response.data.result);
+    });
+    getMyInfo().then((response) => {
+      console.log("info:", response.data.result.account.amount);
+      setBalance(response.data.result.account.amount);
     });
   }, []);
 
