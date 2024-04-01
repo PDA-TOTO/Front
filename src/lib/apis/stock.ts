@@ -93,5 +93,9 @@ export async function stockSearch(searchName: string) {
 }
 
 export async function getRecentStock(krxCode: string) {
-  return await stockInstance.get(`/stocks/${krxCode}/recent`);
+  return await stockInstance.get(`/${krxCode}/recent`);
+}
+
+export async function getMyStockInfo(krxCode: string) {
+  return await stockInstance.get(`${krxCode}/my`);
 }
