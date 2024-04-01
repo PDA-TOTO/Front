@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid,Table ,Text} from '@mantine/core';
+import { Grid } from '@mantine/core';
 import '@mantine/charts/styles.css';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar, ZAxis } from 'recharts';
@@ -169,7 +169,7 @@ const PortfolioPage: React.FC = () => {
                         {myPorts.map((elem,idx)=>{return <option key={elem.id} value={idx}>{elem.portName}</option>})}
                     </select>
                     {/* <Button style={{marginLeft:"10px"}} onClick={openDeleteModal}>포트폴리오 삭제하기</Button> */}
-                    <button style={{marginLeft:"10px"}} onClick={(e)=>{
+                    <button style={{marginLeft:"10px"}} onClick={()=>{
                         if(confirm(myPorts[numSelected].portName+" 포트폴리오를 삭제하시겠습니까?")){
                             // console.log(myPorts[numSelected].id)
                             deletePortfolio(myPorts[numSelected].id)

@@ -103,7 +103,7 @@ const PortfolioEdit : React.FC = () => {
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
                 <Button onClick={async ()=>{
-                    const newPortName : string = portNameRef.current.value;
+                    const newPortName : string = portNameRef.current!.value;
                     // const portNameRef = useRef<HTMLInputElement>(null);
 
                     if(newPortName !== undefined && confirm("제출하시겠습니까?")){
