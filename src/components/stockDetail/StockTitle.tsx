@@ -66,8 +66,8 @@ const StockTitle: React.FC<StockTitleProps> = ({
           ? "-"
           : stockWebSocket.bidp1.toLocaleString()
       } 원`}</Text>
-      <Text c={percent < 0 ? "blue" : "red"}>{`${
-        currentPercent < 0 ? "-" : "+"
+      <Text c={currentPercent < 0 ? "blue" : "red"}>{`${
+        currentPercent < 0 ? "" : "+"
       }${currentPercent} %`}</Text>
     </Stack>
   );

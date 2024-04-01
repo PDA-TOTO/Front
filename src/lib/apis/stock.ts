@@ -91,3 +91,7 @@ export async function stockMarketCap(page: number, size: number) {
 export async function stockSearch(searchName: string) {
   return await stockInstance.get(`/search?name=${searchName}`);
 }
+
+export async function getRecentStock(krxCode: string) {
+  return await stockInstance.get(`/stocks/${krxCode}/recent`);
+}
