@@ -50,7 +50,7 @@ const StockChart: React.FC<StockChartProps> = ({ stockData }: StockChartProps) =
                 tooltipAnimationDuration={700}
                 dataKey="date"
                 unit="₩"
-                yAxisProps={{ width: 80, domain: ([_, dataMax], allowDataOverflow) => [0, dataMax * 1.5] }}
+                yAxisProps={{ width: 80, domain: ([_, dataMax]) => [0, dataMax * 1.5] }}
                 xAxisProps={{
                     padding: { right: 30 },
                 }}
