@@ -107,28 +107,32 @@ export default function StockPage() {
     <div className={classes.page}>
       <div className={classes.gap_top} />
       <Flex dir="row" justify="space-between" gap="sm">
-        {stockMajorList?.map((item, idx: number) => {
-          return (
-            <div
-              key={idx}
-              className={idx % 2 === 0 ? classes.card_v1 : classes.card_v2}
-            >
-              <div className={classes.card_title}>{item.stockName}</div>
-              <div className={classes.card_text}>
-                {item.closePrice}
-                {Number(item.fluctuationsRatio) > 0 ? (
-                  <div className={classes.card_percent_plus}>
-                    +{item.fluctuationsRatio}%
-                  </div>
-                ) : (
-                  <div className={classes.card_percent_minus}>
-                    {item.fluctuationsRatio}%
-                  </div>
-                )}
+        {stockMajorList.length > 0 ? (
+          stockMajorList?.map((item, idx: number) => {
+            return (
+              <div
+                key={idx}
+                className={idx % 2 === 0 ? classes.card_v1 : classes.card_v2}
+              >
+                <div className={classes.card_title}>{item.stockName}</div>
+                <div className={classes.card_text}>
+                  {item.closePrice}
+                  {Number(item.fluctuationsRatio) > 0 ? (
+                    <div className={classes.card_percent_plus}>
+                      +{item.fluctuationsRatio}%
+                    </div>
+                  ) : (
+                    <div className={classes.card_percent_minus}>
+                      {item.fluctuationsRatio}%
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div className={classes.skeleton}></div>
+        )}
       </Flex>
       <div className={classes.gap_mid} />
       <Flex dir="row" justify="space-between">

@@ -49,3 +49,11 @@
 .top {
   margin-bottom: 20px;
 }
+
+.skeleton {
+  height: 400px;
+
+  width: 100%;
+  background-color: var(--mantine-color-block-5);
+  border-radius: 16px;
+}
