@@ -103,6 +103,15 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
       "targetPortfolio:",
       targetPortfolio
     );
+    if (targetPortfolio === "포트폴리오를 선택해주세요.") {
+      notifications.show({
+        message: "포트폴리오를 선택해주세요!",
+        autoClose: 3000,
+        radius: "md",
+        color: "primary.5",
+      });
+      return;
+    }
     const selectedPortfolio = portList.find(
       (portfolio) => portfolio.portName === targetPortfolio
     );
