@@ -7,7 +7,10 @@ import {
   useStockDetailDispatch,
 } from "../../lib/hooks/stockReduxHooks";
 import AnimatedNumber from "../common/animate/AnimatedNumber";
-import { setPrice } from "../../store/reducers/stockControlReducers";
+import {
+  setPrice,
+  setQuantity,
+} from "../../store/reducers/stockControlReducers";
 import { useLocation } from "react-router-dom";
 import {
   getAllPortfolio,
@@ -137,6 +140,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
           stockCode
         ).then((response) => {
           console.log(response.data);
+          stockDetailDispatch(setQuantity(1));
           if (response.data.success) {
             notifications.show({
               message: "주식 사기 성공!",
@@ -156,6 +160,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
         )
           .then((response) => {
             console.log(response.data);
+            stockDetailDispatch(setQuantity(1));
             if (response.data.success) {
               notifications.show({
                 message: "주식 팔기 성공!",
