@@ -99,9 +99,9 @@ const PortfolioPage: React.FC = () => {
     const [detailPrices ,setDetailPrices] = useState<number[]>([])
 
     useEffect(()=>{
-        const codes : { stockName: string; krxCode: string }[]  = myPorts[numSelected]?.portfolioItems.map(elem=>{
+        const codes : { krxCode: string, stockName : string} []   = myPorts[numSelected]?.portfolioItems.map(elem=>{
             console.log(elem)
-            return elem.krxCode})
+            return {krxCode : elem.krxCode.krxCode, stockName : "temp"}})
         getPrice(codes).then(resp=>{setDetailPrices(resp)})
 
     },[numSelected,myPorts])

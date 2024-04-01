@@ -3,7 +3,7 @@ import { Button, Grid,Input,Table } from '@mantine/core';
 import '@mantine/charts/styles.css';
 import { useNavigate} from 'react-router-dom';
 import SearchableMultiSelect from './matine_layout/SearchableMultiSelect';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortfolio } from '../../lib/apis/portfolios';
 import { NumberInput } from '@mantine/core';
 import { getPrice } from '../../lib/apis/stocks';
@@ -24,12 +24,12 @@ const PortfolioEdit : React.FC = () => {
     //밑에 나오는 가격 총 합
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
-    const portNameRef = useRef(null);
+    const portNameRef = useRef<HTMLInputElement>(null);
 
     const [selectedStockAmount , setselectedStockAmount] = useState<number[]>([])
 
 
-    const onChange = (e: Event) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputElement = e.target as HTMLInputElement;
         return inputElement.value;
     }
@@ -62,15 +62,17 @@ const PortfolioEdit : React.FC = () => {
         setselectedStockAmount(newAmounts);
         console.log(selectedStockAmount)
     });
-      
-    const tempportName : string = useMemo(()=>{onChange},[portName])
-    
-    const numberInputHandler = (e : number , idx : number)=>{
+          
+    // let tempportName : string = ""
+
+
+    const numberInputHandler = (e : number|string , idx : number)=>{
         const tempPrice = prices[idx] * Number(e);
         const newSumPrices = [...sumPrices];
         newSumPrices[idx] = tempPrice;
         setSumPrices(newSumPrices)
-        handlePriceChange(e, idx);
+        handlePriceChange(Number(e), idx);
+        
     }
     function table(stocks : {"stockName" : string, "krxCode" : string}[]){ //stocks => selectedStock
         const rows = stocks?.map((elem,idx) =>(  //{"stockName" : string, "stockPrice" : number}[]
@@ -81,7 +83,7 @@ const PortfolioEdit : React.FC = () => {
                     <Table.Td>{prices[idx]}</Table.Td>
                     <Table.Td style={{display:"flex", alignItems:"center", alignContent:"center"}}>
                         {<div style={{display:"flex" , alignItems:"center", marginRight:"30px",width:"100px"}}>
-                            <NumberInput value={selectedStockAmount[idx]}  min={0} onChange={(e)=>numberInputHandler(e,idx)}></NumberInput>주</div>
+                            <NumberInput value={selectedStockAmount[idx]}  min={0} onChange={(e: number|string)=>numberInputHandler(e,idx)}></NumberInput>주</div>
                         }
                     </Table.Td> 
                     <Table.Td>{sumPrices[idx]} 원</Table.Td>
@@ -103,17 +105,24 @@ const PortfolioEdit : React.FC = () => {
             {rows}
             <div style={{display:"flex", alignContent:"center", alignItems:"center"}}>
                 <Button onClick={async ()=>{
-                    const newPortName : string = portNameRef.current!.value;
+                    const newPortName = portNameRef;
+                    console.log(newPortName)
                     // const portNameRef = useRef<HTMLInputElement>(null);
 
                     if(newPortName !== undefined && confirm("제출하시겠습니까?")){
                         try{
-                            await createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
+                            await createPortfolio({newPortName: newPortName.current!.value, selectedStock , selectedStockAmount, prices});
                             
                             navigate(-1);
-                        } catch(error : any ){
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        } catch(error : any){
                             console.error("Error occurred:", error);
-                            alert(error.request.response);
+                            if('request' in error){
+                                alert(error.request.response.split(":")[2].replace('}','').replaceAll('"',''));
+                            }else{
+                                console.log(1)
+                            }
+    
                         }
                         
                     }else{
@@ -138,7 +147,7 @@ const PortfolioEdit : React.FC = () => {
                 
                 
                 <div style={{display:"flex", marginBottom:"10px", alignItems:"center"}}>
-                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input ref={portNameRef} value={tempportName} onChange={(e)=>{onChange(e);}
+                    <div style={{margin:"10px"}}>포트폴리오 이름</div><Input ref={portNameRef} onChange={(e)=>{onChange(e)}
                         }></Input>
                 </div>
 
