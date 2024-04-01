@@ -135,3 +135,10 @@
   padding-left: 5px;
   color: var(--mantine-color-gray-5);
 }
+
+.skeleton {
+  height: 150px;
+  width: 100%;
+  background-color: var(--mantine-color-block-5);
+  border-radius: 16px;
+}

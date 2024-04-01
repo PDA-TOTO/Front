@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Grid, rem, Image, Badge } from "@mantine/core";
+import { Flex, Grid, rem, Image, Skeleton, Loader } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { risingStock } from "../../lib/apis/shinhan.stock";
 import classes from "../../styles/stock/BottomStock.module.css";
@@ -77,7 +77,7 @@ export default function RisingStock({}: Props) {
         TOP 5
       </Badge> */}
       <Grid>
-        {risingInfoList.length > 0 &&
+        {risingInfoList.length > 0 ? (
           risingInfoList?.map((value, idx) => {
             return (
               <Grid.Col
@@ -109,7 +109,12 @@ export default function RisingStock({}: Props) {
                 </div>
               </Grid.Col>
             );
-          })}
+          })
+        ) : (
+          <Flex justify="center" align="center" className={classes.skeleton}>
+            <Loader size={30} color="primary.5" />
+          </Flex>
+        )}
       </Grid>
       {/* <Flex
         gap="md"
