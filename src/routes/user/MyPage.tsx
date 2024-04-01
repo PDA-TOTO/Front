@@ -160,7 +160,7 @@ export default function MyPage() {
     );
 
   useEffect(() => {
-    getStockTransaction(page, 7).then((data) => {
+    getStockTransaction(page, 6).then((data) => {
       setTransactions(data.data.result.data);
       setTotalPage(data.data.result?.total);
     });

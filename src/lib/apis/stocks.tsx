@@ -10,7 +10,7 @@ export async function getAllStockNames() {
 }
 
 export async function getStockTransaction(page: number, size: number) {
-  return await stockInstance.get("transactions?page=1&size=2", {
+  return await stockInstance.get("transactions", {
     params: {
       page,
       size,
