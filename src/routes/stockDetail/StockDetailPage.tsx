@@ -199,6 +199,7 @@ const StockDetailPage: React.FC = () => {
             price={stockInfo.price}
             percent={stockInfo.percent}
             stockId={id}
+            stockData={chart}
           />
         )}
         <Switch
