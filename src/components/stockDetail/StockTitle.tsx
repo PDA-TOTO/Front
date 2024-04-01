@@ -31,24 +31,36 @@ const StockTitle: React.FC<StockTitleProps> = ({
     firstNumber: number,
     secondNumber: number
   ) => {
-    console.log("stock bidpq:", firstNumber, "naver close:", secondNumber);
     if (secondNumber === 0) {
       return 0;
     }
 
-    const change = ((secondNumber - firstNumber) / secondNumber) * 100;
-    return change > 0
-      ? Number((1 + change).toFixed(2))
-      : Number(change.toFixed(2));
+    const change = ((firstNumber - secondNumber) / secondNumber) * 100;
+    console.log(
+      "stock bidpq:",
+      firstNumber,
+      "naver close:",
+      secondNumber,
+      "change:",
+      change
+    );
+    return change > 0 ? Number(change.toFixed(2)) : Number(change.toFixed(2));
   };
   useEffect(() => {
     stockId &&
       getNaverStockInfo(stockId).then((response) => {
         setClosePrice(response.data.closePrice);
         const NumberBidp1 = Number(stockWebSocket.bidp1);
-        const NumberClosePrice = Number(
-          response.data.closePrice.replace(/,/g, "")
+        const compareToPreviousClosePrice = Number(
+          response.data.compareToPreviousClosePrice
         );
+        const fluctuationsRatio = Number(response.data.fluctuationsRatio);
+        const NumberClosePrice =
+          fluctuationsRatio < 0
+            ? Number(response.data.closePrice.replace(/,/g, "")) +
+              compareToPreviousClosePrice
+            : Number(response.data.closePrice.replace(/,/g, "")) -
+              compareToPreviousClosePrice;
         const calP: number = calculatePercentageChange(
           NumberBidp1,
           NumberClosePrice
