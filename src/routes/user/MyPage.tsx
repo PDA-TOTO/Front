@@ -23,7 +23,7 @@ export default function MyPage() {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const [transactions, setTransactions] = useState<Array<Transaction>>([]);
-  const [totalPage, setTotalPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const [page, setPage] = useState<number>(1);
   const [portfolios, setPortfolios] = useState<Array<Portfolio>>([]);
 
@@ -67,17 +67,17 @@ export default function MyPage() {
   });
 
   const content =
-    transactions.length > 0 ? (
+    transactions.length > 0 && lastPage >= 1 ? (
       transactions.map((value, index) => {
         return (
           <Flex key={index} direction="column" w="100%" gap="10px">
             <Flex justify="space-between" p="10px" align="flex-end" w="100%">
               {value.portfolio.deletedAt ? (
-                <Text size="24px" fw="600" lh="20px" c="gray.4">
+                <Text size="24px" fw="600" lh="20px" c="gray.4" w="300px">
                   삭제된 포트폴리오
                 </Text>
               ) : (
-                <Text size="24px" fw="600" lh="20px">
+                <Text size="24px" fw="600" lh="20px" w="300px">
                   {value.portfolio.portName}
                 </Text>
               )}
@@ -162,7 +162,7 @@ export default function MyPage() {
   useEffect(() => {
     getStockTransaction(page, 6).then((data) => {
       setTransactions(data.data.result.data);
-      setTotalPage(data.data.result?.total);
+      setLastPage(data.data.result?.lastPage);
     });
     getMyInfo().then((data) => {
       setPortfolios(data.data.result?.portfolios);
@@ -337,6 +337,7 @@ export default function MyPage() {
               className={classes.info}
               px="40px"
               py="20px"
+              miw="fit-content"
               h="60vh"
             >
               {content}
@@ -352,7 +353,7 @@ export default function MyPage() {
                   {"<"}
                 </Button>
               )}
-              {page < totalPage && (
+              {page < lastPage && (
                 <Button
                   color="primary.5"
                   onClick={() => {
