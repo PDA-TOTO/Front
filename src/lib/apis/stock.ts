@@ -99,3 +99,7 @@ export async function getRecentStock(krxCode: string) {
 export async function getMyStockInfo(krxCode: string) {
   return await stockInstance.get(`${krxCode}/my`);
 }
+
+export async function getShinhanRising() {
+  return await stockInstance.get("/index/rising");
+}
