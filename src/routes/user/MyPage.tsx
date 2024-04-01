@@ -295,7 +295,7 @@ export default function MyPage() {
                   </Flex>
                   <Flex gap="10px">
                     <Text size="22px" fw="600" w="100px">
-                      총자산
+                      잔액
                     </Text>
                     <Text size="22px" fw="600">
                       |
