@@ -195,7 +195,9 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
           setTargetPortfolio={setTargetPortfolio}
         />
       )}
-      <StockPriceInfobox />
+      <StockPriceInfobox
+        tradingType={`${tradingType === "BUY" ? "사기" : "팔기"}`}
+      />
       <Button
         color={tradingType === "BUY" ? "pink.5" : "secondary.5"}
         fullWidth
