@@ -111,9 +111,9 @@ const PortfolioEdit : React.FC = () => {
                             await createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
                             
                             navigate(-1);
-                        } catch(error){
+                        } catch(error : any ){
                             console.error("Error occurred:", error);
-                            alert("잔고부족");
+                            alert(error.request.response);
                         }
                         
                     }else{
@@ -134,7 +134,6 @@ const PortfolioEdit : React.FC = () => {
                 <Button onClick={()=>{navigate(-1)}}>뒤로가기</Button>
                 <div style={{display:"flex", alignItems:"center", alignContent:"center"}}>
                     <h3>포트폴리오 추가하기</h3>
-                    <Button>+</Button>
                 </div>
                 
                 

@@ -5,6 +5,7 @@ import '@mantine/charts/styles.css';
 import { ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Scatter, Bar, ZAxis } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { getPortNames, getWeight, getBeta, deletePortfolio } from '../../lib/apis/portfolios';
+import { getPrice } from '../../lib/apis/stocks';
 
 type portfolioItem = {
     id : number,
@@ -20,7 +21,12 @@ type myPort = {
     portfolioItems : portfolioItem[]
 }
 
-const ScatterChartComponent: React.FC = (data) => {
+type position={
+    x: number,
+    y: number,
+    z: string
+}
+const ScatterChartComponent: React.FC<Array<position>> = (data:Array<position>) => {
     return (
         <ScatterChart
             width={730}
@@ -61,7 +67,6 @@ const PortfolioPage: React.FC = () => {
 
         func().then(result=>{
             const port:myPort[] = result.data.result
-            console.log(port)
 
             const portWithRatios = port.map(async (elem)=>{
                 const res = await getWeight(elem.id)
@@ -91,8 +96,17 @@ const PortfolioPage: React.FC = () => {
         setGraph(G)
     },[myPorts])
 
+    const [detailPrices ,setDetailPrices] = useState<number[]>([])
+
+    useEffect(()=>{
+        const codes : { stockName: string; krxCode: string }[]  = myPorts[numSelected]?.portfolioItems.map(elem=>{
+            console.log(elem)
+            return elem.krxCode})
+        getPrice(codes).then(resp=>{setDetailPrices(resp)})
+
+    },[numSelected,myPorts])
+
     function showDetail(myports : myPort[] , numSelected : number){
-        // console.log("Myports ",myPorts)
         const selectedPort = myports[numSelected];
         const selectedPorts = selectedPort?.portfolioItems
         return (
@@ -101,6 +115,7 @@ const PortfolioPage: React.FC = () => {
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>종목명</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>수량</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평균단가</div>
+                <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>현재가</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>평가금액</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>비중</div>
                 <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>베타</div>
@@ -111,7 +126,8 @@ const PortfolioPage: React.FC = () => {
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.krxCode.name}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.amount}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg.toLocaleString()}원</div>
-                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{(elem.avg* elem.amount).toLocaleString()}원</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{detailPrices[idx]}원</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{(detailPrices[idx]* elem.amount).toLocaleString()}원</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{myports[numSelected]?.weight?.[idx]?.toFixed(2).toLocaleString()}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{betas[numSelected][idx].toFixed(2)}</div>
                         </div>})}
@@ -157,7 +173,7 @@ const PortfolioPage: React.FC = () => {
                 </h2>
                 <div style={{ width: '100%', height: 300 }}>
                     {/* <ScatterChartComponent  /> */}
-                    {ScatterChartComponent(graph)}
+                    {myPorts.length !== 0 ? ScatterChartComponent(graph) :<div>포트폴리오를 추가해주세요</div>}
                 </div>
                 
                 <div style={{fontWeight : 'bold' ,display : "flex"}}>
