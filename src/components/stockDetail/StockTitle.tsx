@@ -31,7 +31,7 @@ const StockTitle: React.FC<StockTitleProps> = ({
     firstNumber: number,
     secondNumber: number
   ) => {
-    console.log(firstNumber, secondNumber);
+    console.log("stock bidpq:", firstNumber, "naver close:", secondNumber);
     if (secondNumber === 0) {
       return 0;
     }
@@ -64,7 +64,7 @@ const StockTitle: React.FC<StockTitleProps> = ({
       <Text size="xxl" fw="bolder">{`${
         stockWebSocket.bidp1.toLocaleString() === ""
           ? "-"
-          : stockWebSocket.bidp1.toLocaleString()
+          : `${Number(stockWebSocket.bidp1).toLocaleString()}`
       } 원`}</Text>
       <Text c={currentPercent < 0 ? "blue" : "red"}>{`${
         currentPercent < 0 ? "" : "+"
