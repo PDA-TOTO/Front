@@ -126,7 +126,7 @@ const PortfolioPage: React.FC = () => {
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.krxCode.name}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.amount}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{elem.avg.toLocaleString()}원</div>
-                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{detailPrices[idx]}원</div>
+                        <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{Number(detailPrices[idx]).toLocaleString()}원</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{(detailPrices[idx]* elem.amount).toLocaleString()}원</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{myports[numSelected]?.weight?.[idx]?.toFixed(2).toLocaleString()}</div>
                         <div style={{width : "200px", alignContent : "center", alignItems:"center "}}>{betas[numSelected][idx].toFixed(2)}</div>
