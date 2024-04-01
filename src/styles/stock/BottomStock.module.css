@@ -1,0 +1,59 @@
+.grid_card {
+  background-color: var(--mantine-color-block-5);
+  height: 120px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.grid_card_nm {
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.grid_card_price {
+  font-size: 30px;
+  font-weight: 800;
+  display: flex;
+  flex-direction: row;
+  line-height: 30px;
+  justify-content: flex-end;
+}
+
+.grid_card_percent_plus {
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  text-align: end;
+  display: flex;
+  align-items: flex-end; /* 수직 정렬 추가 */
+  justify-content: flex-end;
+  color: var(--mantine-color-red-5);
+  padding-left: 5px;
+}
+.grid_card_percent_minus {
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  text-align: end;
+  display: flex;
+  align-items: flex-end; /* 수직 정렬 추가 */
+  justify-content: flex-end;
+  color: var(--mantine-color-blue-5);
+  padding-left: 5px;
+}
+
+.top {
+  margin-bottom: 20px;
+}
+
+.skeleton {
+  height: 400px;
+
+  width: 100%;
+  background-color: var(--mantine-color-block-5);
+  border-radius: 16px;
+}

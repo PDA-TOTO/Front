@@ -1,0 +1,50 @@
+.cmt_avatar {
+  width: 50px;
+  height: 50px;
+  margin-right: 16px;
+}
+
+.cmt_box {
+  width: 50vw;
+  padding: 20px;
+  background-color: var(--mantine-color-block-5);
+  border-radius: 16px;
+  margin-bottom: 15px;
+}
+
+.cmt_userName {
+  color: var(--mantine-color-primary-5);
+  font-size: 16px;
+}
+
+.cmt_time {
+  font-size: 16px;
+  color: var(--mantine-color-primary-5);
+}
+
+.cmt_vote_img {
+  width: 16px;
+  height: 16px;
+}
+
+.cmt_like {
+  width: 17.5px;
+  height: 16px;
+}
+.cmt_like_div {
+  width: 17.5px;
+  height: 16px;
+}
+
+.like_amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  padding-left: 5px;
+  color: var(--mantine-color-primary-5);
+}

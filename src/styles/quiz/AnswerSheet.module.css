@@ -1,0 +1,68 @@
+.page{
+    min-width: var(--answer-sheet-w);
+    height: 100%;
+    position: fixed;
+    right: 0px;
+    z-index: 100;
+}
+
+.title{
+    border-bottom: solid 1px var(--mantine-color-gray-3);
+}
+
+.number{
+    border: solid 2px var(--mantine-color-gray-5);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.option{
+    position: relative;
+    cursor: pointer;
+}
+
+.optionBorder{
+    border: solid 2px var(--mantine-color-gray-5);
+    border-radius: 16px;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+}
+
+.optionText{
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: var(--mantine-color-primary-5);
+}
+
+.answerBorder{
+    border: solid 2px var(--mantine-color-blue-5);
+    border-radius: 16px;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+}
+
+.answerText{
+    border-radius: 16px;
+    background-color: var(--mantine-color-blue-5);
+    font-size: 18px;
+    font-weight: 600;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: var(--mantine-color-white-5)
+}
+
+.question{
+    border: 1px solid var(--mantine-color-gray-5);
+    border-radius: 10px;
+}
