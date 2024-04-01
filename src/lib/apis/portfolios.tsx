@@ -53,7 +53,18 @@ export async function buyStock(
 ) {
   //   const data = { amount: 15, price: "40000", krxCode: "001040" };
   const data = { amount: amount, price: price, krxCode: krxCode };
-  return await portfolioInstance2.post(`/:${portfolioId}/buy`, data);
+  return await portfolioInstance2.post(`/${portfolioId}/buy`, data);
+}
+
+export async function sellStock(
+  portfolioId: number,
+  amount: number,
+  price: string,
+  krxCode: string
+) {
+  //   const data = { amount: 15, price: "40000", krxCode: "001040" };
+  const data = { amount: amount, price: price, krxCode: krxCode };
+  return await portfolioInstance2.put(`/${portfolioId}/sell`, data);
 }
 
 export async function getAllPortfolio() {

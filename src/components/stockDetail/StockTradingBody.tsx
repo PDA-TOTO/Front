@@ -9,16 +9,41 @@ import {
 import AnimatedNumber from "../common/animate/AnimatedNumber";
 import { setPrice } from "../../store/reducers/stockControlReducers";
 import { useLocation } from "react-router-dom";
-import { getAllPortfolio } from "../../lib/apis/portfolios";
+import {
+  getAllPortfolio,
+  buyStock,
+  sellStock,
+} from "../../lib/apis/portfolios";
+import { notifications } from "@mantine/notifications";
 
 type StockTradingBodyProps = {
   gap: "xs" | "sm" | "md" | "lg" | "xl";
   tradingType: "BUY" | "CELL";
 };
+type KrxCode = {
+  krxCode: string;
+  name: string;
+  type: string;
+};
 
+type PortfolioItem = {
+  id: number;
+  amount: string;
+  avg: number;
+  deletedAt: string | null;
+  krxCode: KrxCode;
+};
+
+type Portfolio = {
+  id: number;
+  portName: string;
+  isMain: boolean;
+  deletedAt: string | null;
+  portfolioItems: PortfolioItem[];
+};
 // test data
 const portfolios = [
-  "내 기본 포트폴리오",
+  "포트폴리오를 선택해주세요.",
   "포폴 1",
   "포폴 2",
   "포폴 3",
@@ -35,7 +60,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
   const [targetPortfolio, setTargetPortfolio] = useState(portfolios[0]);
-  const [portList, setPortList] = useState([]);
+  const [portList, setPortList] = useState<Portfolio[]>([]);
   const stockDetailDispatch = useStockDetailDispatch();
   const stockControl = useStockDetailSelector((state) => state.stockControl);
   const stockWebSocket = useStockDetailSelector(
@@ -65,9 +90,77 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
     return price * quantity;
   };
 
-  const handleBuySell = () => {
+  const handleBuySell = (value: string) => {
     const stockCode = location.pathname.split("/").pop();
-    console.log(stockControl.price, stockControl.quantity, stockCode);
+    console.log(
+      value,
+      "price:",
+      stockControl.price,
+      "quantity:",
+      stockControl.quantity,
+      "stockCode:",
+      stockCode,
+      "targetPortfolio:",
+      targetPortfolio
+    );
+    const selectedPortfolio = portList.find(
+      (portfolio) => portfolio.portName === targetPortfolio
+    );
+
+    if (!selectedPortfolio) {
+      console.error("Selected portfolio not found");
+      return;
+    }
+    console.log("selectedPortfolio:", selectedPortfolio);
+    if (value === "사기") {
+      stockCode &&
+        buyStock(
+          Number(selectedPortfolio.id),
+          Number(stockControl.quantity),
+          String(stockControl.price),
+          stockCode
+        ).then((response) => {
+          console.log(response.data);
+          if (response.data.success) {
+            notifications.show({
+              message: "주식 사기 성공!",
+              autoClose: 3000,
+              radius: "md",
+              color: "red.5",
+            });
+          }
+        });
+    } else if (value === "팔기") {
+      stockCode &&
+        sellStock(
+          Number(selectedPortfolio.id),
+          Number(stockControl.quantity),
+          String(stockControl.price),
+          stockCode
+        )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.success) {
+              notifications.show({
+                message: "주식 팔기 성공!",
+                autoClose: 3000,
+                radius: "md",
+                color: "blue.5",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log("error:", error.response.status);
+            if (error.response.status === 400) {
+              notifications.show({
+                message: "팔 수 있는 주식이 없습니다!",
+                autoClose: 3000,
+                radius: "md",
+                color: "primary.5",
+              });
+            }
+          });
+    }
   };
 
   return (
@@ -88,7 +181,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
       </Stack>
       {portList.length > 0 && (
         <PortfolioComobobox
-          portfolios={portfolios}
+          portfolios={portList}
           targetPortfolio={targetPortfolio}
           setTargetPortfolio={setTargetPortfolio}
         />
@@ -98,7 +191,7 @@ const StockTradingBody: React.FC<StockTradingBodyProps> = ({
         color={tradingType === "BUY" ? "pink.5" : "secondary.5"}
         fullWidth
         autoContrast
-        onClick={() => handleBuySell()}
+        onClick={() => handleBuySell(tradingType === "BUY" ? "사기" : "팔기")}
       >
         {tradingType === "BUY" ? "사기" : "팔기"}
       </Button>
