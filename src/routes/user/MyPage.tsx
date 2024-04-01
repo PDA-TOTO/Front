@@ -13,10 +13,11 @@ import classes from "../../styles/user/MyPage.module.css";
 import money from "../../assets/img/my/money.png";
 import portfolio from "../../assets/img/my/portfolio.png";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../lib/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks/reduxHooks";
 import { getStockTransaction } from "../../lib/apis/stocks";
 import { Portfolio, Transaction } from "../../lib/type";
 import { getMyInfo } from "../../lib/apis/user";
+import { userGetinfo } from "../../store/reducers/user";
 
 export default function MyPage() {
   const [tab, setTab] = useState("마이페이지");
@@ -26,6 +27,7 @@ export default function MyPage() {
   const [lastPage, setLastPage] = useState(1);
   const [page, setPage] = useState<number>(1);
   const [portfolios, setPortfolios] = useState<Array<Portfolio>>([]);
+  const dispatch = useAppDispatch();
 
   const numLevel =
     user.user.experience < 100
@@ -167,6 +169,7 @@ export default function MyPage() {
     getMyInfo().then((data) => {
       setPortfolios(data.data.result?.portfolios);
     });
+    dispatch(userGetinfo());
   }, [page]);
 
   return (
