@@ -90,6 +90,7 @@ const userSlice = createSlice({
       state.user.id = action.payload.result.id;
       state.user.experience = action.payload.result.experience;
       state.user.tendency = action.payload.result.tendency;
+      state.user.account = action.payload.result.account;
     });
   },
 });

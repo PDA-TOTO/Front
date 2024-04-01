@@ -187,9 +187,7 @@ export default function CommunityPage({}) {
     const compareToPreviousClosePriceNumber = Number(
       compareToPreviousClosePrice.replace(/,/g, "")
     );
-    return (closePriceNumber + compareToPreviousClosePriceNumber)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return closePriceNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   useEffect(() => {

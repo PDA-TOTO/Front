@@ -248,7 +248,7 @@ export default function QuizMainPage() {
                   </Flex>
                 </div>
               </Flex>
-              {user.user.experience <= 800 && (
+              {user.user.experience >= 100 && (
                 <Flex pos="absolute" right="400px" bottom="-100px">
                   <div className={classes.card}>
                     <Flex

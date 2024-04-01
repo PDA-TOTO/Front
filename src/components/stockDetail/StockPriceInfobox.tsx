@@ -5,7 +5,10 @@ import { useState } from "react";
 import { useStockDetailDispatch } from "../../lib/hooks/stockReduxHooks";
 import { setPrice } from "../../store/reducers/stockControlReducers";
 
-const StockPriceInfobox: React.FC = () => {
+type StockPriceInfoboxProps = {
+  tradingType: string;
+};
+const StockPriceInfobox = ({ tradingType }: StockPriceInfoboxProps) => {
   const [activeTab, setActiveTab] = useState<string | null>("counter");
   const stockDetailDispatch = useStockDetailDispatch();
 
@@ -31,6 +34,7 @@ const StockPriceInfobox: React.FC = () => {
               console.log(price);
               stockDetailDispatch(setPrice(price));
             }}
+            tradingType={tradingType}
           />
         </Tabs.Panel>
       </Tabs>
