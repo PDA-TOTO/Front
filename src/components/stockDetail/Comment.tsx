@@ -31,7 +31,7 @@ export default function Comment({
     const date: Date = new Date(dateTimeString);
     const now: Date = new Date();
 
-    const diffMs: number = now.getTime() - 9 * 60 * 60 * 1000 - date.getTime(); // Convert dates to timestamps
+    const diffMs: number = now.getTime() - date.getTime(); // Convert dates to timestamps
     const diffMinutes: number = Math.floor(diffMs / (1000 * 60));
     const diffHours: number = Math.floor(diffMinutes / 60);
     const diffDays: number = Math.floor(diffHours / 24);

@@ -199,6 +199,7 @@ export default function CommunityPage({}) {
         setUnlikeCnt(response.data.result.numOfUnlikes);
         setUserVote(response.data.result.isVoteType);
         getCommentByCommunityId(response.data.result.id).then((response) => {
+          console.log(response.data);
           const sortedCommentList2 = [...response.data].sort(
             (a: commentType, b: commentType) => a.id - b.id
           );
