@@ -150,7 +150,7 @@ const PortfolioPage: React.FC = () => {
     }
     
     return (
-        <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{display:"flex"}}>
+        <Grid grow justify="space-between" px={{ base: 72 }} pt={34} style={{ display: 'flex' }}>
             <Grid.Col span={4}>
                 <h2>
                     포트폴리오 지표 분석(베타 - 기대수익률)

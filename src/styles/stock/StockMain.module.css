@@ -83,6 +83,7 @@
 
 .bottom_stock_box {
   margin-top: 20px;
+  position: relative;
   /* background-color: black; */
 }
 
@@ -99,4 +100,38 @@
   position: absolute;
   padding-left: 70%;
   font-weight: 700;
+}
+
+.input_result {
+  background-color: var(--mantine-color-white-5);
+  height: 300px;
+  width: 40%;
+  z-index: 10;
+  margin-top: 30px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.input_result.show {
+  opacity: 1;
+}
+.stock_search {
+  height: 50px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.stock_search:hover {
+  background-color: var(--mantine-color-block-5);
+  cursor: pointer;
+}
+.search_krxCode {
+  font-size: 10px;
+  padding-left: 5px;
+  color: var(--mantine-color-gray-5);
 }

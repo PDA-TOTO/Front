@@ -1,5 +1,6 @@
 import { stockInstance } from "./api";
 
+<<<<<<< HEAD
 export async function getAllStockNames(){
     return await stockInstance.get("/");
 }
@@ -15,3 +16,22 @@ export async function getPrice(stocks : {"stockName" : string, "krxCode" : strin
 
     return prices
 }
+=======
+export async function getAllStockNames() {
+  const stocks = stockInstance.get("/");
+  console.log(stocks);
+  // stocks.map((elem)=>{
+
+  // })
+  return await stockInstance.get("/");
+}
+
+export async function getStockTransaction(page: number, size: number) {
+  return await stockInstance.get("transactions", {
+    params: {
+      page,
+      size,
+    },
+  });
+}
+>>>>>>> 2302ab355ef6a9f32d7fe3890b611fba30b6fb96
