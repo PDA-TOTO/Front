@@ -14,6 +14,7 @@ import {
   buyStock,
   sellStock,
 } from "../../lib/apis/portfolios";
+
 import { notifications } from "@mantine/notifications";
 
 type StockTradingBodyProps = {

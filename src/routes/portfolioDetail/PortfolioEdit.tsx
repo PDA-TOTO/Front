@@ -109,6 +109,7 @@ const PortfolioEdit : React.FC = () => {
                     if(newPortName !== undefined && confirm("제출하시겠습니까?")){
                         try{
                             await createPortfolio({newPortName, selectedStock , selectedStockAmount, prices});
+                            
                             navigate(-1);
                         } catch(error){
                             console.error("Error occurred:", error);
