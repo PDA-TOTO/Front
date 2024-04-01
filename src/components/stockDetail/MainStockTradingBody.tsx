@@ -3,20 +3,32 @@ import CircleInfo from "./CircleInfo";
 import { useElementSize } from "@mantine/hooks";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { notifications } from "@mantine/notifications";
+import { getMyStockInfo } from "../../lib/apis/stock";
+import { useLocation } from "react-router-dom";
 
 type MainStockTradingBodyProps = {
   gap: "xs" | "sm" | "md" | "lg" | "xl";
   onBuyClick: MouseEventHandler;
   onSellClick: MouseEventHandler;
+  num: string;
+  avg: number;
+  trust: string;
 };
+
+type Info = { num: string; avg: number; trust: string };
 
 const MainStockTradingBody: React.FC<MainStockTradingBodyProps> = ({
   gap,
   onBuyClick,
   onSellClick,
+  num,
+  avg,
+  trust,
 }: MainStockTradingBodyProps) => {
   const { ref, width } = useElementSize();
+  const location = useLocation();
   const [active, setActive] = useState<boolean>(true);
+  const [info, setInfo] = useState<Info>();
   const handleActive = () => {
     notifications.show({
       message: "주식 장이 마감되었어요. 내일 다시 시도해보세요!",
@@ -36,14 +48,30 @@ const MainStockTradingBody: React.FC<MainStockTradingBodyProps> = ({
     } else {
       setActive(false);
     }
+
+    // const stockCode = location.pathname.split("/").pop();
+    // console.log(stockCode);
+    // stockCode &&
+    //   getMyStockInfo(stockCode).then((response) => {
+    //     console.log(response.data.result);
+    //     setInfo(response.data.result);
+    //   });
   }, []);
 
   return (
     <Stack gap={gap}>
-      <CircleInfo title="신뢰도" info="A+" width={width / 2 - 14} />
+      <CircleInfo title="신뢰도" info={trust} width={width / 2 - 14} />
       <Group justify="space-between">
-        <CircleInfo title="보유 수량" info="3" width={width / 2 - 14} />
-        <CircleInfo title="평단" info="100,000₩" width={width / 2 - 14} />
+        <CircleInfo
+          title="보유 수량"
+          info={String(num)}
+          width={width / 2 - 14}
+        />
+        <CircleInfo
+          title="평단"
+          info={Number(avg).toLocaleString()}
+          width={width / 2 - 14}
+        />
       </Group>
       <Grid ref={ref}>
         <Grid.Col span={6}>
